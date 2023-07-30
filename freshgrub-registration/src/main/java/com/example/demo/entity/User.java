@@ -4,16 +4,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+
 
 @Entity
 @Document(collection = "users")
 public class User {
 	
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
-	private int id;
+	private String _id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -23,12 +21,11 @@ public class User {
 	private String vendorID;
 	
 	
-	public int getId() {
-		return id;
+	public String get_id() {
+		return _id;
 	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setId(String _id) {
+		this._id = _id;
 	}
 
 	public String getFirstName() {
@@ -88,10 +85,10 @@ public class User {
 	}
 	
 
-	public User(int id, String firstName, String lastName, String email, long mobileNumber, String password, String role,
+	public User(String _id, String firstName, String lastName, String email, long mobileNumber, String password, String role,
 			String vendorID) {
 		super();
-		this.id = id;
+		this._id = _id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -103,7 +100,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+		return "User [id=" + _id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", mobileNumber=" + mobileNumber + ", password=" + password + ", role=" + role + ", vendorID="
 				+ vendorID + "]";
 	}

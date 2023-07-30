@@ -25,7 +25,7 @@ public class UserImpl implements UserService{
 	public String addUser(UserDTO userDto) {
 		
 		User user = new User(
-				userDto.getId(),
+				userDto.get_id(),
 				userDto.getFirstName(),
 				userDto.getLastName(),
 				userDto.getEmail(),
