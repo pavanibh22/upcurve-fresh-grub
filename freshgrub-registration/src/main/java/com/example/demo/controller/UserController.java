@@ -12,8 +12,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.UserDTO;
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepo;
 import com.example.demo.response.LoginResponse;
 import com.example.demo.service.UserService;
 
@@ -24,8 +22,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private UserRepo userRepo;
 	@PostMapping("/save")
 	public String saveUser(@RequestBody UserDTO userDto)
 	{
@@ -59,11 +55,12 @@ public class UserController {
 	{
 		
 		LoginResponse loginResponse =userService.loginUser(logindto);
-		//User e1=userRepo.findByEmail(logindto.getEmail());
-		//if(e1!=null)
-			return ResponseEntity.ok(loginResponse);
-		//else
-			//return ResponseEntity.ok(loginResponse);
+		return ResponseEntity.ok(loginResponse);
+	}
+	@GetMapping("/loginOAuth")
+	public String secured()
+	{
+		return "Hello user";
 	}
 	@GetMapping("/userhome")
 	public String userHome()
