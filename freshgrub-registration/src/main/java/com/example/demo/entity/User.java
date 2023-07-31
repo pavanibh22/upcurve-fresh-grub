@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -27,7 +28,6 @@ public class User {
 	public void setId(String _id) {
 		this._id = _id;
 	}
-
 	public String getFirstName() {
 		return firstName;
 	}
