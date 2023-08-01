@@ -18,7 +18,7 @@ import com.example.demo.response.LoginResponse;
 import com.example.demo.service.UserService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("api/v1/users")
 public class UserController {
 	
