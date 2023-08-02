@@ -8,9 +8,9 @@ public class UserDTO {
 	private long mobileNumber;
 	private String password;
 	private String role;
-	private String vendorID;
+	private String vendorId;
 	public UserDTO(String _id, String firstName, String lastName, String email, long mobileNumber, String password,
-			String role, String vendorID) {
+			String role, String vendorId) {
 		super();
 		this._id = _id;
 		this.firstName = firstName;
@@ -19,9 +19,8 @@ public class UserDTO {
 		this.mobileNumber = mobileNumber;
 		this.password = password;
 		this.role = role;
-		this.vendorID = vendorID;
+		this.vendorId = vendorId;
 	}
-	
 	
 	public String get_id() {
 		return _id;
@@ -93,13 +92,13 @@ public class UserDTO {
 	}
 
 
-	public String getVendorID() {
-		return vendorID;
+	public String getVendorId() {
+		return vendorId;
 	}
 
 
-	public void setVendorID(String vendorID) {
-		this.vendorID = vendorID;
+	public void setVendorId(String vendorId) {
+		this.vendorId = vendorId;
 	}
 
 
@@ -107,7 +106,7 @@ public class UserDTO {
 	public String toString() {
 		return "UserDTO [_id=" + _id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", mobileNumber=" + mobileNumber + ", password=" + password + ", role=" + role + ", vendorID="
-				+ vendorID + "]";
+				+ vendorId + "]";
 	}
 
 

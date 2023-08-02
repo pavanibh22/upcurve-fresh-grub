@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,30 +18,42 @@ import com.example.demo.response.LoginResponse;
 import com.example.demo.service.UserService;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("api/v1/users")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+	@PostMapping("/register")
+	public String register(@RequestBody UserDTO userDto)
+	{
+		System.out.println("Called");
+		String id = userService.addUser(userDto);
+		System.out.println(userDto.getFirstName());
+		return "OK";
+	}
+
 	@PostMapping("/save")
 	public String saveUser(@RequestBody UserDTO userDto)
 	{
 		String id = userService.addUser(userDto);
 		return id;
 	}
-	
+
 	@PostMapping("/login")
 	public RedirectView loginUser(@RequestBody LoginDTO loginDto)
 	{
 		LoginResponse loginResponse = userService.loginUser(loginDto);
-		if((loginResponse.getStatus())==true && (loginResponse.getRole().equals("user")))
+		Logger logger = LoggerFactory.getLogger(UserController.class);
+		logger.info("Login Response: "+loginDto.toString());
+		if((loginResponse.getStatus()) && (loginResponse.getRole().equals("user")))
 		{
 			RedirectView redirectView = new RedirectView();
 			redirectView.setUrl("userhome");
 			return redirectView;
 		}
-		else if((loginResponse.getStatus())==true && (loginResponse.getRole().equals("vendor")))
+		else if((loginResponse.getStatus()) && (loginResponse.getRole().equals("vendor")))
 		{
 			RedirectView redirectView = new RedirectView();
 			redirectView.setUrl("vendorhome");

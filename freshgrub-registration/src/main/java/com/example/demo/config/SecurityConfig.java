@@ -12,7 +12,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class SecurityConfig {
 
 	@Bean
@@ -40,24 +40,22 @@ public class SecurityConfig {
 		return bean;
 	}*/
 
-	@Bean
-	public FilterRegistrationBean<CorsFilter> corsFilter() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.addAllowedOriginPattern("*");
-		corsConfiguration.addAllowedHeader("*"); // Allow any header
-		corsConfiguration.addAllowedMethod("POST"); // Add the specific HTTP methods you need
-		corsConfiguration.addAllowedMethod("GET");
-		corsConfiguration.addAllowedMethod("PUT");
-		corsConfiguration.setMaxAge(3600L);
-
-		source.registerCorsConfiguration("/**", corsConfiguration);
-		CorsFilter corsFilter = new CorsFilter(source);
-
-		FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(corsFilter);
-		return bean;
-	}
+//	@Bean
+//	public FilterRegistrationBean<CorsFilter> corsFilter() {
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//
+//		CorsConfiguration corsConfiguration = new CorsConfiguration();
+//		corsConfiguration.setAllowCredentials(true);
+//		corsConfiguration.addAllowedOriginPattern("*");
+//		corsConfiguration.addAllowedHeader("*"); // Allow any header
+//		corsConfiguration.addAllowedMethod("POST"); // Add the specific HTTP methods you need
+//		corsConfiguration.addAllowedMethod("GET");
+//		corsConfiguration.addAllowedMethod("PUT");
+//		corsConfiguration.setMaxAge(3600L);
+//
+//		source.registerCorsConfiguration("/**", corsConfiguration);
+//		CorsFilter corsFilter = new CorsFilter(source);
+//		return new FilterRegistrationBean<>(corsFilter);
+//	}
 
 }

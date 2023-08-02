@@ -32,7 +32,7 @@ public class UserImpl implements UserService{
 				userDto.getMobileNumber(),
 				this.passwordEncoder.encode(userDto.getPassword()),
 				userDto.getRole(),
-				userDto.getVendorID()
+				userDto.getVendorId()
 				
 		);
 		
