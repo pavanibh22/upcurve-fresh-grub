@@ -9,7 +9,7 @@ function Signup() {
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    mobileNumber: "",
     password: "",
     role: "", // Will hold either 'user' or 'admin' or 'vendor'
     adminId: "",
@@ -39,19 +39,17 @@ function Signup() {
     //   return;
     // }
 
-    if (formData.role === "admin" && !formData.adminId.startsWith("B")) {
-      toast.error("Admin ID must start with B.");
-      return;
-    }
-
     if (formData.role === "vendor" && formData.vendorId.length === 0) {
       toast.error("Please provide Vendor ID.");
       return;
     }
+
     if (formData.password.length < 8) {
       toast.error("minimum 8 characters required");
       return;
     }
+
+    console.log(formData);
 
     //call to server
     signUp(formData)
@@ -59,16 +57,15 @@ function Signup() {
         console.log(resp);
         console.log("success log");
         toast.success("SignUp successful!");
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          password: "",
-          role: "", // Will hold either 'user' or 'admin' or 'vendor'
-          adminId: "",
-          vendorId: "",
-        });
+        // setFormData({
+        //   firstName: "",
+        //   lastName: "",
+        //   email: "",
+        //   phone: "",
+        //   password: "",
+        //   role: "", // Will hold either 'user' or 'admin' or 'vendor'
+        //   vendorId: "",
+        // });
       })
       .catch((error) => {
         console.log(error);
@@ -147,21 +144,21 @@ function Signup() {
           </div>
 
           <div className="mb-2">
-            <label htmlFor="phone">Phone Number</label>
+            <label htmlFor="mobileNumber">Phone Number</label>
             <input
               type="tel"
               placeholder="Enter phone number"
               className="form-control"
-              name="phone"
-              id="phone"
+              name="mobileNumber"
+              id="mobileNumber"
               pattern="[0-9]{10}"
               required
-              value={formData.phone}
+              value={formData.mobileNumber}
               onChange={handleChange}
-              invalid={error.errors?.response?.formData?.phone ? true : false}
+              invalid={error.errors?.response?.formData?.mobileNumber ? true : false}
             />
             <FormFeedback>
-              {error.errors?.response?.formData?.phone}
+              {error.errors?.response?.formData?.mobileNumber}
             </FormFeedback>
           </div>
 
@@ -192,12 +189,10 @@ function Signup() {
               value={formData.role}
               onChange={handleChange}
             >
-              {/* <option value="">Select Role</option> */}
-              {/* <option value="" disabled>Select Role</option> */}
-              <option value="user" selected>
-                User
+              <option value="" disabled>
+                Select Role
               </option>
-              <option value="admin">Admin</option>
+              <option value="user">User</option>
               <option value="vendor">Vendor</option>
             </select>
           </div>

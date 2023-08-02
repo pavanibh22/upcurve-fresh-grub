@@ -7,7 +7,7 @@ import "./login.css";
 
 function Login() {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -29,13 +29,13 @@ function Login() {
     e.preventDefault();
 
     if (
-      formData.username.length.trim() === "" ||
-      formData.password.length.trim() === ""
+      formData.email.trim() === "" ||
+      formData.password.trim() === ""
     ) {
-      toast.error("Username or password is empty");
+      toast.error("Email or password is empty");
       return;
     }
-    if (formData.password.length.trim() < 8) {
+    if (formData.password.trim() < 8) {
       toast.error("minimum 8 characters required");
       return;
     }
@@ -87,8 +87,8 @@ function Login() {
               placeholder="Enter email"
               className="form-control"
               id="email"
-              value={formData.username}
-              onChange={(e) => handleChange(e, "username")}
+              value={formData.email}
+              onChange={(e) => handleChange(e, "email")}
             />
           </div>
 
