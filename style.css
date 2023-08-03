@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.image {
+    background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.3)),url('./logo5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.top-container{
+    margin-top: 1rem;
+}
+
+p {
+    font-family: 'Times New Roman';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 6rem;
+    color: white;
+    margin: 20px;
+}
+
+h1 {
+    font-family: Georgia;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 4rem;
+    color: white;
+    margin: 5px;
+}
+
+.btn {
+    border-radius: 30px;
+    border: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding: 1rem 4rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+    margin: 10px;
+}
+.btn--one {
+    background: rgb(9, 9, 144);
+    color: white;
+}
+
+.btn--one:hover {
+    background:  rgb(8, 8, 72);
+}
+
+.btn--two {
+    background: orangered;
+    color: white;
+}
+
+.btn--two:hover {
+    background: rgb(222, 9, 9);
+}
+
+.btn--outline {
+    background: #fff;
+    border: 2px solid black;
+    color: black;
+}
+
+.btn--outline:hover {
+    background:black;
+    color: #fff;
+}
+
+.bottom-container{
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    p {
+        font-size: 4rem;
+    }
+    
+    h1 {
+        font-size: 2rem
+    }
+    .btn {
+        font-size: 1rem;
+    }
+    
+    .image {
+        height: auto;
+        padding: 2rem;
+    }
+
+    .top-container{
+        margin-top: 1rem;
+    }
+    .bottom-container{
+        margin-top: 10rem;
+    }
+}
