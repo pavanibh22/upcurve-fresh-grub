@@ -18,7 +18,7 @@ public class FoodStall {
 	private String id;
 	@NotNull
 	private String stallName;
-	private String stallImageUrl;
+	private String stallImage;
 	@NotNull
 	private String description;
 

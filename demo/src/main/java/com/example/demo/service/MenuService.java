@@ -1,18 +1,20 @@
 package com.example.demo.service;
 
-import java.util.Collection;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.entities.FoodStall;
 import com.example.demo.entities.Menu;
 import com.example.demo.repositories.MenuRepository;
 import com.example.demo.responses.MenuResponse;
@@ -29,23 +31,40 @@ public class MenuService {
 	public MenuService(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
-	public ResponseEntity<MenuResponse> addMenuItem(Menu menuItem) {
+	public ResponseEntity<MenuResponse> addMenuItem(String stallName, String menuItemName, int price, MultipartFile image) {
 
 		MenuResponse response = new MenuResponse();
-
-		Optional<Menu> existingMenu= menuRepository.findOneByMenuItemName(menuItem.getMenuItemName());
-		if(existingMenu.isPresent())
-		{
+		Optional<Menu> existingMenu= menuRepository.findOneByMenuItemName(menuItemName);
+		Menu menuItem = new Menu();
+		menuItem.setStallName(stallName);
+		if(existingMenu.isPresent()) {
 			response.setMessage("Food Item Already Exists");
-    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			response.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		}
+		menuItem.setMenuItemName(menuItemName);
+		menuItem.setPrice(price);
+		if(image!=null && !image.isEmpty()) {
+			if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
+			{
+				response.setMessage("Invalid Image");
+				response.setSuccess(false);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			}
+			try {
+				menuItem.setMenuItemImage(Base64.getEncoder().encodeToString(image.getBytes()));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}else{
+			menuItem.setMenuItemImage(null);
 		}
 
-		 mongoTemplate.insert(menuItem);
+		mongoTemplate.insert(menuItem);
+		response.setMenuItems(Collections.singletonList(menuItem));
+		response.setMessage("Successfully inserted");
 
-         response.setMenuItems(Collections.singletonList(menuItem));
-         response.setMessage("Successfully inserted");
-
-         return ResponseEntity.ok(response);
+		return ResponseEntity.ok(response);
 	}
 
 	public ResponseEntity<MenuResponse> getMenuItems(String foodStallId) {
@@ -65,17 +84,42 @@ public class MenuService {
         return ResponseEntity.ok(response);
 	}
 
-	public ResponseEntity<MenuResponse> editMenuItem(Menu menuItem, String id) {
+	public ResponseEntity<MenuResponse> editMenuItem(String id, String stallName, String menuItemName, int price, MultipartFile image) {
 		MenuResponse response = new MenuResponse();
-
 		Optional<Menu> existingMenu= menuRepository.findById(id);
 		if(existingMenu.isEmpty())
 		{
-			response.setMessage("Food Item Not found");
+			response.setMessage("Item Not found");
 			response.setSuccess(false);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 		}
+		//check if the menu item name is already present
+		Optional<Menu> existingMenuItem = menuRepository.findOneByMenuItemName(menuItemName);
+		if(existingMenuItem.isPresent() && !existingMenuItem.get().getId().equals(id)) {
+			response.setMessage("Food Item Already Exists");
+			response.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		}
+		Menu menuItem = new Menu();
 		menuItem.setId(id);
+		menuItem.setStallName(stallName);
+		menuItem.setMenuItemName(menuItemName);
+		menuItem.setPrice(price);
+		if(image!=null && !image.isEmpty()) {
+			if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
+			{
+				response.setMessage("Invalid Image");
+				response.setSuccess(false);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			}
+			try {
+				menuItem.setMenuItemImage(Base64.getEncoder().encodeToString(image.getBytes()));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}else{
+			menuItem.setMenuItemImage(null);
+		}
 		Menu saved = menuRepository.save(menuItem);
 		response.setMenuItems(Collections.singletonList(saved));
 		response.setMessage("Successfully Updated");

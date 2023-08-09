@@ -22,13 +22,13 @@ public class Menu {
 	private String menuItemName;
 	@NotNull
 	private int price;
-	private String menuItemImageUrl;
+	private String menuItemImage;
 
 //	smaple json
 //{
 //	"stallName": "Pizza Hut",
-//	"menuItemName": "Ullagaddi Pizza",
+//	"menuItemName": "Onion Pizza",
 //	"price": 350,
-//	"menuItemImageUrl": "string"
+//	"menuItemImage": "string"
 //}
 }

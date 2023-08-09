@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entities.FoodStall;
 import com.example.demo.repositories.FoodStallRepository;
 import com.example.demo.responses.FoodStallResponse;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FoodStallService {
@@ -34,26 +37,44 @@ public class FoodStallService {
 			response.setFoodStalls(foodStalls);
 		    return ResponseEntity.ok(response);
 		}
-		
-	    
-	    public ResponseEntity<FoodStallResponse> createFoodStall(FoodStall foodStall){
-	    	
-	    	FoodStallResponse response = new FoodStallResponse();
-	    	Optional<FoodStall> existingFoodStall = foodStallRepo.findOneByStallName(foodStall.getStallName());
-	    	if(existingFoodStall.isPresent())
-	    	{
-	    		response.setMessage("Food Stall Already Exists by this name");
-				response.setSuccess(false);
-	    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-	    	}
-	    	
-	        FoodStall saved = mongoTemplate.insert(foodStall);
-            response.setFoodStalls(Collections.singletonList(saved));
-            response.setMessage("Successfully inserted");
-			response.setSuccess(true);
-            return ResponseEntity.ok(response);
 
-	    }
+
+	public ResponseEntity<FoodStallResponse> createFoodStall(String name, String description,MultipartFile image) {
+
+		FoodStallResponse response = new FoodStallResponse();
+		Optional<FoodStall> existingFoodStall = foodStallRepo.findOneByStallName(name);
+		FoodStall foodStall = new FoodStall();
+
+		if(existingFoodStall.isPresent())
+		{
+			response.setMessage("Food Stall Already Exists by this name");
+			response.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+		}
+		if(image!=null && !image.isEmpty()) {
+			if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
+			{
+				response.setMessage("Invalid Image");
+				response.setSuccess(false);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			}
+			try {
+				foodStall.setStallImage(Base64.getEncoder().encodeToString(image.getBytes()));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}else{
+			foodStall.setStallImage(null);
+		}
+		foodStall.setStallName(name);
+		foodStall.setDescription(description);
+		FoodStall saved = mongoTemplate.insert(foodStall);
+		response.setFoodStalls(Collections.singletonList(saved));
+		response.setMessage("Successfully inserted");
+		response.setSuccess(true);
+		return ResponseEntity.ok(response);
+
+	}
 
 		public ResponseEntity<FoodStallResponse> deleteFoodStall(String id) {
 			Optional<FoodStall> foodStall = foodStallRepo.findById(id);
@@ -73,23 +94,48 @@ public class FoodStallService {
 			}
 		}
 
-		public ResponseEntity<FoodStallResponse> editFoodStall(FoodStall foodStall, String id) {
-			
-			FoodStallResponse response = new FoodStallResponse();
-			Optional<FoodStall> existingFoodStall = foodStallRepo.findById(id);
-			if(existingFoodStall.isPresent())
+	public ResponseEntity<FoodStallResponse> editFoodStall(String id, String name, String description, MultipartFile image) {
+
+		FoodStall foodStall = new FoodStall();
+		FoodStallResponse response = new FoodStallResponse();
+		Optional<FoodStall> existingFoodStall = foodStallRepo.findById(id);
+		if(existingFoodStall.isPresent())
+		{
+			foodStall.setId(id);
+			Optional<FoodStall> existingFoodStallByName = foodStallRepo.findOneByStallName(name);
+			if(existingFoodStallByName.isPresent() && !existingFoodStallByName.get().getId().equals(id))
 			{
-				foodStall.setId(id);
-				mongoTemplate.save(foodStall);
-				response.setFoodStalls(Collections.singletonList(foodStall));
-				response.setMessage("Successfully Updated");
-				response.setSuccess(true);
-	            return ResponseEntity.ok(response);
-			}	
-			response.setMessage("Food Stall Not found");
-			response.setSuccess(false);
-    		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+				response.setMessage("Food Stall Already Exists by this name");
+				response.setSuccess(false);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			}
+			foodStall.setStallName(name);
+			foodStall.setDescription(description);
+			if(image!=null && !image.isEmpty()) {
+				if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
+				{
+					response.setMessage("Invalid Image");
+					response.setSuccess(false);
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+				}
+				try {
+					foodStall.setStallImage(Base64.getEncoder().encodeToString(image.getBytes()));
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}else{
+				foodStall.setStallImage(foodStall.getStallImage());
+			}
+			mongoTemplate.save(foodStall);
+			response.setFoodStalls(Collections.singletonList(foodStall));
+			response.setMessage("Successfully Updated");
+			response.setSuccess(true);
+			return ResponseEntity.ok(response);
 		}
+		response.setMessage("Food Stall Not found");
+		response.setSuccess(false);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	}
 
 		
 }
