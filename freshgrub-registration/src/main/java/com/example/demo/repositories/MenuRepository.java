@@ -13,8 +13,8 @@ public interface MenuRepository extends MongoRepository<Menu, String>{
 	
 	Optional<Menu> findOneByMenuItemName(String menuItemName);
 	
-	 @Query("{'stallName': ?0}")
-	 List<Menu> findMenuItemsByStallName(String stallName);
+	 @Query("{'stallId': ?0}")
+	 List<Menu> findMenuItemsByStallId(String stallId);
 	 
 	 @Query(value = "{}", fields = "{'stallName' : 1}")
 	 List<FoodStall> findAllDistinctStallNames();

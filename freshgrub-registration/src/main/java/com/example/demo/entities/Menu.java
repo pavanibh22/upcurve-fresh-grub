@@ -17,7 +17,7 @@ public class Menu {
 	@Id
 	private String id;
 	@NotNull
-	private String stallName;
+	private String stallId;
 	@NotNull
 	private String menuItemName;
 	@NotNull
