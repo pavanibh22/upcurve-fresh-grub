@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,20 @@ public class CartService {
 
 		}
 		response.setMessage("Item not in cart");
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(response);	
+	}
+	public ResponseEntity<CartResponse> getAllCartItems()
+	{
+		CartResponse response = new CartResponse();
+		response.setMessage("Successfully fetched");
+		response.setSuccess(true);
+		Query query = new Query();
+		query.addCriteria(Criteria.where("isOrdered").is(false));
+		List<Cart> cartItems = mongoTemplate.find(query, Cart.class);
+		response.setCartItems(cartItems);
+	    return ResponseEntity.ok(response);
 		
 	}
+
+	
 }
