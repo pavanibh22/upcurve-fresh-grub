@@ -1,7 +1,9 @@
 package com.example.demo.entities;
 
-import org.springframework.data.annotation.Id;
+
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,7 +16,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Menu {
 
-	@Id
+
+	@MongoId(FieldType.STRING)
 	private String id;
 	@NotNull
 	private String stallId;
@@ -23,6 +26,10 @@ public class Menu {
 	@NotNull
 	private int price;
 	private String menuItemImage;
+
+	
+
+	
 
 //	smaple json
 //{

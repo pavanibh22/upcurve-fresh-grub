@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.responses.CartProductResponse;
 import com.example.demo.responses.CartResponse;
 import com.example.demo.services.CartService;
 
@@ -27,6 +28,12 @@ public class CartController {
 	{
 		return cartService.addCartItem(userId, itemId, qty, isOrdered);
 	}
+	@PostMapping(value="/decrease")
+	public ResponseEntity<CartResponse> decrementCartItem(@PathVariable String userId,
+			@RequestParam("itemId") String itemId) 
+	{
+		return cartService.decrementCartItem(userId, itemId);
+	}
 	
 	@PostMapping(value="/remove")
 	public ResponseEntity<CartResponse> removeCartItem(@PathVariable String userId,
@@ -35,7 +42,7 @@ public class CartController {
 		return cartService.removeCartItem(userId, itemId);
 	}
 	@GetMapping(value="")
-	public ResponseEntity<CartResponse> getAllCartItems()
+	public ResponseEntity<CartProductResponse> getAllCartItems()
 	{
 		return cartService.getAllCartItems();
 	}
