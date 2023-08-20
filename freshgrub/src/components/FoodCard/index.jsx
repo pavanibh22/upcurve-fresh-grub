@@ -1,7 +1,7 @@
-import { Box, Typography, Icon } from "@mui/material";
+import { Box, Typography, Icon, Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const boxStyles = {
 	width: "250px",
@@ -30,7 +30,11 @@ const innerBox = {
 };
 
 const iconStyles = {
-	color: "white",
+	color: "black",
+	width: "100px",
+	textTransform: "capitalize",
+	backgroundColor:"white ",
+	
 };
 const FoodCard = ({
 	name,
@@ -38,6 +42,8 @@ const FoodCard = ({
 	img,
 	width = 150,
 	height = 150,
+	forCart,
+	cartClickCallback,
 	onEditCallback,
 	onDeleteCallback,
 }) => {
@@ -57,8 +63,21 @@ const FoodCard = ({
 					color={"white"}
 				>{`Price ₹:${price}`}</Typography>
 				<Box sx={{ display: "flex", gap: "10px" }}>
-					<EditIcon sx={iconStyles} onClick={onEditCallback} />
-					<DeleteIcon sx={iconStyles} onClick={onDeleteCallback} />
+					{forCart && cartClickCallback ? (
+						<Button
+							variant='contained'
+							sx={iconStyles}
+							onClick={cartClickCallback}
+						>
+							ADD
+						</Button>
+					) : (
+						// <ShoppingCartIcon sx={iconStyles} onClick={cartClickCallback} />
+						<>
+							<EditIcon sx={iconStyles} onClick={onEditCallback} />
+							<DeleteIcon sx={iconStyles} onClick={onDeleteCallback} />
+						</>
+					)}
 				</Box>
 			</Box>
 		</Box>

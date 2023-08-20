@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import VendorHome from "./pages/VendorHome.js";
 import FoodItemsPage from "./pages/FoodItemsPage.jsx";
 import Meals from "./pages/Meals";
+import UserFoodItemsPage from "./pages/UserFoodItemsPage.jsx";
 import Beverages from "./pages/Beverages";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 				<Route path='/login' element={<Login />}></Route>
 				<Route path='/signup' element={<Signup />}></Route>
 				<Route path='/user' element={<UserHome />}></Route>
+				<Route path='/user/:categoryId' element={<UserFoodItemsPage />}></Route>
 				<Route path='/vendor' element={<VendorHome />}></Route>
 				<Route path='vendor/:categoryId' element={<FoodItemsPage />} />
 				<Route path='/meals' element={<Meals />} />

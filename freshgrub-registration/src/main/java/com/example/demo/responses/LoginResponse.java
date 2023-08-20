@@ -5,6 +5,14 @@ public class LoginResponse {
 	String message;
 	Boolean status;
 	String role;
+	String userId;
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getMessage() {
 		return message;
 	}
@@ -26,11 +34,12 @@ public class LoginResponse {
 	}
 	
 	
-	public LoginResponse(String message, Boolean status, String role) {
+	public LoginResponse(String message, Boolean status, String role, String userId) {
 		super();
 		this.message = message;
 		this.status = status;
 		this.role = role;
+		this.userId = userId;
 	}
 	@Override
 	public String toString() {

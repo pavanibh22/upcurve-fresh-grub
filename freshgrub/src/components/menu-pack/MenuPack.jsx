@@ -6,7 +6,7 @@ import BodyTemplate from "../../templates/BodyTemplate";
 
 import "./menu-pack.css";
 
-const MenuPack = ({ items }) => {
+const MenuPack = ({ title, items }) => {
 	const [filter, setFilter] = useState("");
 	const navigate = useNavigate();
 
@@ -16,10 +16,10 @@ const MenuPack = ({ items }) => {
 				<Container>
 					<Row>
 						<Col lg='12' className='text-center mb=4'>
-							<h3 className='menu__title'>Categories</h3>
+							<h3 className='menu__title'>{title}</h3>
 						</Col>
 						<Col lg='12' className='text-center mb-5'>
-							{items.map((val) => {
+							{items?.map((val) => {
 								return (
 									<button
 										key={val.id}

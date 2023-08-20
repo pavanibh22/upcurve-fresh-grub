@@ -82,7 +82,7 @@ const VendorHome = () => {
 				onAddCallback={() => setModal((prev) => ({ ...prev, add: true }))}
 				onDeleteCallback={() => setModal((prev) => ({ ...prev, delete: true }))}
 			/>
-			<MenuPack items={categories} />
+			<MenuPack title={'categories'} items={categories} />
 			<Dialog open={modal.add} onClose={addModalCloseCallback}>
 				<DialogTitle>{"Create a Category"}</DialogTitle>
 				<DialogContent>

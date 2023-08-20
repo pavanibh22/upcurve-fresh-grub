@@ -1,8 +1,8 @@
 import { myAxios } from "../helper.js";
 
-export const getAllFoodItems = async (categoryName) => {
+export const getAllFoodItems = async (categoryId) => {
 	try {
-		const response = await myAxios.get(`/menu/${categoryName}`);
+		const response = await myAxios.get(`/menu/${categoryId}`);
 		return response;
 	} catch (err) {
 		throw err;
