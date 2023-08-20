@@ -25,11 +25,11 @@ public class CartController {
 	@PostMapping(value="/add")
 	public ResponseEntity<CartResponse> createCartItem(@PathVariable String userId,
 			@RequestParam("itemId") String itemId,
-			@RequestParam("qty") int qty,
 			@RequestParam("isOrdered") Boolean isOrdered) 
 	{
-		return cartService.addCartItem(userId, itemId, qty, isOrdered);
+		return cartService.addCartItem(userId, itemId, isOrdered);
 	}
+
 	@PostMapping(value="/decrease")
 	public ResponseEntity<CartResponse> decrementCartItem(@PathVariable String userId,
 			@RequestParam("itemId") String itemId) 
@@ -43,7 +43,7 @@ public class CartController {
 	{
 		return cartService.removeCartItem(userId, itemId);
 	}
-	@GetMapping(value="")
+	@GetMapping
 	public ResponseEntity<CartProductResponse> getAllCartItems()
 	{
 		return cartService.getAllCartItems();

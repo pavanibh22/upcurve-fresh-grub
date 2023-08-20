@@ -35,7 +35,7 @@ public class CartService {
 		this.mongoTemplate = mongoTemplate;
 	}
 
-	public ResponseEntity<CartResponse> addCartItem(String userId, String itemId, int qty, Boolean isOrdered) {
+	public ResponseEntity<CartResponse> addCartItem(String userId, String itemId, Boolean isOrdered) {
 		CartResponse response = new CartResponse();
 		Optional<Cart> existingCart = cartRepo.findOneByItemId(itemId);
 		if (existingCart.isPresent()) {
@@ -58,7 +58,7 @@ public class CartService {
 		Cart cartItem = new Cart();
 		cartItem.setUserId(userId);
 		cartItem.setItemId(itemId);
-		cartItem.setQty(qty);
+		cartItem.setQty(1);
 		cartItem.setIsOrdered(isOrdered);
 
 		mongoTemplate.insert(cartItem);
@@ -121,9 +121,7 @@ public class CartService {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 	}
 
-	
 
-	
 	  public ResponseEntity<CartProductResponse> getAllCartItems() { 
 		  CartProductResponse response = new CartProductResponse(); response.setMessage("Successfully fetched");
 	  response.setSuccess(true);

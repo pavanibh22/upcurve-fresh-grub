@@ -12,6 +12,7 @@ import FoodItemsPage from "./pages/FoodItemsPage.jsx";
 import Meals from "./pages/Meals";
 import UserFoodItemsPage from "./pages/UserFoodItemsPage.jsx";
 import Beverages from "./pages/Beverages";
+import CartPage from "./components/cart/cartMain.js"
 
 function App() {
 	return (
@@ -23,6 +24,8 @@ function App() {
 				<Route path='/signup' element={<Signup />}></Route>
 				<Route path='/user' element={<UserHome />}></Route>
 				<Route path='/user/:categoryId' element={<UserFoodItemsPage />}></Route>
+				<Route path='/user/cart/:userId' element={<CartPage />}></Route>
+
 				<Route path='/vendor' element={<VendorHome />}></Route>
 				<Route path='vendor/:categoryId' element={<FoodItemsPage />} />
 				<Route path='/meals' element={<Meals />} />

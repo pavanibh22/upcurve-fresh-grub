@@ -2,7 +2,7 @@ import CustomNavbar from "../../src/components/CustomNavbar";
 import { useState, useEffect } from "react";
 import { getAllFoodItems } from "../services/Foods/getAllFoodItems";
 import MenuPack from "../components/menu-pack/MenuPack";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import FoodCard from "../components/FoodCard";
 import addToCart from "../services/Cart/addToCart";
 import CustomSnackBar from "../components/CustomSnackBar";
@@ -49,8 +49,7 @@ const UserFoodItemsPage = () => {
 		console.log("clicked");
 		const response = await addToCart(userId, {
 			itemId: id,
-			qty: 1,
-			isOrdered: true,
+			isOrdered: false,
 		});
 		console.log("response: ", response);
 		if (response.status) {
@@ -68,7 +67,9 @@ const UserFoodItemsPage = () => {
 		<div>
 			<CustomNavbar />
 			{foodItems !== undefined && foodItems.length > 0 ? (
+				
 				<div style={{ display: "flex", gap: "15px", marginTop: "30px" }}>
+					
 					{foodItems?.map((foodItem) => {
 						return (
 							<FoodCard
@@ -95,6 +96,7 @@ const UserFoodItemsPage = () => {
 					<h2>No Food Items</h2>
 				</div>
 			)}
+			<Link to={`/user/cart/${userId}`}><button>Go to Cart</button></Link>
 			<CustomSnackBar
 				open={open}
 				duration={3000}
