@@ -21,6 +21,7 @@ const Header = ({
 	return (
 		<div className='container-fluid p-0 m-0'>
 			<CustomNavbar
+			    
 				isFoodItem={isFoodItem}
 				buttonText={isCategory ? "Add" : ""}
 				secondButtonText={isCategory ? "Delete" : ""}

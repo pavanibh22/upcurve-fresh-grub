@@ -6,11 +6,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entities.Cart;
 import com.example.demo.entities.Menu;
+import com.example.demo.repositories.CartRepo;
 import com.example.demo.repositories.MenuRepository;
 import com.example.demo.responses.MenuResponse;
 
@@ -22,6 +26,9 @@ public class MenuService {
 
 	@Autowired
 	MenuRepository menuRepository;
+	
+	@Autowired
+	CartRepo cartRepo;
 
 	public MenuService(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
@@ -163,6 +170,14 @@ public class MenuService {
 	public ResponseEntity<MenuResponse> deleteMenuItem(String id) {
 		Optional<Menu> menuItem = menuRepository.findById(id);
 		MenuResponse response = new MenuResponse();
+		Optional<Cart> existingCart = cartRepo.findOneByItemId(id);
+		if(existingCart.isPresent())
+		{
+			Query query = new Query();
+			query.addCriteria(Criteria.where("itemId").is(id));
+			Cart cartItem = mongoTemplate.findOne(query, Cart.class);
+			cartRepo.delete(cartItem);
+		}
 		if(menuItem.isPresent())
 		{
 			menuRepository.deleteById(id);

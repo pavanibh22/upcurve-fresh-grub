@@ -22,7 +22,7 @@ const UserHome = () => {
 	return (
 		<div>
 			<CustomNavbar />
-			<MenuPack title='categories' items={categories} />
+			<MenuPack  title='categories' items={categories} />
 		</div>
 	);
 };

@@ -30,6 +30,7 @@ import {
 	Row,
 	FormCheck,
 } from "react-bootstrap";
+import SubNavbar from "../components/subNavbar";
 
 const FoodItemsPage = () => {
 	const params = useParams();
@@ -234,6 +235,8 @@ const FoodItemsPage = () => {
 					setModal((prev) => ({ ...prev, add: true }));
 				}}
 			/>
+				<SubNavbar title={location.state.name} />
+
 			{foodItems === undefined || foodItems?.length <= 0 ? (
 				<div
 					style={{
@@ -244,6 +247,8 @@ const FoodItemsPage = () => {
 						marginTop: "30px",
 					}}
 				>
+
+
 					<h2>No Food Items</h2>
 				</div>
 			) : (
@@ -266,6 +271,7 @@ const FoodItemsPage = () => {
 									setId(foodItem.id);
 									setModal((prev) => ({ ...prev, delete: true }));
 								}}
+								forVendor={true}
 							/>
 						);
 					})}

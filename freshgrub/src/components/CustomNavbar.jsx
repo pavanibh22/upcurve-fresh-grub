@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink as ReactLink } from "react-router-dom";
 import logo from "../pages/logo5.jpg";
-
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Badge } from "@mui/material";
 import {
 	Collapse,
 	DropdownItem,
@@ -19,10 +20,12 @@ import {
 
 const CustomNavbar = ({
 	isFoodItem,
+	isVendor,
 	buttonText,
 	secondButtonText,
 	onAddCallback,
 	onDeleteCallback,
+	badgeNumber,
 }) => {
 	return (
 		<div>
@@ -35,7 +38,6 @@ const CustomNavbar = ({
 				{!isFoodItem
 					? buttonText &&
 					  secondButtonText &&
-					  onAddCallback &&
 					  onDeleteCallback && (
 							<NavItem>
 								<Button
@@ -50,12 +52,29 @@ const CustomNavbar = ({
 								</Button>
 							</NavItem>
 					  )
-					: buttonText &&
-					  onAddCallback && (
+					: buttonText !== undefined && (
 							<NavItem>
-								<Button color='primary' onClick={onAddCallback}>
-									{buttonText}
-								</Button>
+								{buttonText === "Go to cart" ? (
+									<Badge badgeContent={badgeNumber} color='primary'>
+										<ShoppingCartIcon
+											sx={{ color: "white" }}
+											onClick={() => {
+												console.log("coming here: ");
+												onAddCallback();
+											}}
+										/>
+									</Badge>
+								) : (
+									<Button
+										color='primary'
+										onClick={() => {
+											console.log("coming here: ");
+											onAddCallback();
+										}}
+									>
+										{buttonText}
+									</Button>
+								)}
 							</NavItem>
 					  )}
 			</Navbar>
