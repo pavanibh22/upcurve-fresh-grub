@@ -1,3 +1,4 @@
+
 package com.example.demo.services;
 
 import java.util.Collections;
@@ -35,30 +36,66 @@ public class CartService {
 		this.mongoTemplate = mongoTemplate;
 	}
 
-	public ResponseEntity<CartResponse> addCartItem(String userId, String itemId, Boolean isOrdered) {
+	public ResponseEntity<CartResponse> addCartItem(String userId, String itemId, int qty, Boolean isOrdered) {
 		CartResponse response = new CartResponse();
-		Optional<Cart> existingCart = cartRepo.findOneByItemId(itemId);
-		if (existingCart.isPresent()) {
-
-			Query query = new Query();
-			query.addCriteria(Criteria.where("itemId").is(itemId));
-			Cart cartItem = mongoTemplate.findOne(query, Cart.class);
-			if(cartItem.getIsOrdered().equals(false))
+		if(isOrdered==false)
+		{
+			Optional<Cart> existingCart = cartRepo.isCartItem(userId, itemId, isOrdered);
+			if(existingCart.isPresent()) 
 			{
-				int oldQty = cartItem.getQty();
-				int newQty = oldQty + 1;
-				cartItem.setQty(newQty);
-				cartRepo.save(cartItem);
-				response.setCartItems(Collections.singletonList(cartItem));
-				response.setMessage("Successfully Increased Quantity");
-				response.setSuccess(true);
-				return ResponseEntity.status(HttpStatus.OK).body(response);
+
+				/*
+				 * Query query = new Query();
+				 * 
+				 * query.addCriteria(Criteria.where("userId").is(userId).and("itemId").is(itemId
+				 * ).and("isOrdered").is(false)); Cart cartItem = mongoTemplate.findOne(query,
+				 * Cart.class);
+				 */
+				Cart cartItem1 = existingCart.get();
+				//if(cartItem!=null)
+				//{
+					int oldQty = cartItem1.getQty();
+					int newQty = oldQty + 1;
+					cartItem1.setQty(newQty);
+					cartRepo.save(cartItem1);
+					response.setCartItems(Collections.singletonList(cartItem1));
+					response.setMessage("Successfully Increased Quantity");
+					response.setSuccess(true);
+					return ResponseEntity.status(HttpStatus.OK).body(response);
+				//}
+			}
+		}
+		else if(isOrdered==true)
+		{		
+			Optional<Cart> existingCart = cartRepo.isCartItem(userId, itemId, isOrdered);
+			if(existingCart.isPresent()) 
+			{
+
+				/*
+				 * Query query = new Query();
+				 * 
+				 * query.addCriteria(Criteria.where("userId").is(userId).and("itemId").is(itemId
+				 * ).and("isOrdered").is(false)); Cart cartItem = mongoTemplate.findOne(query,
+				 * Cart.class);
+				 */
+				Cart cartItem = existingCart.get();
+				//if(cartItem!=null)
+				//{
+					int oldQty = cartItem.getQty();
+					int newQty = oldQty + 1;
+					cartItem.setQty(newQty);
+					cartRepo.save(cartItem);
+					response.setCartItems(Collections.singletonList(cartItem));
+					response.setMessage("Successfully Increased Quantity");
+					response.setSuccess(true);
+					return ResponseEntity.status(HttpStatus.OK).body(response);
+				//}
 			}
 		}
 		Cart cartItem = new Cart();
 		cartItem.setUserId(userId);
 		cartItem.setItemId(itemId);
-		cartItem.setQty(1);
+		cartItem.setQty(qty);
 		cartItem.setIsOrdered(isOrdered);
 
 		mongoTemplate.insert(cartItem);
@@ -70,12 +107,13 @@ public class CartService {
 
 	public ResponseEntity<CartResponse> decrementCartItem(String userId, String itemId) {
 		CartResponse response = new CartResponse();
-		Optional<Cart> existingCart = cartRepo.findOneByItemId(itemId);
+		Optional<Cart> existingCart = cartRepo.isCartItem(userId, itemId, false);
 		if (existingCart.isPresent()) {
 
-			Query query = new Query();
-			query.addCriteria(Criteria.where("itemId").is(itemId));
-			Cart cartItem = mongoTemplate.findOne(query, Cart.class);
+			//Query query = new Query();
+			//query.addCriteria(Criteria.where("itemId").is(itemId));
+			//Cart cartItem = mongoTemplate.findOne(query, Cart.class);
+			Cart cartItem = existingCart.get();
 			int oldQty = cartItem.getQty();
 			if (oldQty > 1)// decrement the quantity
 			{
@@ -105,12 +143,13 @@ public class CartService {
 	public ResponseEntity<CartResponse> removeCartItem(String userId, String itemId) 
 	{
 		CartResponse response = new CartResponse();
-		Optional<Cart> existingCart = cartRepo.findOneByItemId(itemId);
+		Optional<Cart> existingCart = cartRepo.isCartItem(userId, itemId, false);
 		if (existingCart.isPresent()) 
 		{
-			Query query = new Query();
-			query.addCriteria(Criteria.where("itemId").is(itemId));
-			Cart cartItem = mongoTemplate.findOne(query, Cart.class);
+			//Query query = new Query();
+			//query.addCriteria(Criteria.where("userId").is(userId).and("itemId").is(itemId));
+			//Cart cartItem = mongoTemplate.findOne(query, Cart.class);
+			Cart cartItem = existingCart.get();
 			cartRepo.delete(cartItem);
 			response.setMessage("Successfully removed item");
 			response.setSuccess(true);
@@ -121,9 +160,12 @@ public class CartService {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 	}
 
+	
 
-	  public ResponseEntity<CartProductResponse> getAllCartItems() { 
-		  CartProductResponse response = new CartProductResponse(); response.setMessage("Successfully fetched");
+	
+	  public ResponseEntity<CartProductResponse> getAllCartItems(String userId) { 
+		  CartProductResponse response = new CartProductResponse(); 
+		  response.setMessage("Successfully fetched");
 	  response.setSuccess(true);
 	  
 	  
@@ -138,7 +180,7 @@ public class CartService {
 	  LookupOperation.newLookup().from("menu_items").localField("itemId").
 	  foreignField("_id").as("item");
 	  
-	  Aggregation aggregation =  Aggregation.newAggregation(Aggregation.match(Criteria.where("isOrdered").is(false)), lookup );
+	  Aggregation aggregation =  Aggregation.newAggregation(Aggregation.match(Criteria.where("userId").is(userId).andOperator(Criteria.where("isOrdered").is(false))), lookup );
 	  
 	  List<CartProduct> cartItems = mongoTemplate.aggregate(aggregation, "cart", CartProduct.class).getMappedResults(); 
 	  response.setCartItems(cartItems); 
@@ -146,6 +188,16 @@ public class CartService {
 	  
 	  }
 	 
+	  public int getSumOfQty(String userId)
+	  {
+		  int sum = cartRepo.sumOfQty(userId);
+		  return sum;
+	  }
+	  public int getQtyByItemId(String userId, String itemId)
+	  {
+		  int sum = cartRepo.sumOfQty(userId);
+		  return sum;
+	  }
 
 	
 	/*
@@ -163,3 +215,5 @@ public class CartService {
 	 
 
 }
+
+

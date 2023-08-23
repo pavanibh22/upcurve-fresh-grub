@@ -21,7 +21,7 @@ const UserFoodItemsPage = () => {
 	const [open, setOpen] = useState(false);
 	const [status, setStatus] = useState("");
 	const [totalItems, setTotalItems] = useState(0);
-	const [count, setCount] = useState(0);
+
 
 	const [toastText, setToastText] = useState("");
 
@@ -64,12 +64,11 @@ const UserFoodItemsPage = () => {
 	}, []);
 
 	const cartClickHandler = async (id) => {
-		console.log("clicked");
 		const response = await addToCart(userId, {
 			itemId: id,
+			qty: 1,
 			isOrdered: false,
 		});
-		console.log("response: ", response);
 		if (response.status) {
 			setStatus("success");
 			setToastText("Added To Cart");
@@ -92,16 +91,6 @@ const UserFoodItemsPage = () => {
 				}}
 				badgeNumber={totalItems}
 			/>
-			{/* leftComponent={
-				<ShoppingCartIcon
-				  onClick={() => {
-					console.log("on cart icon click");
-					navigate(`/user/cart/${userId}`);
-				  }}
-				  style={{ fontSize: 30, cursor: "pointer" }}
-				/>
-			  } */}
-			{/* /> */}
 			<SubNavbar title={location.state.name} />
 			{foodItems !== undefined && foodItems.length > 0 ? (
 				<div style={{ display: "flex", gap: "15px", marginTop: "30px" }}>
@@ -114,6 +103,7 @@ const UserFoodItemsPage = () => {
 								img={foodItem.image}
 								price={foodItem.price}
 								forCart
+								iconUpdateCallback={() => getItems()}
 								cartClickCallback={() => cartClickHandler(foodItem.id)}
 							/>
 						);

@@ -1,8 +1,11 @@
+
+
 package com.example.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,11 +28,11 @@ public class CartController {
 	@PostMapping(value="/add")
 	public ResponseEntity<CartResponse> createCartItem(@PathVariable String userId,
 			@RequestParam("itemId") String itemId,
+			@RequestParam("qty") int qty,
 			@RequestParam("isOrdered") Boolean isOrdered) 
 	{
-		return cartService.addCartItem(userId, itemId, isOrdered);
+		return cartService.addCartItem(userId, itemId, qty, isOrdered);
 	}
-
 	@PostMapping(value="/decrease")
 	public ResponseEntity<CartResponse> decrementCartItem(@PathVariable String userId,
 			@RequestParam("itemId") String itemId) 
@@ -43,10 +46,23 @@ public class CartController {
 	{
 		return cartService.removeCartItem(userId, itemId);
 	}
-	@GetMapping
-	public ResponseEntity<CartProductResponse> getAllCartItems()
+	@GetMapping(value="")
+	public ResponseEntity<CartProductResponse> getAllCartItems(@PathVariable String userId)
 	{
-		return cartService.getAllCartItems();
+		return cartService.getAllCartItems(userId);
+	}
+	
+	@GetMapping(value="/qty")
+	public int getSumOfQty(@PathVariable String userId)
+	{
+		return cartService.getSumOfQty(userId);
+	}
+	@GetMapping(value="/itemqty")
+	public int getQtyByItemId(@PathVariable String userId, @RequestParam("itemId") String itemId)
+	{
+		return cartService.getQtyByItemId(userId, itemId);
 	}
 
 }
+
+

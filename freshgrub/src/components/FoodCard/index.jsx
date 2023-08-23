@@ -64,6 +64,7 @@ const FoodCard = ({
 	cartClickCallback,
 	onEditCallback,
 	onDeleteCallback,
+	iconUpdateCallback,
 	id,
 }) => {
 	const [count, setCount] = useState(0);
@@ -71,40 +72,72 @@ const FoodCard = ({
 
 	const localStorageData = localStorage.getItem("data");
 	const userId = JSON.parse(localStorageData).userId;
-	console.log("userId: ", userId);
+	// console.log("userId: ", userId);
 
 	const getItems = async () => {
-		console.log("id: ", id);
 		const res = await getAllItemsInCart(userId);
 		if (res.data?.success) {
-			setCartItems(res.data);
-			console.log("res data: ", res.data?.cartItems);
+			const items = res.data?.cartItems;
+			setCartItems(res.data?.cartItems);
+			// console.log("res data: ", res.data?.cartItems);
+			if (items.length > 0) {
+				const cart = items.filter((cart) => cart?.item[0]?.id === id);
+				console.log("cart: ", cart);
+				if (cart !== undefined && cart.length > 0) {
+					setCount(cart[0]?.qty);
+				} else {
+					console.log("cart not found: ", cart);
+					setCount(0);
+					// setCount(count > 0 ? count : 0);
+				}
+			}
 		}
 	};
 
-	const increment = async () => {
-		const response = await addToCart(userId, { itemId: id, isOrdered: false });
-		console.log("add to cart: ", response);
+	// const updateFoodItemCard = () => {
+	// 	if (cartItems.length > 0) {
+	// 		const cart = cartItems.filter((cart) => cart?.item[0]?.id === id);
+	// 		console.log("cart: ", cart);
+	// 		if (cart !== [] && cart !== undefined) {
+	// 			setCount(cart[0]?.qty);
+	// 		} else {
+	// 			console.log("cart not found: ", cart);
+	// 			// setCount(count > 0 ? count : 0);
+	// 		}
+	// 	}
+	// };
+
+	const increment = async (count) => {
+		const response = await addToCart(userId, {
+			itemId: id,
+			qty: count,
+			isOrdered: false,
+		});
+		console.log("increment: ", response);
+		// setCount(count+1);
 	};
 
 	const decrementThis = async () => {
 		const response = await decrement(userId, { itemId: id });
 		console.log("on decrement: ", response);
-		// decrement(userId, {
-		// 	itemId: id,
-		// }).then((r) =>
-		// 	r.data?.success
-		// 		? (setQtyy(qtyy - 1), updateParent(), setDisabled(false))
-		// 		: toast.error("Failed: " + r?.data?.message, setDisabled(false))
-		// );
+		if (count > 0) {
+			setCount(count - 1);
+		}
 	};
+
+	// useEffect(() => {
+	// 	getItems();
+	// 	// updateFoodItemCard();
+	// }, []);
 
 	useEffect(() => {
 		getItems();
+		// updateFoodItemCard();
+		iconUpdateCallback !== undefined && iconUpdateCallback();
 	}, [count]);
 
 	const renderButton = () => {
-		console.log("redner: ", count);
+		// console.log("redner: ", count);
 		if (count === 0) {
 			return (
 				<Button
@@ -115,8 +148,12 @@ const FoodCard = ({
 						padding: "8px 20px", // Add padding
 					}}
 					onClick={() => {
+						console.log("ADD BTN click");
 						setCount(count + 1);
-						cartClickCallback();
+						// cartClickCallback();
+						increment(count + 1);
+						// getItems();
+						// updateFoodItemCard();
 					}}
 				>
 					ADD
@@ -125,19 +162,23 @@ const FoodCard = ({
 		} else if (count > 0) {
 			return (
 				<Box display='flex' gap='10px' width='100px'>
-					<AddIcon
-						sx={iconStyles}
-						onClick={() => {
-							setCount(count + 1);
-							increment();
-						}}
-					/>
-					<Typography sx={iconStyles}>{count}</Typography>
 					<RemoveIcon
 						sx={iconStyles}
 						onClick={() => {
 							setCount(count - 1);
 							decrementThis();
+							// getItems();
+							// updateFoodItemCard();
+						}}
+					/>
+					<Typography sx={iconStyles}>{count}</Typography>
+					<AddIcon
+						sx={iconStyles}
+						onClick={() => {
+							setCount(count + 1);
+							increment(count + 1);
+							// getItems();
+							// updateFoodItemCard();
 						}}
 					/>
 				</Box>
@@ -164,7 +205,6 @@ const FoodCard = ({
 					{forCart && cartClickCallback ? (
 						renderButton()
 					) : forVendor ? (
-						// <ShoppingCartIcon sx={iconStyles} onClick={cartClickCallback} />
 						<>
 							<EditIcon sx={iconStyles} onClick={onEditCallback} />
 							<DeleteIcon sx={iconStyles} onClick={onDeleteCallback} />

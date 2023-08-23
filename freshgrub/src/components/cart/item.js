@@ -14,6 +14,7 @@ const Item = ({ _id, userId, item, qty, updateParent }) => {
 		setDisabled(true);
 		addToCart(userId, {
 			itemId: id,
+			qty: qty,
 			isOrdered: false,
 		}).then((r) =>
 			r.data?.success
