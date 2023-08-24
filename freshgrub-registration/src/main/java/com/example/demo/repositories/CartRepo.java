@@ -1,6 +1,7 @@
 
 package com.example.demo.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.Aggregation;
@@ -12,7 +13,9 @@ import com.example.demo.entities.Cart;
 public interface CartRepo extends MongoRepository<Cart, String>{
 	
 	 Optional<Cart> findOneByUserIdAndItemId(String userId, String itemId);
-	 
+
+	Optional<List<Cart>> findAllByUserId(String userId);
+
 	 @Query("{'userId': ?0, 'itemId': ?1, 'isOrdered': ?2}")
 	 Optional<Cart> isCartItem(String userId, String itemId, Boolean notOrdered);
 	 

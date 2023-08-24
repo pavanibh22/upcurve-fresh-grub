@@ -16,11 +16,10 @@ i {
   display: flex;
   height: inherit;
   align-items: center;
-  padding-top: 1rem;
 }
 
-.continue-shopping:hover {
-  cursor: pointer;
+.continue-shopping {
+  padding-top: 1rem;
 }
 
 .continue-shopping h3 {
@@ -178,11 +177,6 @@ i {
   border-radius: 0.5rem;
   cursor: pointer;
   letter-spacing: 1px;
-}
-
-.card-total button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */

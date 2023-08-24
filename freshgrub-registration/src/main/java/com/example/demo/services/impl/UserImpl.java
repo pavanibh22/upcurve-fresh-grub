@@ -32,8 +32,8 @@ public class UserImpl implements UserService{
 				userDto.getMobileNumber(),
 				this.passwordEncoder.encode(userDto.getPassword()),
 				userDto.getRole(),
-				userDto.getVendorId()
-				
+				userDto.getVendorId(),
+				150
 		);
 		
 		userRepo.save(user);

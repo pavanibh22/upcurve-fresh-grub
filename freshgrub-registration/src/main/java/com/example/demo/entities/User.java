@@ -30,5 +30,5 @@ public class User {
 	@NotNull
 	private String role;
 	private String vendorID;
-
+    private int wallet;
 }
