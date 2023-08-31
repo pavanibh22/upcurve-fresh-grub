@@ -193,13 +193,14 @@ const FoodCard = ({
 				width={width}
 				height={height}
 			/>
-			<Typography variant='body2' color={"white"}>
+			<Typography variant='body2' color={"white"} sx={{fontSize : '15px',fontFamily: "fangsong"}}>
 				{name}
 			</Typography>
 			<Box sx={innerBox}>
 				<Typography
 					variant='caption'
 					color={"white"}
+					sx={{fontSize:'15px',fontFamily: "fangsong",}}
 				>{`Price ₹:${price}`}</Typography>
 				<Box sx={{ display: "flex", gap: "10px" }}>
 					{forCart && cartClickCallback ? (

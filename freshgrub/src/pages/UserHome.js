@@ -2,6 +2,7 @@ import CustomNavbar from "../../src/components/CustomNavbar";
 import { useState, useEffect } from "react";
 import { getAllCategories } from "../services/Categories/getAllCategories";
 import MenuPack from "../components/menu-pack/MenuPack";
+import { addTokenToHeaders } from "../services/auth";
 
 const UserHome = () => {
 	const [categories, setCategories] = useState([]);
@@ -16,13 +17,14 @@ const UserHome = () => {
 	};
 
 	useEffect(() => {
+		addTokenToHeaders();
 		getAllCategoriesWrapper();
 	}, []);
 
 	return (
 		<div>
 			<CustomNavbar />
-			<MenuPack  title='categories' items={categories} />
+			<MenuPack title='categories' items={categories} />
 		</div>
 	);
 };

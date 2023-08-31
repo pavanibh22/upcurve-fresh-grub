@@ -17,7 +17,7 @@ import {
 	DialogActions,
 } from "@mui/material";
 import SubNavbar from "../subNavbar";
-
+import { addTokenToHeaders } from "../../services/auth";
 import "./menu-pack.css";
 
 const MenuPack = ({ title, items }) => {
@@ -45,6 +45,7 @@ const MenuPack = ({ title, items }) => {
 	};
 
 	useEffect(() => {
+		addTokenToHeaders();
 		getAllCategoriesWrapper();
 	}, []);
 

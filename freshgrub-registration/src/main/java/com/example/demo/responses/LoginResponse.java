@@ -6,6 +6,7 @@ public class LoginResponse {
 	Boolean status;
 	String role;
 	String userId;
+	String token;
 	
 	public String getUserId() {
 		return userId;
@@ -33,6 +34,14 @@ public class LoginResponse {
 		this.role = role;
 	}
 	
+	public String getToken() {
+		return token;
+	}
+	
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
 	
 	public LoginResponse(String message, Boolean status, String role, String userId) {
 		super();
@@ -40,6 +49,15 @@ public class LoginResponse {
 		this.status = status;
 		this.role = role;
 		this.userId = userId;
+	}
+	
+	public LoginResponse(String message, Boolean status, String role, String userId, String token) {
+		super();
+		this.message = message;
+		this.status = status;
+		this.role = role;
+		this.userId = userId;
+		this.token = token;
 	}
 	@Override
 	public String toString() {

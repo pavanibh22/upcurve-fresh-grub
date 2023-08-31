@@ -57,7 +57,8 @@ const CustomNavbar = ({
 								{buttonText === "Go to cart" ? (
 									<Badge badgeContent={badgeNumber} color='primary'>
 										<ShoppingCartIcon
-											sx={{ color: "white" }}
+											sx={{ fontSize: 28, color: "white" }}
+		
 											onClick={() => {
 												console.log("coming here: ");
 												onAddCallback();

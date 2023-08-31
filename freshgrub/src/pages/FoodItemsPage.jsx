@@ -31,6 +31,7 @@ import {
 	FormCheck,
 } from "react-bootstrap";
 import SubNavbar from "../components/subNavbar";
+import { addTokenToHeaders } from "../services/auth";
 
 const FoodItemsPage = () => {
 	const params = useParams();
@@ -98,6 +99,7 @@ const FoodItemsPage = () => {
 	};
 
 	useEffect(() => {
+		addTokenToHeaders();
 		getAllFoodItemsWrapper();
 	}, []);
 
@@ -235,7 +237,7 @@ const FoodItemsPage = () => {
 					setModal((prev) => ({ ...prev, add: true }));
 				}}
 			/>
-				<SubNavbar title={location.state.name} />
+			<SubNavbar title={location.state.name} />
 
 			{foodItems === undefined || foodItems?.length <= 0 ? (
 				<div
@@ -247,8 +249,6 @@ const FoodItemsPage = () => {
 						marginTop: "30px",
 					}}
 				>
-
-
 					<h2>No Food Items</h2>
 				</div>
 			) : (

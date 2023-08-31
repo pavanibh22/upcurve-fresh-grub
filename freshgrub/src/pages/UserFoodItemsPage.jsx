@@ -8,6 +8,7 @@ import addToCart from "../services/Cart/addToCart";
 import CustomSnackBar from "../components/CustomSnackBar";
 import SubNavbar from "../components/subNavbar";
 import getAllItemsInCart from "../services/Cart/getAllCartItems";
+import { addTokenToHeaders } from "../services/auth";
 
 const UserFoodItemsPage = () => {
 	const params = useParams();
@@ -21,7 +22,6 @@ const UserFoodItemsPage = () => {
 	const [open, setOpen] = useState(false);
 	const [status, setStatus] = useState("");
 	const [totalItems, setTotalItems] = useState(0);
-
 
 	const [toastText, setToastText] = useState("");
 
@@ -59,6 +59,7 @@ const UserFoodItemsPage = () => {
 	};
 
 	useEffect(() => {
+		addTokenToHeaders();
 		getAllfoodItemsWrapper();
 		getItems();
 	}, []);

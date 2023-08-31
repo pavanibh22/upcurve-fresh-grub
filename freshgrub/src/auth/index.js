@@ -9,6 +9,12 @@ export const isLoggedIn = () => {
   }
 };
 
+export const getToken = () => {
+  let data= localStorage.getToken("data");
+  console.log("Data ",data);
+  return data.token;
+}
+
 //set data of the user to localstorage
 export const doLogin = (data, next) => {
   localStorage.setItem("data", JSON.stringify(data));

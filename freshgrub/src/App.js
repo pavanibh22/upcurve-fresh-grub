@@ -9,9 +9,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VendorHome from "./pages/VendorHome.js";
 import FoodItemsPage from "./pages/FoodItemsPage.jsx";
-import Meals from "./pages/Meals";
+//import Meals from "./pages/Meals";
 import UserFoodItemsPage from "./pages/UserFoodItemsPage.jsx";
-import Beverages from "./pages/Beverages";
+//import Beverages from "./pages/Beverages";
 import CartPage from "./components/cart/cartMain.js";
 import OrderMain from "./components/OrderPage/OrderMain.js";
 
@@ -30,8 +30,8 @@ function App() {
 
         <Route path="/vendor" element={<VendorHome />}></Route>
         <Route path="vendor/:categoryId" element={<FoodItemsPage />} />
-        <Route path="/meals" element={<Meals />} />
-        <Route path="/beverages" element={<Beverages />} />
+        {/* <Route path="/meals" element={<Meals />} /> */}
+        {/* <Route path="/beverages" element={<Beverages />} /> */}
       </Routes>
     </BrowserRouter>
   );

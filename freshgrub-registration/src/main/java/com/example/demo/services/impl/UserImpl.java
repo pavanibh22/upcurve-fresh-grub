@@ -66,6 +66,34 @@ public class UserImpl implements UserService{
 			return new LoginResponse("Email not exists", false, null, " ");
 		}
 	}
+	
+	@Override
+	public User validateUser(LoginDTO loginDto) throws Exception {
+		User user1 = userRepo.findByEmail(loginDto.getEmail());
+		if(user1 != null) {
+			String password = loginDto.getPassword();
+			String encodedPassword = user1.getPassword();
+			Boolean isPwdRight = passwordEncoder.matches(password,  encodedPassword);
+			if(isPwdRight) {
+				Optional<User> user = userRepo.findOneByEmailAndPassword(loginDto.getEmail(), encodedPassword);
+				if(user.isPresent()) {
+					return user.get();
+				}else {
+					throw new Exception("Password is not matched");
+				}
+				
+			}
+			else {
+				throw new Exception("User email doesn't exist");
+				
+			}
+		}
+		else {
+			throw new Exception("Not valid");
+		}
+	}
+	
+
 
 }
 
