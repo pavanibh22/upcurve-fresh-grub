@@ -1,42 +1,26 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { NavLink as ReactLink, useLocation } from "react-router-dom";
+import { NavLink as ReactLink } from "react-router-dom";
 import logo from "../../pages/logo5.jpg";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
 
 import {
-	Collapse,
-	DropdownItem,
-	DropdownMenu,
-	DropdownToggle,
 	Nav,
 	Button,
 	NavItem,
-	NavLink,
 	Navbar,
 	NavbarBrand,
-	NavbarToggler,
-	UncontrolledDropdown,
 } from "reactstrap";
 
 const CustomNavbar = ({
-	isFoodItem,
-	isVendor,
+	
 	buttonText,
 	secondButtonText,
 	onAddCallback,
-	onDeleteCallback,
 	badgeNumber,
 	onLogoutCallback,
 }) => {
-	const location = useLocation();
-
-	const handleLogout = () => {
-		sessionStorage.removeItem("token"); // Remove user token
-		onLogoutCallback();
-		//history.push("/login"); // Redirect to the login page
-	};
+	
 
 	return (
 		<div>

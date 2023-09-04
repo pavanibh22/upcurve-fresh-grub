@@ -49,12 +49,7 @@ public class MenuService {
 		menuItem.setMenuItemName(menuItemName);
 		menuItem.setPrice(price);
 		if(image!=null && !image.isEmpty()) {
-//			if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
-//			{
-//				response.setMessage("Invalid Image");
-//				response.setSuccess(false);
-//				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-//			}
+
 			try {
 				menuItem.setMenuItemImage(image);
 			} catch (Exception e) {
@@ -141,30 +136,7 @@ public class MenuService {
 			response.setSuccess(false);
 			return ResponseEntity.ok(response);
 		}
-//		Menu menuItem = new Menu();
-//		menuItem.setStallId(existingMenu.get().getStallId());
-////		menuItem.setMenuItemName(menuItemName);
-////		menuItem.setPrice(price);
-////		if(image!=null && !image.isEmpty()) {
-//////			if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
-//////			{
-//////				response.setMessage("Invalid Image");
-//////				response.setSuccess(false);
-//////				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-//////			}
-////			try {
-////				menuItem.setMenuItemImage(image);
-////			} catch (Exception e) {
-////				throw new RuntimeException(e);
-////			}
-////		}else{
-//			menuItem.setMenuItemImage(null);
-////		}
-//		Menu saved = menuRepository.save(menuItem);
-//		response.setMenuItems(Collections.singletonList(saved));
-//		response.setMessage("Successfully Updated");
-//		response.setSuccess(true);
-//		return ResponseEntity.ok(response);
+
 	}
 
 	public ResponseEntity<MenuResponse> deleteMenuItem(String id) {
