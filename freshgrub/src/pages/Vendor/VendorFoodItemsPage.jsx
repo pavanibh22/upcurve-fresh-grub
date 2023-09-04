@@ -1,15 +1,14 @@
-import FoodCard from "../components/FoodCard";
-import Header from "../components/header/Header";
-import CustomModal from "../components/Modal";
+import FoodCard from "../../components/UserFoodCard";
 import { useState, useEffect } from "react";
-import Modal from "../components/Modal";
-import { getAllFoodItems } from "../services/Foods/getAllFoodItems";
+import { getAllFoodItems } from "../../services/Foods/getAllFoodItems";
 import { useParams, useLocation } from "react-router-dom";
-import { getSingleFoodItems } from "../services/Foods/getSingleFoodItem";
-import { deleteFoodItems } from "../services/Foods/deleteFoodItem";
-import { updateFoodItem } from "../services/Foods/updateFoodItem";
+import { getSingleFoodItems } from "../../services/Foods/getSingleFoodItem";
+import { deleteFoodItems } from "../../services/Foods/deleteFoodItem";
+import { updateFoodItem } from "../../services/Foods/updateFoodItem";
+import { validateTokenAndRedirectForVendor } from "../../services/utils/jwtTokenHelper";
 import {
 	Box,
+	Grid,
 	Typography,
 	Autocomplete,
 	Dialog,
@@ -19,7 +18,7 @@ import {
 	Button,
 	DialogActions,
 } from "@mui/material";
-import { addAFoodItem } from "../services/Foods/addFoodItem";
+import { addAFoodItem } from "../../services/Foods/addFoodItem";
 import {
 	Container,
 	InputGroup,
@@ -30,10 +29,12 @@ import {
 	Row,
 	FormCheck,
 } from "react-bootstrap";
-import SubNavbar from "../components/subNavbar";
-import { addTokenToHeaders } from "../services/auth";
+import SubNavbar from "../../components/SubNavbar";
+import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
+import CustomNavbar from "../../components/Header/index.jsx";
+import { doLogout } from "../../auth/index";
 
-const FoodItemsPage = () => {
+const VendorFoodItemsPage = () => {
 	const params = useParams();
 	const location = useLocation();
 	const [error, setError] = useState("");
@@ -99,6 +100,7 @@ const FoodItemsPage = () => {
 	};
 
 	useEffect(() => {
+		validateTokenAndRedirectForVendor();
 		addTokenToHeaders();
 		getAllFoodItemsWrapper();
 	}, []);
@@ -229,15 +231,16 @@ const FoodItemsPage = () => {
 	console.log("arr: ", foodItems);
 
 	return (
-		<>
-			<Header
-				isFoodItem
-				isCategory
+		<div>
+			<CustomNavbar onLogoutCallback={doLogout} />
+			<SubNavbar
+				title={location.state.name}
+				forVendor
+				buttonText={"Add Food Item"}
 				onAddCallback={() => {
 					setModal((prev) => ({ ...prev, add: true }));
 				}}
 			/>
-			<SubNavbar title={location.state.name} />
 
 			{foodItems === undefined || foodItems?.length <= 0 ? (
 				<div
@@ -252,7 +255,17 @@ const FoodItemsPage = () => {
 					<h2>No Food Items</h2>
 				</div>
 			) : (
-				<div style={{ display: "flex", gap: "15px", marginTop: "30px" }}>
+				<Grid
+					container
+					sx={{
+						gap: "15px",
+						paddingLeft: "15px",
+						paddingRight: "15px",
+						marginTop: "30px",
+						flexWrap: "wrap",
+						flexDirection: "row",
+					}}
+				>
 					{foodItems?.map((foodItem) => {
 						return (
 							<FoodCard
@@ -275,23 +288,7 @@ const FoodItemsPage = () => {
 							/>
 						);
 					})}
-
-					{/* <FoodCard
-					name='Chicken Fried Rice'
-					img={"https://i.ibb.co/wCv1Pq7/it13.jpg"}
-					price={"250"}
-				/>
-				<FoodCard
-					name='Chicken Manchuria'
-					img={"https://i.ibb.co/2k2mLjS/it7.jpg"}
-					price={"250"}
-				/>
-				<FoodCard
-					name='Burger'
-					img={"https://i.ibb.co/WvFKpmV/it5.jpg"}
-					price={"370"}
-				/> */}
-				</div>
+				</Grid>
 			)}
 			<Dialog open={modal.add} onClose={handleAddClose}>
 				<DialogTitle>{"Add a Food Item"}</DialogTitle>
@@ -368,7 +365,7 @@ const FoodItemsPage = () => {
 					</Form.Group>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={onEditHandler}>Edit</Button>
+					<Button onClick={onEditHandler}>Save</Button>
 					<Button onClick={editModalCloseCallback}>Cancel</Button>
 				</DialogActions>
 			</Dialog>
@@ -382,8 +379,8 @@ const FoodItemsPage = () => {
 					<Button onClick={deleteModalCloseCallback}>Cancel</Button>
 				</DialogActions>
 			</Dialog>
-		</>
+		</div>
 	);
 };
 
-export default FoodItemsPage;
+export default VendorFoodItemsPage;

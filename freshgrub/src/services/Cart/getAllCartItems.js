@@ -1,10 +1,9 @@
-import { myAxios } from "../helper.js";
-
+import { myAxios } from "../utils/axiosAuth.js";
 
 const getAllItemsInCart = async (userId) => {
-    try {
+	try {
 		const response = await myAxios.get(`/cart/${userId}`);
-        console.log(userId +"from service");
+		console.log(userId + "from service");
 		return response;
 	} catch (err) {
 		throw err;

@@ -19,7 +19,6 @@ import com.example.demo.services.CartService;
 
 @RestController
 @RequestMapping("/cart/{userId}")
-@CrossOrigin(origins="http://localhost:3000")
 public class CartController {
 	
 	@Autowired

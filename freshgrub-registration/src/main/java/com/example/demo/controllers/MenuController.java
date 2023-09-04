@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +21,6 @@ import com.example.demo.services.MenuService;
 
 @RestController
 @RequestMapping("/menu/{foodStallId}")
-@CrossOrigin(origins="http://localhost:3000")
 public class MenuController {
 
 	 @Autowired
@@ -47,7 +47,7 @@ public class MenuController {
 	 }
 	 
 	 
-	 @PatchMapping(value="/edit/{id}", consumes={"application/json"})
+	 @PatchMapping("/edit/{id}")
 		public ResponseEntity<MenuResponse> editMenuItem(@PathVariable String foodStallId, @PathVariable String id, @RequestBody MenuPayload menuPayload
 														 ) {
 		 System.out.println("item: " + foodStallId + " " + id + "name: " + menuPayload.getMenuItemName());

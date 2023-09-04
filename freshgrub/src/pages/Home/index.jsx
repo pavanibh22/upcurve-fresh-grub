@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom";
-import Base from "../components/Base";
-import styles from "./body.module.css";
+import styles from "../body.module.css";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/header/Header";
+import CustomNavbar from "../../components/Header";
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -14,7 +12,7 @@ const Home = () => {
 	};
 	return (
 		<>
-			<Header />
+			<CustomNavbar />
 			<div class={styles.image}>
 				<div class={styles.topcontainer}>
 					<p class={styles.p}>Fresh Grub</p>

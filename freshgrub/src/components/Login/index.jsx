@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { doLogin } from "../../auth";
-import { login } from "../../services/userService";
+import { login } from "../../services/Auth/loginUser";
 import "./login.css";
 import styles from "../../pages/body.module.css";
 import { useNavigate } from "react-router-dom";
-import CustomNavbar from "../../components/CustomNavbar";
+import CustomNavbar from "../Header/index.jsx";
+import { decodeJwtToken } from "../../services/utils/jwtTokenHelper";
 
 function Login() {
 	const [formData, setFormData] = useState({
@@ -48,20 +49,21 @@ function Login() {
 				console.log(data);
 				//to save data to localStorage
 				doLogin(data, () => {
-					console.log("login detail is saved to localStorage");
+					const decodedData = decodeJwtToken(
+						JSON.parse(sessionStorage.getItem("data")).token
+					);
+					console.log("login detail is saved to localStorage", decodedData);
 					//redirecting to user home page
-					if (data.message === "Login Success" && data.role === "user") {
-						navigate("/user", { state: { userData: data } });
+					if (decodedData.role === "user") {
+						console.log("decodedData: ", decodedData);
+						navigate("/user", { state: { userData: decodedData } });
 					}
 					//redirecting to vendor home page
-					if (data.message === "Login Success" && data.role === "vendor") {
+					else if (decodedData.role === "vendor") {
+						console.log("decodedData: ", decodedData);
 						navigate("/vendor", { state: { userData: data } });
-					}
-					if (data.message === "Password Not Match") {
-						toast.error("Password does not Match");
-					}
-					if (data.message === "Email not exists") {
-						toast.error("Email does not exist!");
+					} else {
+						toast.error("Not able to Login");
 					}
 				});
 
@@ -95,10 +97,10 @@ function Login() {
 				class={styles.imagelog}
 			>
 				<div
-					className='form_container p-5 rounded bg-white mx-auto'
-					style={{ textAlign: "left" }}
+					className='form_container p-5 rounded mx-auto'
+					style={{ textAlign: "left", backgroundColor: "#343a40" }}
 				>
-					<form onSubmit={handleSubmit}>
+					<form onSubmit={handleSubmit} style={{ color: "white" }}>
 						<h3 className='text-center'>Sign in</h3>
 						<div className='mb-3'>
 							<label htmlFor='email' className='pb-2'>
@@ -128,11 +130,16 @@ function Login() {
 							/>
 						</div>
 						<div className='d-grid'>
-							<button className='btn btn-primary'>Sign in</button>
+							<button
+								className='btn btn-primary'
+								style={{ backgroundColor: "orange" }}
+							>
+								Sign in
+							</button>
 						</div>
 						<p className='text-end mt-4'>
 							Not yet Registered?
-							<Link to='/signup' className='ms-2'>
+							<Link to='/signup' className='ms-2' style={{ color: "orange" }}>
 								Sign up
 							</Link>
 						</p>

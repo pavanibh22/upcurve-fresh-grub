@@ -1,18 +1,19 @@
 import { Box, Typography, Icon, Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import getAllItemsInCart from "../../services/Cart/getAllCartItems";
 import AddIcon from "@mui/icons-material/Add";
 import addToCart from "../../services/Cart/addToCart";
 import decrement from "../../services/Cart/decrementItem";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
 
 const boxStyles = {
-	width: "250px",
+	width: "270px",
 	height: "250px",
-	backgroundColor: "#36454F",
+	//backgroundColor: "#808080",
+	backgroundColor: "#343a40",
 	display: "flex",
 	borderRadius: "10px",
 	padding: "2px",
@@ -20,6 +21,11 @@ const boxStyles = {
 	alignItems: "center",
 	flexWrap: "wrap",
 	flexDirection: "column",
+	marginLeft: "20px", // Adjust the left margin as needed
+	border: "2px solid white", // Add border with black color
+	boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+	transition: "transform 0.2s", // Add a smooth hover effect
+	cursor: "pointer", // Change cursor to pointer on hover
 };
 
 const innerBox = {
@@ -35,22 +41,25 @@ const innerBox = {
 	width: "100%",
 };
 
-const iconStyles = {
-	color: "white",
-	// backgroundColor: "black",
-	// borderRadius: "50%",
-	//padding: "10px",
-	fontSize: "25px", // Increase the font size for larger icons
-	cursor: "pointer", // Add cursor pointer on hover
+const imageWithBorderStyles = {
+	width: "210px",
+	height: "140px",
+	objectFit: "cover",
+	display: "flex",
+	borderRadius: "10px",
+	//border: "2px solid white",
 };
 
-const addIconStyles = {
+const iconStyles = {
 	color: "white",
-	// backgroundColor: "black",
-	// borderRadius: "50%",
-	//padding: "10px",
-	fontSize: "25px", // Increase the font size for larger icons
-	cursor: "pointer", // Add cursor pointer on hover
+	fontSize: "25px",
+	cursor: "pointer",
+};
+
+const quantityIconStyles = {
+	color: "white",
+	fontSize: "25px",
+	cursor: "pointer",
 };
 
 const FoodCard = ({
@@ -68,17 +77,17 @@ const FoodCard = ({
 	id,
 }) => {
 	const [count, setCount] = useState(0);
-	const [cartItems, setCartItems] = useState([]);
-
-	const localStorageData = localStorage.getItem("data");
-	const userId = JSON.parse(localStorageData).userId;
+	const localStorageData = sessionStorage.getItem("data");
+	const token = JSON.parse(localStorageData).token;
+	const decodedValue = jwtDecode(token);
+	console.log("decodedValue: ", decodedValue);
+	const userId = decodedValue.id;
 	// console.log("userId: ", userId);
 
 	const getItems = async () => {
 		const res = await getAllItemsInCart(userId);
 		if (res.data?.success) {
 			const items = res.data?.cartItems;
-			setCartItems(res.data?.cartItems);
 			// console.log("res data: ", res.data?.cartItems);
 			if (items.length > 0) {
 				const cart = items.filter((cart) => cart?.item[0]?.id === id);
@@ -94,19 +103,6 @@ const FoodCard = ({
 		}
 	};
 
-	// const updateFoodItemCard = () => {
-	// 	if (cartItems.length > 0) {
-	// 		const cart = cartItems.filter((cart) => cart?.item[0]?.id === id);
-	// 		console.log("cart: ", cart);
-	// 		if (cart !== [] && cart !== undefined) {
-	// 			setCount(cart[0]?.qty);
-	// 		} else {
-	// 			console.log("cart not found: ", cart);
-	// 			// setCount(count > 0 ? count : 0);
-	// 		}
-	// 	}
-	// };
-
 	const increment = async (count) => {
 		const response = await addToCart(userId, {
 			itemId: id,
@@ -118,21 +114,19 @@ const FoodCard = ({
 	};
 
 	const decrementThis = async () => {
-		const response = await decrement(userId, { itemId: id });
-		console.log("on decrement: ", response);
-		if (count > 0) {
-			setCount(count - 1);
+		try {
+			const response = await decrement(userId, { itemId: id });
+			console.log("on decrement: ", response);
+			if (count > 0) {
+				setCount(count - 1);
+			}
+		} catch (error) {
+			console.error("Error while decrementing item :", error);
 		}
 	};
 
-	// useEffect(() => {
-	// 	getItems();
-	// 	// updateFoodItemCard();
-	// }, []);
-
 	useEffect(() => {
 		getItems();
-		// updateFoodItemCard();
 		iconUpdateCallback !== undefined && iconUpdateCallback();
 	}, [count]);
 
@@ -143,17 +137,20 @@ const FoodCard = ({
 				<Button
 					variant='contained'
 					sx={{
-						backgroundColor: "#ff7f50", // Set button color to pink
-						fontSize: "16px", // Increase font size
-						padding: "8px 20px", // Add padding
+						backgroundColor: "#ff7f50",
+						fontSize: "16px",
+						padding: "3px 20px",
+						color: "white",
+						borderRadius: "10px",
+						fontFamily: "fangsong",
+						cursor: "pointer",
+						transition: "background-color 0.2s, transform 0.2s",
+						marginRight: "10px",
 					}}
 					onClick={() => {
 						console.log("ADD BTN click");
 						setCount(count + 1);
-						// cartClickCallback();
 						increment(count + 1);
-						// getItems();
-						// updateFoodItemCard();
 					}}
 				>
 					ADD
@@ -167,18 +164,14 @@ const FoodCard = ({
 						onClick={() => {
 							setCount(count - 1);
 							decrementThis();
-							// getItems();
-							// updateFoodItemCard();
 						}}
 					/>
-					<Typography sx={iconStyles}>{count}</Typography>
+					<Typography sx={quantityIconStyles}>{count}</Typography>
 					<AddIcon
 						sx={iconStyles}
 						onClick={() => {
 							setCount(count + 1);
 							increment(count + 1);
-							// getItems();
-							// updateFoodItemCard();
 						}}
 					/>
 				</Box>
@@ -189,19 +182,25 @@ const FoodCard = ({
 	return (
 		<Box sx={boxStyles}>
 			<img
+				alt='foodimg'
 				src={`data:image/jpeg;base64,${img}`}
 				width={width}
 				height={height}
+				style={imageWithBorderStyles}
 			/>
-			<Typography variant='body2' color={"white"} sx={{fontSize : '15px',fontFamily: "fangsong"}}>
+			<Typography
+				variant='body2'
+				color={"white"}
+				sx={{ fontSize: "18px", fontFamily: "fangsong" }}
+			>
 				{name}
 			</Typography>
 			<Box sx={innerBox}>
 				<Typography
 					variant='caption'
 					color={"white"}
-					sx={{fontSize:'15px',fontFamily: "fangsong",}}
-				>{`Price ₹:${price}`}</Typography>
+					sx={{ fontSize: "15px", fontFamily: "fangsong" }}
+				>{`Price : ₹${price}`}</Typography>
 				<Box sx={{ display: "flex", gap: "10px" }}>
 					{forCart && cartClickCallback ? (
 						renderButton()

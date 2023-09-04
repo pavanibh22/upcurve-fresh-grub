@@ -1,22 +1,27 @@
-import CustomNavbar from "../../src/components/CustomNavbar";
+import CustomNavbar from "../../components/Header";
 import { useState, useEffect } from "react";
-import { getAllFoodItems } from "../services/Foods/getAllFoodItems";
-import MenuPack from "../components/menu-pack/MenuPack";
+import { getAllFoodItems } from "../../services/Foods/getAllFoodItems";
+import MenuPack from "../../components/CategoriesList";
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
-import FoodCard from "../components/FoodCard";
-import addToCart from "../services/Cart/addToCart";
-import CustomSnackBar from "../components/CustomSnackBar";
-import SubNavbar from "../components/subNavbar";
-import getAllItemsInCart from "../services/Cart/getAllCartItems";
-import { addTokenToHeaders } from "../services/auth";
-
+import FoodCard from "../../components/UserFoodCard";
+import jwtDecode from "jwt-decode";
+import addToCart from "../../services/Cart/addToCart";
+import SubNavbar from "../../components/SubNavbar";
+import getAllItemsInCart from "../../services/Cart/getAllCartItems";
+import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
+import { validateTokenAndRedirect } from "../../services/utils/jwtTokenHelper";
+import { doLogout } from "../../auth";
+import { Grid } from "@mui/material";
 const UserFoodItemsPage = () => {
 	const params = useParams();
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	const localStorageData = localStorage.getItem("data");
-	const userId = JSON.parse(localStorageData).userId;
+	const localStorageData = sessionStorage.getItem("data");
+	const token = JSON.parse(localStorageData).token;
+	const decodedValue = jwtDecode(token);
+	console.log("decodedValue: ", decodedValue);
+	const userId = decodedValue.id;
 	console.log("userId: ", userId);
 
 	const [open, setOpen] = useState(false);
@@ -27,11 +32,13 @@ const UserFoodItemsPage = () => {
 
 	const [foodItems, setFoodItems] = useState([]);
 
+	const [badgeNumber, setBadgeNumber] = useState(0);
+
 	const getItems = async () => {
 		const res = await getAllItemsInCart(userId);
 		if (res.data?.success) {
 			console.log("res data: ", res.data?.cartItems);
-			setTotalItems(
+			setBadgeNumber(
 				res.data?.cartItems.reduce((acc, item) => acc + item?.qty, 0)
 			);
 		}
@@ -59,6 +66,7 @@ const UserFoodItemsPage = () => {
 	};
 
 	useEffect(() => {
+		validateTokenAndRedirect();
 		addTokenToHeaders();
 		getAllfoodItemsWrapper();
 		getItems();
@@ -74,6 +82,7 @@ const UserFoodItemsPage = () => {
 			setStatus("success");
 			setToastText("Added To Cart");
 			setOpen(true);
+			getItems();
 		} else {
 			setStatus("error");
 			setToastText("Failed to add to Cart");
@@ -90,11 +99,22 @@ const UserFoodItemsPage = () => {
 					console.log("on add callback");
 					navigate(`/user/cart/${userId}`);
 				}}
-				badgeNumber={totalItems}
+				onLogoutCallback={doLogout}
+				badgeNumber={badgeNumber}
 			/>
 			<SubNavbar title={location.state.name} />
 			{foodItems !== undefined && foodItems.length > 0 ? (
-				<div style={{ display: "flex", gap: "15px", marginTop: "30px" }}>
+				<Grid
+					container
+					sx={{
+						gap: "15px",
+						paddingLeft: "15px",
+						paddingRight: "15px",
+						marginTop: "30px",
+						flexWrap: "wrap",
+						flexDirection: "row",
+					}}
+				>
 					{foodItems?.map((foodItem) => {
 						return (
 							<FoodCard
@@ -109,7 +129,7 @@ const UserFoodItemsPage = () => {
 							/>
 						);
 					})}
-				</div>
+				</Grid>
 			) : (
 				<div
 					style={{
@@ -123,14 +143,6 @@ const UserFoodItemsPage = () => {
 					<h2>No Food Items</h2>
 				</div>
 			)}
-
-			<CustomSnackBar
-				open={open}
-				duration={1500}
-				severity={status}
-				onCloseCallback={() => setOpen(false)}
-				text={toastText}
-			/>
 		</div>
 	);
 };

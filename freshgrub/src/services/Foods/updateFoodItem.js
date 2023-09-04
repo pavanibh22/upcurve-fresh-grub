@@ -1,4 +1,4 @@
-import { myAxios } from "../helper.js";
+import { myAxios } from "../utils/axiosAuth";
 
 export const updateFoodItem = async (categoryId, foodId, updatedBody) => {
 	console.log("üpdated body: ", updatedBody);

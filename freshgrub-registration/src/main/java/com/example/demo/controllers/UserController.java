@@ -16,7 +16,9 @@ import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.entities.User;
 import com.example.demo.jwt.JwtTokenUtil;
+//import com.example.demo.jwt.JwtTokenUtil;
 import com.example.demo.repositories.UserRepo;
+import com.example.demo.responses.AuthenticationResponse;
 import com.example.demo.responses.LoginResponse;
 import com.example.demo.services.UserService;
 
@@ -30,9 +32,12 @@ public class UserController {
 	
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
-	
+//	
 	@Autowired
 	private UserRepo userRepo;
+	
+	Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
 
 	@PostMapping("/save")
@@ -57,14 +62,16 @@ public class UserController {
 		try {
 			User user = userService.validateUser(loginDto);
 			if (user != null) {
-				Logger logger = LoggerFactory.getLogger(UserController.class);
+//				Logger logger = LoggerFactory.getLogger(UserController.class);
 				logger.info("Login Response: "+loginDto.toString());
-				return ResponseEntity.ok(new LoginResponse( "Login Success",true, user.getRole(), user.get_id(), jwtTokenUtil.generateAccessToken(user)));
+				return ResponseEntity.ok(new AuthenticationResponse("Token generated",jwtTokenUtil.generateAccessToken(user)));
+//							return ResponseEntity.ok(new LoginResponse( "Login Success",true, user.getRole(), user.get_id()));
 			}
 			else {
 				return new ResponseEntity<>(new LoginResponse("Email not exists", false, null, " "), HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
+			logger.info("Exception ",e);
 			return new ResponseEntity<>(new LoginResponse("Email not exists", false, null, " "), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 //		LoginResponse loginResponse = userService.loginUser(loginDto);

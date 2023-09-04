@@ -1,4 +1,4 @@
-import { myAxios } from "../helper.js";
+import { myAxios } from "../utils/axiosAuth.js";
 
 export const getSingleFoodItems = async (categoryName, foodId) => {
 	try {

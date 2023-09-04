@@ -1,4 +1,4 @@
-import { myAxios } from "../helper.js";
+import { myAxios } from "../utils/axiosAuth.js";
 
 const addToCart = async (userId, cartDetails) => {
 	console.log("gyujf: ", cartDetails);

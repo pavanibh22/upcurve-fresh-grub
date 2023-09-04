@@ -1,4 +1,4 @@
-import { myAxios } from "../helper.js";
+import { myAxios } from "../utils/axiosAuth.js";
 
 export const addAFoodItem = async (categoryId, foodFormDetails) => {
 	console.log("form: ", foodFormDetails);

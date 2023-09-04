@@ -1,5 +1,6 @@
 .form_container {
     width:30%;
+    font-size: medium;
 }
 
 @media screen and (max-width: 1000px) {
@@ -11,5 +12,13 @@
 @media screen and (max-width: 700px) {
     .form_container {
         width:65%;
+        font-size: small;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .form_container {
+        width:65%;
+        font-size:x-small;
     }
 }

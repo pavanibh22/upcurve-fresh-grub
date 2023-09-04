@@ -3,13 +3,13 @@ import { Link, useParams } from "react-router-dom";
 import "./OrderMain.css";
 import PaymentMethodOptions from "./PaymentMethodOptions";
 import OrderActions from "./OrderActions";
-import CustomNavbar from "../CustomNavbar";
+import CustomNavbar from "../Header/index.jsx";
 import { calculateOrderAmount, isBalanceSufficient } from "./utils";
 import getAllItemsInCart from "../../services/Cart/getAllCartItems";
 import Item from "./item";
 import placeOrder from "../../services/Order/placeOrder";
 import { toast } from "react-toastify";
-import { addTokenToHeaders } from "../../services/auth";
+import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
 
 const paymentMethods = [{ id: 1, name: "Wallet" }];
 

@@ -1,4 +1,4 @@
-import { myAxios } from "../helper.js";
+import { myAxios } from "../utils/axiosAuth.js";
 
 const decrement = async (userId, cartDetails) => {
 	try {

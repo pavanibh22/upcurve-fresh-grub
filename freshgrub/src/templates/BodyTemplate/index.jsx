@@ -1,4 +1,4 @@
-import styles from "../../components/header/header.module.css";
+import styles from "../../components/Header/header.module.css";
 
 const BodyTemplate = ({ children }) => {
 	return (

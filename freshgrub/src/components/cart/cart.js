@@ -9,8 +9,8 @@ import {
 	useNavigate,
 } from "react-router-dom";
 import Item from "./item";
-import { addTokenToHeaders } from "../../services/auth";
-import { Headers } from "../../services/helper";
+import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
+import { Headers } from "../../services/utils/axiosAuth";
 import getWalletAmount from "../../services/Order/getWalletAmount";
 
 const Cart = () => {

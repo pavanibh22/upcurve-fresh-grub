@@ -1,4 +1,4 @@
-import { myAxios } from "../helper.js";
+import { myAxios } from "../utils/axiosAuth.js";
 
 //change the post api call according to backend
 export const deleteCategories = async (id) => {

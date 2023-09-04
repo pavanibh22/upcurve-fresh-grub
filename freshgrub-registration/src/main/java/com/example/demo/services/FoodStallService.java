@@ -39,7 +39,7 @@ public class FoodStallService {
 		}
 
 
-	public ResponseEntity<FoodStallResponse> createFoodStall(String name, String description,MultipartFile image) {
+	public ResponseEntity<FoodStallResponse> createFoodStall(String name, String description,String image) {
 
 		FoodStallResponse response = new FoodStallResponse();
 		Optional<FoodStall> existingFoodStall = foodStallRepo.findOneByStallName(name);
@@ -51,21 +51,24 @@ public class FoodStallService {
 			response.setSuccess(false);
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 		}
+		foodStall.setStallName(name);;
 		if(image!=null && !image.isEmpty()) {
-			if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
-			{
-				response.setMessage("Invalid Image");
-				response.setSuccess(false);
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-			}
+//			if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
+//			{
+//				response.setMessage("Invalid Image");
+//				response.setSuccess(false);
+//				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+//			}
 			try {
-				foodStall.setStallImage(Base64.getEncoder().encodeToString(image.getBytes()));
-			} catch (IOException e) {
+				foodStall.setStallImage(image);
+			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}else{
 			foodStall.setStallImage(null);
 		}
+		
+		System.out.println("Category: " + foodStall.getStallImage());
 		foodStall.setStallName(name);
 		foodStall.setDescription(description);
 		FoodStall saved = mongoTemplate.insert(foodStall);
@@ -94,7 +97,7 @@ public class FoodStallService {
 			}
 		}
 
-	public ResponseEntity<FoodStallResponse> editFoodStall(String id, String name, String description, MultipartFile image) {
+	public ResponseEntity<FoodStallResponse> editFoodStall(String id, String name, String description, String image) {
 
 		FoodStall foodStall = new FoodStall();
 		FoodStallResponse response = new FoodStallResponse();
@@ -112,15 +115,15 @@ public class FoodStallService {
 			foodStall.setStallName(name);
 			foodStall.setDescription(description);
 			if(image!=null && !image.isEmpty()) {
-				if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
-				{
-					response.setMessage("Invalid Image");
-					response.setSuccess(false);
-					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-				}
+//				if(StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename())).contains(".."))
+//				{
+//					response.setMessage("Invalid Image");
+//					response.setSuccess(false);
+//					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+//				}
 				try {
-					foodStall.setStallImage(Base64.getEncoder().encodeToString(image.getBytes()));
-				} catch (IOException e) {
+					foodStall.setStallImage(image);
+				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
 			}else{

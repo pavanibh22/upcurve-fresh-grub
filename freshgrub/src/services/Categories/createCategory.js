@@ -1,4 +1,4 @@
-import { myAxios } from "../helper.js";
+import { myAxios } from "../utils/axiosAuth.js";
 
 //change the post api call according to backend
 export const createCategory = async (categoryData) => {
@@ -6,6 +6,7 @@ export const createCategory = async (categoryData) => {
 		const response = await myAxios.post("/foodStall/create", {
 			name: categoryData.name,
 			description: categoryData.description,
+			image: categoryData.picture[0].split(",")[1],
 		});
 		return response;
 	} catch (err) {

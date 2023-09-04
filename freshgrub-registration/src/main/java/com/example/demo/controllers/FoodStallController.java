@@ -19,7 +19,6 @@ import com.example.demo.responses.FoodStallResponse;
 
 @RestController
 @RequestMapping("/foodStall")
-@CrossOrigin(origins="http://localhost:3000")
 public class FoodStallController {
 	
 	@Autowired
@@ -32,10 +31,9 @@ public class FoodStallController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<FoodStallResponse> createFoodStall(@RequestBody CategoryPayload categoryPayload,
-															 @RequestParam(name="image", required = false) MultipartFile image){
+	public ResponseEntity<FoodStallResponse> createFoodStall(@RequestBody CategoryPayload categoryPayload){
 
-		return foodStallService.createFoodStall(categoryPayload.getName(), categoryPayload.getDescription(), image);
+		return foodStallService.createFoodStall(categoryPayload.getName(), categoryPayload.getDescription(), categoryPayload.getImage());
 	}
 
 	@DeleteMapping("/delete/{id}")
@@ -47,7 +45,7 @@ public class FoodStallController {
 	public  ResponseEntity<FoodStallResponse> editFoodStall(@PathVariable String id,
 															@RequestParam("name") String name,
 															@RequestParam("description") String description,
-															@RequestParam(name="image", required = false) MultipartFile image){
+															@RequestParam(name="image", required = true) String image){
 		return foodStallService.editFoodStall(id, name, description, image);
 	}
 	
