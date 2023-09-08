@@ -10,7 +10,7 @@ import Item from "./item";
 import placeOrder from "../../services/Order/placeOrder";
 import { toast } from "react-toastify";
 import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
-
+import { doLogout } from "../../auth/index.js";
 const paymentMethods = [{ id: 1, name: "Wallet" }];
 
 const OrderMain = () => {
@@ -37,6 +37,7 @@ const OrderMain = () => {
 
 	const [modalMessage, setModalMessage] = useState("");
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [orderFailed, setOrderFailed] = useState(false);
 
 	useEffect(() => {
 		addTokenToHeaders();
@@ -84,36 +85,57 @@ const OrderMain = () => {
 
 	return (
 		<div>
-			<CustomNavbar />
+			<CustomNavbar onLogoutCallback={doLogout} />
 			<center>
-				<h1>
+				<h1 style={{color:"orange",fontSize:"40px" ,fontFamily:"Times New Roman"}}>
 					<b>Order Page</b>
 				</h1>
-				{orderSuccess && (
-					<div
-						style={{
-							backgroundColor: "green",
-							padding: "10px",
-							width: "fit-content",
-							color: "white",
-							fontSize: "20px",
-							borderRadius: "5px",
-						}}
-					>
-						Order Placed Successfully
-					</div>
-				)}
+				{orderSuccess && !orderFailed ? (
+        <div
+          style={{
+            backgroundColor: "green",
+            padding: "10px",
+            width: "fit-content",
+            color: "white",
+            fontSize: "20px",
+            borderRadius: "5px",
+            fontFamily: "Times New Roman",
+          }}
+        >
+          Order Placed Successfully
+        </div>
+      )  : (
+        <div
+          style={{
+            backgroundColor: "#ff7f50",
+            padding: "10px",
+            width: "fit-content",
+            color: "white",
+            fontSize: "20px",
+            borderRadius: "5px",
+            fontFamily: "Times New Roman",
+          }}
+        >
+          Please go ahead and place your order.
+        </div>
+      )}
 				<div className='cart-items'>
 					<div className='cart-items-container'>
+						{/* Display headers only once */}
+						<div className="item-row header-row" >
+              <div className="column-header" /*style={{background:"#343a40"}}*/><b>Item Name</b></div>
+              <div className="column-header" /*style={{background:"#343a40"}}*/><b>Quantity</b></div>
+              <div className="column-header" /*style={{background:"#343a40"}}*/><b>Price</b></div>
+            </div > 
 						{cartItems.cartItems.map((item) => (
 							<Item {...item} />
 						))}
 					</div>
-					<div style={{ fontSize: "20px", fontWeight: "bold" }}>
+					<div style={{ fontSize: "20px", fontWeight: "bold",marginTop:"20px",fontFamily:"Times New Roman" }}>
 						Total Cart Items: {totalItem}
 					</div>
-					<h3 style={{ fontSize: "20px", fontWeight: "bold" }}>
-						Payable Amount :<span>{price}</span>
+					<h3 style={{ fontSize: "20px", fontWeight: "bold" ,fontFamily:"Times New Roman"}}>
+						Payable Amount :<span>Rs.{price}</span>
 					</h3>
 				</div>
 

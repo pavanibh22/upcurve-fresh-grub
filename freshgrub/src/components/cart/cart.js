@@ -51,7 +51,7 @@ const Cart = () => {
 	const navigate = useNavigate();
 
 	return cartItems === null || cartItems.length === 0 ? (
-		<h1>No items in the Cart</h1>
+		<h1 style={{fontFamily:"Times New Roman" ,color:"red"}}>No items in the Cart</h1>
 	) : (
 		<div className='cartBody'>
 			{console.log(cartItems)}
@@ -62,17 +62,26 @@ const Cart = () => {
 						navigate(-1);
 					}}
 				>
-					<i className='fa-solid fa-arrow-left fa-2xl arrow-icon'></i>
-					<h3>Continue Adding items</h3>
+					<i className='fa-solid fa-arrow-left fa-2xl arrow-icon' ></i>
+					<h3
+    					style={{ fontFamily: "Times New Roman", fontWeight: "25px" }}
+    					onMouseEnter={(e) => {
+      						e.target.style.color = "#ff7f50"; // Change text color to orange on hover
+    					}}
+    					onMouseLeave={(e) => {
+      						e.target.style.color = "black"; // Revert back to black on hover out
+    					}}
+  						>Continue Adding items
+					</h3>
 				</div>
 			</header>
 			<hr />
-			<section className='main-cart-section'>
+			<section className='main-cart-section' style={{fontFamily:"Times New Roman"}}>
 				<h3>Your Cart</h3>
-				<p className='total-items'>
+				<p className='total-items' style={{fontFamily:"Times New Roman"}}>
 					<h5>
 						You Have{" "}
-						<span className='total-items-count'>
+						<span className='total-items-count' style={{fontFamily:"Times New Roman"}}>
 							{totalItem ? totalItem : 0}
 						</span>{" "}
 						Items In Your Cart
@@ -88,14 +97,22 @@ const Cart = () => {
 					</div>
 				</div>
 
-				<div className='card-total'>
-					<h3>
-						cart Total :<span>{payablePrice}</span>
+				<div className='card-total' >
+					<h3 style={{fontFamily:"Times New Roman",color:"black"}}>
+						Cart Total :<span>Rs.{payablePrice}</span>
 					</h3>
-					<Link to={`/user/checkout/${userId}`}>
-						{console.log("parice", payablePrice === 0)}
-						<button disabled={!payablePrice}>Checkout</button>
-					</Link>
+					{totalItem === 0 && ( // Render "Shop Now" button when totalItem is 0
+            <Link to={`/user`}>
+              <button style={{ backgroundColor: "#ff7f50" , fontFamily:"Times New Roman"}}>Get now</button>
+            </Link>
+          )}
+					{totalItem > 0 && ( // Render "Checkout" button when totalItem is greater than 0
+            <Link to={`/user/checkout/${userId}`}>
+              <button disabled={!payablePrice} style={{ backgroundColor: "#ff7f50",fontFamily:"Times New Roman" }}>
+                Checkout
+              </button>
+            </Link>
+          )}
 				</div>
 			</section>
 		</div>

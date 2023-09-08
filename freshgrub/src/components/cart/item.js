@@ -67,7 +67,7 @@ const Item = ({ _id, userId, item, qty, updateParent }) => {
         </div>
 
         <div className="price">
-          <h3>{price * qty}</h3>
+          <h3>Rs.{price * qty}</h3>
         </div>
 
         <div className="remove-item">
