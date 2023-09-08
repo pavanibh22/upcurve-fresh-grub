@@ -1,6 +1,9 @@
 package com.example.demo.entities;
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,6 +24,8 @@ public class Cart {
 	@NotNull
     private String itemId ;
 	private int qty;
+	 private LocalDate date;
+	 private LocalTime time;
     private Boolean isOrdered = false;
 
 }

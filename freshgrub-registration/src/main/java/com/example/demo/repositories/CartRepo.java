@@ -25,5 +25,5 @@ public interface CartRepo extends MongoRepository<Cart, String>{
 	"{$group: { _id: '', total: {$sum: $qty}}}"
 	})
 	int sumOfQty(String userId);
-
+	Optional<List<Cart>> findByUserIdAndIsOrderedFalse(String userId);
 }
