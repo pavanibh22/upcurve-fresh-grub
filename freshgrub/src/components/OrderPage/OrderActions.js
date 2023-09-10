@@ -27,11 +27,14 @@ const OrderActions = ({
   const handlePlaceOrder = async () => {
     if (price <= 0) {
       // Display a "Please add items to order" pop-up if totalItems is 0 or less
-      toast.error("You don't have items to place order...The menu is full of tasty options. Please go ahead and add some items to your order.", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000, // Automatically close after 3 seconds
-        className: "custom-toast",
-      });
+      toast.error(
+        "You don't have items to place order...The menu is full of tasty options. Please go ahead and add some items to your order.",
+        {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 3000, // Automatically close after 3 seconds
+          className: "custom-toast",
+        }
+      );
       return; // Exit the function early
     }
 
@@ -58,7 +61,11 @@ const OrderActions = ({
         });
       }
     } catch (error) {
-      if (error.response && error.response.status === 404 && walletAmount.walletAmount < price) {
+      if (
+        error.response &&
+        error.response.status === 404 &&
+        walletAmount.walletAmount < price
+      ) {
         // Handle the 404 error by displaying a custom error notification
         toast.error("Sorry! Insufficient Balance to place your order", {
           position: toast.POSITION.TOP_CENTER,
@@ -83,14 +90,19 @@ const OrderActions = ({
       <button
         className="place-order-btn"
         onClick={handlePlaceOrder}
-        disabled={!selectedPaymentMethod/* || walletAmount.walletAmount < price || price === 0*/}
+        disabled={
+          !selectedPaymentMethod /* || walletAmount.walletAmount < price || price === 0*/
+        }
       >
         Place Order
       </button>
       {selectedPaymentMethod === 1 && (
         <p className="wallet-balance-message">
           <span className="wallet-label">Your wallet balance:</span>{" "}
-          <span className="wallet-balance" style={{ fontSize: "20px" ,fontFamily:"Times New Roman"}}>
+          <span
+            className="wallet-balance"
+            style={{ fontSize: "20px", fontFamily: "Times New Roman" }}
+          >
             {walletAmount.walletAmount}/-
           </span>
         </p>

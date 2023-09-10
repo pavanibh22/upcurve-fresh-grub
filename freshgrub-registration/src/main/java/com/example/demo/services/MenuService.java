@@ -132,7 +132,7 @@ public class MenuService {
 			response.setSuccess(true);
 			return ResponseEntity.ok(response);
 		} else {
-			response.setMessage("No Item Exists, please create first");
+			response.setMessage("No Item Exists");
 			response.setSuccess(false);
 			return ResponseEntity.ok(response);
 		}

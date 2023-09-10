@@ -24,4 +24,10 @@ public class OrderController {
         return orderService.placeOrder(userId,orderAmount);
 
     }
+
+    @GetMapping("/orderHistory")
+    public ResponseEntity<OrderResponse> getOrderHistory(@PathVariable String userId)
+    {
+        return orderService.getOrderHistory(userId);
+    }
 }

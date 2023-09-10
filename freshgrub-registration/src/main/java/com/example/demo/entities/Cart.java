@@ -9,6 +9,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Data
 @Document(collection = "cart")
 @NoArgsConstructor
@@ -21,6 +24,8 @@ public class Cart {
 	@NotNull
     private String itemId ;
 	private int qty;
+    private LocalDate date;
+    private LocalTime time;
     private Boolean isOrdered = false;
 
 }

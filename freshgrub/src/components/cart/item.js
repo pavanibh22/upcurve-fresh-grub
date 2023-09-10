@@ -47,16 +47,16 @@ const Item = ({ _id, userId, item, qty, updateParent }) => {
 
   const { id, stallId, menuItemName, price, menuItemImage } = item[0];
   return (
-    <div>
-      <div className="items-info">
-        <div className="product-img">
+    <>
+      <div className="items-info1">
+        <div className="product-img1">
           <img src={`data:image/jpeg;base64,${menuItemImage}`} alt="product1" />
         </div>
-        <div className="title">
+        <div className="title1">
           <h2>{menuItemName} </h2>
         </div>
 
-        <div className="plus-minus">
+        <div className="plus-minus1">
           <button onClick={() => decrementItem()} disabled={disabled}>
             <i className="fa-solid fa-minus"></i>
           </button>
@@ -66,18 +66,18 @@ const Item = ({ _id, userId, item, qty, updateParent }) => {
           </button>
         </div>
 
-        <div className="price">
-          <h3>Rs.{price * qty}</h3>
+        <div className="price1">
+          <h3>&#8377; {price * qty}</h3>
         </div>
 
-        <div className="remove-item">
+        <div className="remove-item1">
           <button onClick={() => deleteItem()}>
             <i className="fa-solid fa-trash-alt remove"></i>
           </button>
         </div>
       </div>
       <hr />
-    </div>
+    </>
   );
 };
 

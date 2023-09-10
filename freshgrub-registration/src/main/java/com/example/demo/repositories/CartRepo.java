@@ -1,6 +1,7 @@
 
 package com.example.demo.repositories;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,4 +27,9 @@ public interface CartRepo extends MongoRepository<Cart, String>{
 	})
 	int sumOfQty(String userId);
 
+	Optional<List<Cart>> findByUserIdAndIsOrderedFalse(String userId);
+
+	Optional<List<Cart>> findByDateAndIsOrderedTrue(LocalDate date);
+
+	Optional<List<Cart>> findByDate(LocalDate date);
 }

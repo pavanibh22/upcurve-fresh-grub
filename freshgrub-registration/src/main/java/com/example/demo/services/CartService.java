@@ -43,14 +43,6 @@ public class CartService {
 			Optional<Cart> existingCart = cartRepo.isCartItem(userId, itemId, isOrdered);
 			if(existingCart.isPresent()) 
 			{
-
-				/*
-				 * Query query = new Query();
-				 * 
-				 * query.addCriteria(Criteria.where("userId").is(userId).and("itemId").is(itemId
-				 * ).and("isOrdered").is(false)); Cart cartItem = mongoTemplate.findOne(query,
-				 * Cart.class);
-				 */
 				Cart cartItem1 = existingCart.get();
 				//if(cartItem!=null)
 				//{
@@ -71,16 +63,7 @@ public class CartService {
 			if(existingCart.isPresent()) 
 			{
 
-				/*
-				 * Query query = new Query();
-				 * 
-				 * query.addCriteria(Criteria.where("userId").is(userId).and("itemId").is(itemId
-				 * ).and("isOrdered").is(false)); Cart cartItem = mongoTemplate.findOne(query,
-				 * Cart.class);
-				 */
 				Cart cartItem = existingCart.get();
-				//if(cartItem!=null)
-				//{
 					int oldQty = cartItem.getQty();
 					int newQty = oldQty + 1;
 					cartItem.setQty(newQty);
@@ -89,7 +72,6 @@ public class CartService {
 					response.setMessage("Successfully Increased Quantity");
 					response.setSuccess(true);
 					return ResponseEntity.status(HttpStatus.OK).body(response);
-				//}
 			}
 		}
 		Cart cartItem = new Cart();

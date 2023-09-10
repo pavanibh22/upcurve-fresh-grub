@@ -27,15 +27,5 @@ public class Menu {
 	private int price;
 	private String menuItemImage;
 
-	
 
-	
-
-//	smaple json
-//{
-//	"stallName": "Pizza Hut",
-//	"menuItemName": "Onion Pizza",
-//	"price": 350,
-//	"menuItemImage": "string"
-//}
 }
