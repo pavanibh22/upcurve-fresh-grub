@@ -1,0 +1,89 @@
+.modal {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.header-row {
+  font-weight: bold;
+  color: brown;
+  align-items: center;
+}
+
+.column-header {
+  flex: 1;
+  text-align: center;
+  align-items: center;
+}
+.cart-items {
+  width: 90%;
+  height: auto;
+  background: linear-gradient(
+    103.49deg,
+    #ffffff -28.13%,
+    rgba(242, 247, 255, 0.5) 116.84%
+  );
+  box-shadow: rgba(0, 0, 0, 0.08) 0rem 0.4rem 1.2rem;
+  border-radius: 2rem;
+  margin: auto;
+  display: grid;
+  place-items: center;
+}
+
+.cart-items-container {
+  width: 100%; /* Ensure the container takes up the full width */
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.header-row {
+  font-weight: bold;
+  color: brown;
+  align-items: center;
+  background-color: #f0f0f0; /* Optional: Add a background color to header row */
+  border-radius: 5px; /* Optional: Add rounded corners to header row */
+  padding: 10px; /* Optional: Add padding to header row */
+}
+
+.column-header {
+  flex: 1;
+  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center; /* Center align text horizontally */
+}

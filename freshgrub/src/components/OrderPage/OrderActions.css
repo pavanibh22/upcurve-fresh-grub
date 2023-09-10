@@ -1,0 +1,53 @@
+/* OrderActions.css */
+.order-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.place-order-btn {
+  padding: 10px 20px;
+  font-size: 20px;
+
+  cursor: pointer;
+  border: 1px;
+  font-family: "Times New Roman";
+  background-color: #ff7f50;
+  color: white;
+  border-radius: 5px;
+}
+
+.place-order-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.wallet-balance {
+  font-style: italic;
+  color: #f44336;
+  font-family: "Times New Roman";
+}
+.wallet-label {
+  font-style: italic;
+  color: #3695f4;
+  font-size: large;
+  font-family: "Times New Roman";
+}
+.wallet-balance-message {
+  font-style: italic;
+  margin-top: 10px;
+  color: #f60a0a;
+  font-family: "Times New Roman";
+}
+.order-datetime {
+  margin-top: 10px;
+  font-size: 20px;
+  color: #555;
+  font-family: "Times New Roman";
+}
+.custom-toast {
+  width: 400px;
+  font-size: 20px;
+  height: 200px;
+}

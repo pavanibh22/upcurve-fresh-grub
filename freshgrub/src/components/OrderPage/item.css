@@ -1,0 +1,35 @@
+.center-grid-container {
+  width: 100%;
+  margin: auto;
+  background: linear-gradient(
+    103.49deg,
+    #ffffff -28.13%,
+    rgba(242, 247, 255, 0.5) 116.84%
+  );
+  box-shadow: rgba(0, 0, 0, 0.08) 0rem 0.4rem 1.2rem;
+  border-radius: 0rem;
+  margin: auto;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  font-family: "Times New Roman";
+  font-weight: bold;
+}
+.items-information {
+  width: 100%;
+  height: 4rem;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  font-family: "Times New Roman";
+}
+.column-header {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-family: "Times New Roman";
+  font-weight: 500;
+}
