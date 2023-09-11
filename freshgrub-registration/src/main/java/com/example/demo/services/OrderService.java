@@ -3,6 +3,8 @@ package com.example.demo.services;
 import com.example.demo.entities.Cart;
 import com.example.demo.entities.User;
 import com.example.demo.entities.CartProduct;
+import com.example.demo.entities.Menu;
+import com.example.demo.repositories.MenuRepository;
 import com.example.demo.repositories.CartRepo;
 import com.example.demo.repositories.UserRepo;
 import com.example.demo.responses.OrderResponse;
@@ -28,12 +30,13 @@ import java.util.Optional;
 public class OrderService {
 	 private final MongoTemplate mongoTemplate;
     private final UserRepo userRepository;
-
+    private final MenuRepository menuRepository;
     private final CartRepo cartRepository;
 
-    public OrderService(MongoTemplate mongoTemplate,UserRepo userRepository, CartRepo cartRepository) {
+    public OrderService(MongoTemplate mongoTemplate, UserRepo userRepository, MenuRepository menuRepository, CartRepo cartRepository) {
     	this.mongoTemplate = mongoTemplate;
         this.userRepository = userRepository;
+        this.menuRepository = menuRepository;
         this.cartRepository = cartRepository;
     }
 
@@ -45,10 +48,51 @@ public class OrderService {
             orderResponse.setSuccess(false);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orderResponse);
         }
-        orderResponse.setWalletAmount(user.get().getWallet());
-        orderResponse.setMessage("Wallet Amount fetched successfully");
-        orderResponse.setSuccess(true);
-        return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
+        if(user.get().getRole().equals("user")) {
+            orderResponse.setWalletAmount(user.get().getWallet());
+            orderResponse.setMessage("Wallet Amount fetched successfully");
+            orderResponse.setSuccess(true);
+            return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
+        }
+        else{
+            // for vendor wallet earnings of the day
+
+            LocalDate date =LocalDate.now();
+
+           // Optional<List<Cart>> todaysOrder= cartRepository.findByDateAndIsOrderedTrue(date);
+            Optional<List<Cart>> todaysOrder= cartRepository.findByDate(date);
+            if(todaysOrder.isEmpty())
+                orderResponse.setWalletAmount(0);
+            else {
+                int totalEarnings = 0;
+                for (Cart cartItem : todaysOrder.get())
+                {
+                	 if(cartItem.getIsOrdered()) {
+                         String itemId = cartItem.getItemId();
+                         int quantity = cartItem.getQty();
+
+                    int itemPrice = getItemPriceById(itemId);
+                    int itemEarnings = itemPrice * quantity;
+
+                    totalEarnings += itemEarnings;
+                }
+                }
+                orderResponse.setWalletAmount(totalEarnings);
+            }
+            orderResponse.setMessage("Wallet Amount fetched successfully");
+            orderResponse.setSuccess(true);
+            return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
+        }
+    }
+
+    public int getItemPriceById(String itemId) {
+        Optional<Menu> menu = menuRepository.findById(itemId);
+        if (menu.isPresent()) {
+            return menu.get().getPrice();
+        } else {
+
+            return 0;
+        }
     }
 
 //    @Scheduled(cron = "0 0 0 * * *") // Run every day at midnight

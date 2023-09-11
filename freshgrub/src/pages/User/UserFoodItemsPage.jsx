@@ -2,6 +2,7 @@ import CustomNavbar from "../../components/Header";
 import { useState, useEffect } from "react";
 import { getAllFoodItems } from "../../services/Foods/getAllFoodItems";
 import MenuPack from "../../components/CategoriesList";
+import Loading from "../../components/Loading/loading";
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import FoodCard from "../../components/UserFoodCard";
 import jwtDecode from "jwt-decode";
@@ -12,10 +13,17 @@ import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
 import { validateTokenAndRedirect } from "../../services/utils/jwtTokenHelper";
 import { doLogout } from "../../auth";
 import { Grid } from "@mui/material";
+
 const UserFoodItemsPage = () => {
 	const params = useParams();
 	const location = useLocation();
 	const navigate = useNavigate();
+
+	if (location?.state?.name) {
+		sessionStorage.setItem("title", location?.state?.name);
+	}
+
+	const pageTitle = sessionStorage.getItem("title");
 
 	const localStorageData = sessionStorage.getItem("data");
 	const token = JSON.parse(localStorageData).token;
@@ -24,11 +32,9 @@ const UserFoodItemsPage = () => {
 	const userId = decodedValue.id;
 	console.log("userId: ", userId);
 
-	const [open, setOpen] = useState(false);
-	const [status, setStatus] = useState("");
 	const [totalItems, setTotalItems] = useState(0);
 
-	const [toastText, setToastText] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const [foodItems, setFoodItems] = useState([]);
 
@@ -59,6 +65,7 @@ const UserFoodItemsPage = () => {
 						};
 					})
 				);
+				setLoading(false);
 			}
 		} catch (err) {
 			console.log("err: ", err);
@@ -66,6 +73,7 @@ const UserFoodItemsPage = () => {
 	};
 
 	useEffect(() => {
+		setLoading(true);
 		validateTokenAndRedirect();
 		addTokenToHeaders();
 		getAllfoodItemsWrapper();
@@ -79,16 +87,13 @@ const UserFoodItemsPage = () => {
 			isOrdered: false,
 		});
 		if (response.status) {
-			setStatus("success");
-			setToastText("Added To Cart");
-			setOpen(true);
 			getItems();
-		} else {
-			setStatus("error");
-			setToastText("Failed to add to Cart");
-			setOpen(true);
 		}
 	};
+
+	if (loading) {
+		return <Loading />;
+	}
 
 	return (
 		<div>
@@ -101,8 +106,9 @@ const UserFoodItemsPage = () => {
 				}}
 				onLogoutCallback={doLogout}
 				badgeNumber={badgeNumber}
+				isProfile
 			/>
-			<SubNavbar title={location.state.name} />
+			<SubNavbar title={pageTitle} />
 			{foodItems !== undefined && foodItems.length > 0 ? (
 				<Grid
 					container

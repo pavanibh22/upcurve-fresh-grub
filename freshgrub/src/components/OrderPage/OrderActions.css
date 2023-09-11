@@ -1,38 +1,81 @@
 /* OrderActions.css */
 .order-actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	margin-top: 20px;
 }
 
 .place-order-btn {
-  padding: 10px 20px;
-  font-size: 20px;
-  font-weight: 100;
-  cursor: pointer;
-  border: 1px;
-  border-radius: 10px;
-  background-color: #ffd900;
-  color: #0a0101a4;
+	padding: 12px 24px;
+	font-size: 24px;
+	cursor: pointer;
+	border: none;
+	font-family: "Times New Roman";
+	background-color: #ff7f50;
+	color: white;
+	border-radius: 8px;
+	transition: background-color 0.3s ease-in-out;
+}
+
+.place-order-btn:hover {
+	background-color: #ff6347; /* Darker shade on hover */
 }
 
 .place-order-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+	background-color: #ccc;
+	cursor: not-allowed;
 }
+
 .wallet-balance {
-  font-style: italic;
-  color: #f44336;
+	font-style: italic;
+	color: #f44336;
+	font-family: "Times New Roman";
+	font-size: 18px;
 }
+
 .wallet-label {
-  font-style: italic;
-  color: #3695f4;
-  font-size: large;
+	font-style: italic;
+	color: #3695f4;
+	font-size: 20px;
+	font-family: "Times New Roman";
 }
+
 .wallet-balance-message {
-  font-style: italic;
-  margin-top: 10px;
-  color: #f60a0a;
+	font-style: italic;
+	margin-top: 20px;
+	color: #f60a0a;
+	font-family: "Times New Roman";
+	font-size: 18px;
+}
+
+.order-datetime {
+	margin-top: 20px;
+	font-size: 20px;
+	color: #555;
+	font-family: "Times New Roman";
+}
+
+.custom-toast {
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-seri !important;
+	font-size: 23px;
+	padding: 20px;
+	border-radius: 10px;
+	background-color: #f5f5ed !important;
+	color: black !important;
+	text-align: center;
+	width: 450px;
+	height: 150px;
+}
+.Toastify__close-button .Toastify__close-button--light {
+	color: black !important;
+   
+}
+.custom-toast-success {
+	background-color: #4caf50;
+}
+
+.custom-toast-error {
+	background-color: #f44336;
 }

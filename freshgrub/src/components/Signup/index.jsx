@@ -87,14 +87,14 @@ function Signup() {
 			>
 				<div
 					className='form_container p-5 rounded mx-auto'
-					style={{ textAlign: "left", backgroundColor: "#343a40" }}
+					style={{ textAlign: "left", backgroundColor: "#343a40" ,fontFamily: '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif'}}
 				>
 					<form
 						className='form_control'
 						onSubmit={handleSubmit}
 						style={{ color: "white", fontSize: "15px" }}
 					>
-						<h3 className='text-center'> Sign up</h3>
+						<h2 className='text-center'> Sign up</h2>
 
 						<div className='mb-2'>
 							<label htmlFor='fname' style={{ paddingBottom: "4px" }}>

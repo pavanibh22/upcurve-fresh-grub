@@ -31,11 +31,4 @@ public class Menu {
 
 	
 
-//	smaple json
-//{
-//	"stallName": "Pizza Hut",
-//	"menuItemName": "Onion Pizza",
-//	"price": 350,
-//	"menuItemImage": "string"
-//}
 }

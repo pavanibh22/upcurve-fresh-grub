@@ -15,6 +15,7 @@ import {
 	TextField,
 	Button,
 	DialogActions,
+	styled,
 } from "@mui/material";
 import SubNavbar from "../SubNavbar";
 import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
@@ -41,11 +42,12 @@ const categoryBoxStyles = {
 };
 
 const categoryNameStyles = {
-	fontSize: "20px", // Increase font size
+	fontSize: "25px", // Increase font size
 	//fontWeight: "bold", // Make the text bold
 	marginTop: "10px", // Add space between image and text
-	fontFamily: "fangsong",
 	color: "white",
+	fontFamily:
+		'"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
 };
 
 const categoryImageStyles = {
@@ -65,6 +67,57 @@ const categoriesContainerStyles = {
 	gap: "20px", // Add gap between category boxes
 	marginTop: "30px",
 };
+
+const dialogStyles = {
+	"& .css-1t1j96h-MuiPaper-root-MuiDialog-paper": {
+		width: "400px",
+		height: "auto",
+		backgroundColor: "#f5f5ed",
+	},
+};
+
+const StyledTextField = styled(TextField)({
+	fontFamily:
+		'"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
+	"& .MuiFormLabel-root": {
+		fontFamily:
+			'"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
+	},
+});
+
+const createButtonStyles = {
+	fontFamily:
+		'"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
+	backgroundColor: "#4CAF50",
+	color: "white",
+	fontSize:"14px",
+    width:"80px",
+};
+
+const cancelButtonStyles = {
+	fontFamily:
+		'"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
+	backgroundColor: "#f44336",
+	color: "white",
+	fontSize:"14px",
+    width:"80px",
+};
+
+const dialogTitleStyles = {
+	//backgroundColor: "#4CAF50",
+	fontFamily:
+		'"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
+	color: "black",
+	fontSize:"20px",
+};
+
+const textBoxStyles = {
+    "& .MuiFormLabel-root, .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input":
+    {
+      fontFamily:
+        '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
+    },
+  };
 
 const MenuPack = ({ title, items }) => {
 	const [filter, setFilter] = useState(""); //for filtering categories
@@ -212,24 +265,30 @@ const MenuPack = ({ title, items }) => {
 					</Row>
 				</Container>
 			</section>
-			<Dialog open={modal.add} onClose={addModalCloseCallback}>
-				<DialogTitle>{"Create a Category"}</DialogTitle>
-				<DialogContent>
+			<Dialog
+				sx={dialogStyles}
+				open={modal.add}
+				onClose={addModalCloseCallback}
+			>
+				<DialogTitle sx={dialogTitleStyles}>{"Add a Food Category"}</DialogTitle>
+				<DialogContent sx={{ paddingTop: "20px !important" }}>
 					<TextField
 						id='outlined-basic'
 						label='Name'
+						color='primary'
 						variant='outlined'
 						value={formData.name}
 						onChange={onNameChange}
+						fullWidth 
+						sx={textBoxStyles} 
 					/>
-					<TextField
-						id='outlined-basic'
-						label='Description'
-						variant='outlined'
-						value={formData.description}
-						onChange={onDescriptionChange}
-					/>
-					<Form.Group className='mb-3'>
+					<Form.Group
+						style={{
+							fontFamily:
+								'"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
+						}}
+						className='mb-3'
+					>
 						<Form.Label>Choose picture</Form.Label>
 						<Form.Control type='file' name='image' onChange={imageHandler} />
 					</Form.Group>
@@ -242,16 +301,23 @@ const MenuPack = ({ title, items }) => {
 								: false
 						}
 						onClick={onCreateHandler}
+						style={createButtonStyles}
 						//style={addButtonStyles}
 					>
-						Create
+						Add
 					</Button>
-					<Button onClick={addModalCloseCallback}>Cancel</Button>
+					<Button onClick={addModalCloseCallback} style={cancelButtonStyles}>
+						Cancel
+					</Button>
 				</DialogActions>
 			</Dialog>
-			<Dialog open={modal.delete} onClose={deleteModalCloseCallback}>
-				<DialogTitle>{"Delete a Category"}</DialogTitle>
-				<DialogContent>
+			<Dialog
+				open={modal.delete}
+				onClose={deleteModalCloseCallback}
+				sx={dialogStyles}
+			>
+				<DialogTitle sx={dialogTitleStyles}>{"Delete a Food Category"}</DialogTitle>
+				<DialogContent sx={{ paddingTop: "20px !important" }}>
 					<Autocomplete
 						id='combo-box-demo'
 						options={categories}
@@ -268,7 +334,13 @@ const MenuPack = ({ title, items }) => {
 						getOptionLabel={(option) => {
 							return option.name;
 						}}
-						renderInput={(params) => <TextField {...params} label='Category' />}
+						renderInput={(params) => (
+							<TextField
+								sx={{...textBoxStyles,width:"350px"}}
+								{...params}
+								label='Category'
+							/>
+						)}
 					/>
 				</DialogContent>
 				<DialogActions>
@@ -276,10 +348,13 @@ const MenuPack = ({ title, items }) => {
 						disabled={deleteId === null || deleteId === "" ? true : false}
 						onClick={onDeleteHandler}
 						//style={deleteButtonStyles}
+						style={createButtonStyles}
 					>
 						Delete
 					</Button>
-					<Button onClick={deleteModalCloseCallback}>Cancel</Button>
+					<Button onClick={deleteModalCloseCallback} style={cancelButtonStyles}>
+						Cancel
+					</Button>
 				</DialogActions>
 			</Dialog>
 		</BodyTemplate>
