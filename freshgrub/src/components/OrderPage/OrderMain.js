@@ -94,21 +94,7 @@ const OrderMain = () => {
         >
           <b>Order Page</b>
         </h1>
-        {orderSuccess && !orderFailed ? (
-          <div
-            style={{
-              backgroundColor: "green",
-              padding: "10px",
-              width: "fit-content",
-              color: "white",
-              fontSize: "20px",
-              borderRadius: "5px",
-              fontFamily: "Times New Roman",
-            }}
-          >
-            Order Placed Successfully
-          </div>
-        ) : (
+  
           <div
             style={{
               backgroundColor: "#ff7f50",
@@ -122,7 +108,7 @@ const OrderMain = () => {
           >
             Please go ahead and place your order.
           </div>
-        )}
+    
         <div className="cart-items">
           <div className="cart-items-container">
             {/* Display headers only once */}
@@ -160,6 +146,19 @@ const OrderMain = () => {
           >
             Payable Amount :<span>Rs.{price}</span>
           </h3>
+          <a href="/user/checkout/:userId/orderHistory">
+          {price === 0 && (
+      <button
+        className="view-order-status-button"
+        onClick={() => {
+          // Handle the click event for the "View Order Status" button
+          // You can add your logic here to view the order status
+        }}
+      >
+        View Order Status
+      </button>
+    )}
+    </a>
         </div>
 
         <PaymentMethodOptions
