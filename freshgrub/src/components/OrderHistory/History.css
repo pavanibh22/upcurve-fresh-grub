@@ -96,9 +96,8 @@ h3 {
   display: block;
 }
 
-.items .deliver .dot {
-  background-color: #26a541;
-  border: 2px solid #26a541;
+.items .deliver .dot1 {
+  background-color: green;
   height: 10px;
   width: 10px;
   border-radius: 50%;
@@ -106,6 +105,25 @@ h3 {
   display: inline-block;
   margin-right: 8px;
 }
+.items .deliver .dot2 {
+  background-color: gold;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: none;
+  display: inline-block;
+  margin-right: 8px;
+}
+.items .deliver .dot3 {
+  background-color: gold;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: none;
+  display: inline-block;
+  margin-right: 8px;
+}
+
 
 .items .deliver span {
   font-size: 1.5rem;
