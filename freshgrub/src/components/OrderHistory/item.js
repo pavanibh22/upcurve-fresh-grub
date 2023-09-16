@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
+import "./History.css";
 
-const Item = ({ _id, userId, item, qty, date, time }) => {
+const Item = ({ _id, userId, item, qty, date, time, newStatus }) => {
   const { id, stallId, menuItemName, price, menuItemImage } = item[0];
+  const step1Style = newStatus === "Order Placed" ? { color: "green" } : {};
+  const step2Style = newStatus === "In Preparing" ? { color: "green" } : {};
+  const step3Style = newStatus === "Ready" ? { color: "green" } : {};
 
   return (
     <>
@@ -20,8 +24,14 @@ const Item = ({ _id, userId, item, qty, date, time }) => {
           </div>
           <div class="price">&#8377; {price * qty}</div>
           <div class="deliver">
-            <p class="dot"></p>
-            <span>Ordered</span>
+          <p className="dot1" style={step1Style}></p>
+            <span style={step1Style}>Order Placed</span>
+            <hr style={{ borderColor: step2Style.color }} />
+            <p className="dot2" style={step2Style}></p>
+            <span style={step2Style}>In Preparing</span>
+            <hr style={{ borderColor: step3Style.color }} />
+            <p className="dot3" style={step3Style}></p>
+            <span style={step3Style}>Ready</span>
           </div>
         </div>
       </div>
