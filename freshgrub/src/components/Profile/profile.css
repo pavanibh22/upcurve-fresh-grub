@@ -93,10 +93,5 @@ a {
   width: 400px;
   font-size: 25px;
   height: 200px;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  border-radius: 8px;
-  text-align: center;
-  font-family: "Times New Roman";
+  color: black;
 }

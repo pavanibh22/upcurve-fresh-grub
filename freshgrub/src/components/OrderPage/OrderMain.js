@@ -94,22 +94,20 @@ const OrderMain = () => {
         >
           <b>Order Page</b>
         </h1>
-        {orderSuccess && !orderFailed ? (
-          <div
-            style={{
-              backgroundColor: "ff5733",
-              padding: "5px 20px",
-              width: "fit-content",
-              color: "black",
-              fontSize: "20px",
-              borderRadius: "5px",
-              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)", 
-              fontFamily: '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
-            }}
-          >
-            Order Placed Successfully
-          </div>
-        ) : (
+
+        <a href="/user/checkout/:userId/orderHistory">
+          {price === 0 && (
+      <button
+        className="view-order-status-button"
+        onClick={() => {
+        
+        }}
+      >
+        View Order Status
+      </button>
+    )}
+    </a>
+       
           <div
             style={{
               backgroundColor: "#f5f5ed",
@@ -123,7 +121,7 @@ const OrderMain = () => {
           >
             Please go ahead and place your order.
           </div>
-        )}
+       
         <div className="cart-items">
           <div className="cart-items-container">
             {/* Display headers only once */}
@@ -170,7 +168,19 @@ const OrderMain = () => {
           >
            <div> Payable Amount :<span> Rs.{price}</span></div>
           </h3> */}
-          
+             {/* <a href="/user/checkout/:userId/orderHistory">
+          {price === 0 && (
+      <button
+        className="view-order-status-button"
+        onClick={() => {
+          // Handle the click event for the "View Order Status" button
+          // You can add your logic here to view the order status
+        }}
+      >
+        View Order Status
+      </button>
+    )}
+    </a> */}
         </div>
 
         <PaymentMethodOptions

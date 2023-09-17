@@ -47,10 +47,24 @@ const History = () => {
   const groupedItems = new Map();
 
   orderedItems.cartItems.forEach((item) => {
-    const [year, month, date] = item.date;
-    const [hour, minute, second] = item.time;
+    // const [year, month, date] = item.date;
+    // const [hour, minute, second] = item.time;
 
-    const formattedDatetime = `${date}-${month}-${year} ${hour}:${minute}:${second}`;
+    // const formattedDatetime = `${date}-${month}-${year} ${hour}:${minute}:${second}`;
+
+    const dateArray = item.date;
+    const timeArray = item.time;
+
+    // Convert date and time arrays to strings
+    const formattedDatetime = `${dateArray[0]}-${(dateArray[1] + 1)
+      .toString()
+      .padStart(2, "0")}-${dateArray[2]
+      .toString()
+      .padStart(2, "0")} ${timeArray[0]
+      .toString()
+      .padStart(2, "0")}:${timeArray[1]
+      .toString()
+      .padStart(2, "0")}:${timeArray[2].toString().padStart(2, "0")}`;
 
     if (!groupedItems.has(formattedDatetime)) {
       groupedItems.set(formattedDatetime, []);
@@ -63,6 +77,34 @@ const History = () => {
       return new Date(datetimeB) - new Date(datetimeA);
     }
   );
+
+  // Function to format date for display
+  const formatDateForDisplay = (datetimeString) => {
+    const datetime = new Date(datetimeString);
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+      // Optional: Use 12-hour time format
+    };
+    return datetime.toLocaleDateString("en-US", options);
+  };
+  const updateOrderStatusLocally = (orderId, newStatus) => {
+    // Update the local state with the new status
+    setOrderedItems((prevItems) =>
+      prevItems.map((item) => {
+        if (item._id === orderId) {
+          return { ...item, orderStatus: newStatus };
+        }
+        return item;
+      })
+    );
+  };
+  
 
   const maxItems = 10;
 
@@ -80,7 +122,7 @@ const History = () => {
       {sortedGroups.slice(0, maxItems).map(([datetime, items]) => (
         <div key={datetime} className="container">
           <div className="summary">
-            <p classNames="date">{datetime}</p>
+            <p classNames="date">{formatDateForDisplay(datetime)}</p>
             {/* <p classNames="totalPrice">Total: &#8377; 400</p> */}
           </div>
           {items
@@ -90,7 +132,9 @@ const History = () => {
                 new Date(`${a.date} ${a.time}`)
             )
             .map((item) => (
-              <Item key={item._id} {...item} />
+              <Item key={item._id} 
+              {...item} 
+              />
             ))}
         </div>
       ))}

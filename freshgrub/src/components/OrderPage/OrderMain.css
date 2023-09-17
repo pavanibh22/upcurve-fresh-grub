@@ -89,6 +89,38 @@
   justify-content: center; /* Center align text horizontally */
 }
 
+.cart-items {
+  text-align: center;
+}
+
+/* Payable Amount style */
+.cart-items h3 {
+  font-size: 20px;
+  font-weight: bold;
+  font-family:"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif  ;
+}
+
+/* "View Order Status" button style */
+.view-order-status-button {
+  font-family:"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif  ;
+  background-color: green;
+  color: white;
+  font-weight: normal;
+  font-size: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 20px; /* Adjust the margin as needed to control spacing */
+  display: inline-block; /* Display the button as an inline-block element */
+}
+
+.view-order-status-button:hover {
+  background-color: rgb(2, 92, 2); /* Change the hover background color as desired */
+}
+
+
 .left-summary {
   
   font-size: 25px;
