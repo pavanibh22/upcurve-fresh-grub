@@ -4,3 +4,4 @@ target/
 .project
 .settings/
 HELP.md
+/.metadata/
