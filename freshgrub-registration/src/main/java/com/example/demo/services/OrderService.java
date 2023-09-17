@@ -190,4 +190,78 @@ public class OrderService {
         return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
 
     }
+
+    public ResponseEntity<OrderResponse> getOrders(String userId) {
+
+        OrderResponse orderResponse = new OrderResponse();
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            orderResponse.setMessage("No user found");
+            orderResponse.setSuccess(false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orderResponse);
+        }
+        else {
+            User vendor=optionalUser.get();
+            if(vendor.getRole().equalsIgnoreCase("vendor"))
+            {
+                LookupOperation lookup = LookupOperation.newLookup()
+                        .from("menu_items")
+                        .localField("itemId")
+                        .foreignField("_id")
+                        .as("item");
+
+                Aggregation aggregation =  Aggregation.newAggregation(Aggregation.match(Criteria.where("isOrdered").is(true)), lookup );
+
+                List<CartProduct> cartItems = mongoTemplate.aggregate(aggregation, "cart", CartProduct.class).getMappedResults();
+
+                orderResponse.setCartItems(cartItems);
+                orderResponse.setMessage("Successfully fetched ");
+                orderResponse.setSuccess(true);
+                return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
+            }
+        }
+        orderResponse.setMessage("Unathorized access");
+        orderResponse.setSuccess(false);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(orderResponse);
+
+    }
+
+    public ResponseEntity<OrderResponse> updateOrderStatus(String userId, String orderId, String newStatus) {
+        OrderResponse orderResponse = new OrderResponse();
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            orderResponse.setMessage("No user found");
+            orderResponse.setSuccess(false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orderResponse);
+        }
+        else{
+            User vendor=optionalUser.get();
+            if(vendor.getRole().equalsIgnoreCase("vendor"))
+            {
+                Optional<Cart> cartItemsOptional = cartRepository.findBy_idAndIsOrderedTrue(orderId);
+
+                if (cartItemsOptional.isPresent())
+                {
+                    Cart userCartItems = cartItemsOptional.get();
+                    userCartItems.setOrderStatus(newStatus);
+                    cartRepository.save(userCartItems);
+                    orderResponse.setMessage("Order Status updated succesfully");
+                    orderResponse.setSuccess(true);
+                    return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
+                }
+                else {
+                    orderResponse.setMessage("No item found");
+                    orderResponse.setSuccess(false);
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orderResponse);
+                }
+            }
+        }
+        orderResponse.setMessage("Unathorized access");
+        orderResponse.setSuccess(false);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(orderResponse);
+    }
 }

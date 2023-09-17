@@ -56,7 +56,7 @@ const History = () => {
     const timeArray = item.time;
 
     // Convert date and time arrays to strings
-    const formattedDatetime = `${dateArray[0]}-${(dateArray[1] + 1)
+    const formattedDatetime = `${dateArray[0]}-${dateArray[1]
       .toString()
       .padStart(2, "0")}-${dateArray[2]
       .toString()
@@ -104,7 +104,6 @@ const History = () => {
       })
     );
   };
-  
 
   const maxItems = 10;
 
@@ -132,9 +131,7 @@ const History = () => {
                 new Date(`${a.date} ${a.time}`)
             )
             .map((item) => (
-              <Item key={item._id} 
-              {...item} 
-              />
+              <Item key={item._id} {...item} />
             ))}
         </div>
       ))}

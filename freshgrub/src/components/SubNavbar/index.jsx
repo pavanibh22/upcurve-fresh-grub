@@ -12,6 +12,7 @@ const addButtonStyles = {
     '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
   cursor: "pointer", // Add cursor pointer on hover
   transition: "background-color 0.2s, transform 0.2s", // Add smooth hover effect
+  marginTop: "10px",
   marginRight: "10px", // Add space between buttons
   "&:hover": {
     backgroundColor: "#ff8000", // Darker green color on hover
@@ -30,6 +31,7 @@ const deleteButtonStyles = {
     '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
   cursor: "pointer", // Add cursor pointer on hover
   transition: "background-color 0.2s, transform 0.2s", // Add smooth hover effect
+  marginTop: "10px",
   "&:hover": {
     backgroundColor: "#d32f2f", // Darker red color on hover
     transform: "scale(1.05)", // Scale up the button on hover
@@ -52,9 +54,11 @@ const SubNavbar = ({
       sx={{
         //...boxStyles,
         //display: "flex",
+
+        // zIndex: 1001,
         width: "100%",
         height: "50px",
-        marginTop: "10px",
+        marginTop: "70px",
         marginBottom: "10px",
         backgroundColor: "transparent",
       }}

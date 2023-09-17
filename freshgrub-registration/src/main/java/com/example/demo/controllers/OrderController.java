@@ -30,4 +30,22 @@ public class OrderController {
     {
         return orderService.getOrderHistory(userId);
     }
+
+    //============================= Vendor API's =======================================
+
+    @GetMapping("/ordersForVendor")
+    public ResponseEntity<OrderResponse> getOrders(@PathVariable String userId)
+    {
+        return orderService.getOrders(userId);
+    }
+
+    @PostMapping("/updateOrderStatus")
+    public ResponseEntity<OrderResponse> updateOrderStatus(
+            @PathVariable String userId,
+            @RequestParam String orderId,
+            @RequestParam String newStatus
+    ) {
+        System.out.println("UpdateOrderStatus" + " " + orderId);
+        return orderService.updateOrderStatus(userId, orderId, newStatus);
+    }
 }

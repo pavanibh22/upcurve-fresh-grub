@@ -67,7 +67,6 @@ const Cart = () => {
 
   return (
     <div className="cartBody1">
-      {/* {console.log(cartItems)} */}
       <header>
         <div
           className="continue-shopping1"

@@ -10,6 +10,12 @@ import jwtDecode from "jwt-decode";
 import { ProductionQuantityLimits } from "@mui/icons-material";
 import LogoPart from "./LogoPart";
 
+const navbarStyles = {
+  position: "fixed",
+  top: 0,
+  width: "100%",
+  zIndex: 100,
+};
 const CustomNavbar = ({
   buttonText,
   secondButtonText,
@@ -18,12 +24,6 @@ const CustomNavbar = ({
   onLogoutCallback,
   isProfile,
 }) => {
-  //   const localStorageData = sessionStorage.getItem("data");
-  //   const token = JSON.parse(localStorageData).token;
-  //   const decodedValue = jwtDecode(token);
-  //   console.log("decodedValue: ", decodedValue);
-  //   const userId = decodedValue.id;
-
   let userId;
   const localStorageData = sessionStorage.getItem("data");
 
@@ -38,7 +38,7 @@ const CustomNavbar = ({
 
   return (
     <div>
-      <Navbar color="dark" expand="md" fixed="">
+      <Navbar color="dark" expand="md" style={navbarStyles}>
         <LogoPart />
         <Nav className="ms-auto">
           {buttonText !== undefined && (
@@ -69,30 +69,6 @@ const CustomNavbar = ({
             </NavItem>
           )}
           {isProfile && <Profile />}
-          {/* {onLogoutCallback && (
-            <NavItem>
-              <Button
-                color="primary"
-                onClick={onLogoutCallback} // Call the logout callback function when clicked
-                style={{
-                  backgroundColor: "#339999",
-                  color: "white",
-                  padding: "10px 20px",
-                  borderRadius: "10px",
-                  fontSize: "18px",
-                  fontFamily: "fangsong",
-                  cursor: "pointer",
-                  transition: "background-color 0.2s, transform 0.2s",
-                  marginRight: "10px",
-                }}
-                onMouseEnter={(e) => (e.target.style.color = "orange")}
-                onMouseLeave={(e) => (e.target.style.color = "white")}
-              >
-                Logout
-              </Button>
-            </NavItem>
-          )} */}
-          {/* <Profile /> */}
         </Nav>
       </Navbar>
     </div>
