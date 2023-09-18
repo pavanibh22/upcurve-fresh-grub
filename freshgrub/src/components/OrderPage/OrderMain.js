@@ -90,6 +90,7 @@ const OrderMain = () => {
             color: "orange",
             fontSize: "40px",
             fontFamily: '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',
+            marginTop:"70px",
           }}
         >
           <b>Order Page</b>

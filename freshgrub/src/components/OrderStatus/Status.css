@@ -2,6 +2,7 @@
   width: 95%;
   margin: auto;
   padding-top: 4.7rem;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .statusBody .statusHeading {
@@ -90,4 +91,8 @@ td {
   color: white;
   font-size: 14px;
   width: 80px;
+}
+.statusBody .noItems {
+  text-align: center;
+  padding: 3rem;
 }

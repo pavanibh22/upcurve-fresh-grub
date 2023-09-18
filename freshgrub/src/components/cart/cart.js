@@ -110,7 +110,7 @@ const Cart = () => {
           </h3>
           <Link to={`/user/checkout/${userId}`}>
             {console.log("parice", payablePrice === 0)}
-            <button disabled={!payablePrice}>Checkout</button>
+            <button disabled={!payablePrice} style={{background:"orange",fontFamily: '"Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif',}}>Checkout</button>
           </Link>
         </div>
       </section>

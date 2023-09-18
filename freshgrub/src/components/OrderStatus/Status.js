@@ -95,6 +95,17 @@ const Status = () => {
     return <Loading />;
   }
 
+  if (!orderedItems || orderedItems.cartItems.length === 0) {
+    return (
+      <div class="statusBody">
+        <h1 className="noItems">
+          Seems like you have not received any orders :({" "}
+        </h1>
+      </div>
+    );
+  }
+
+
   return (
     <>
       <div class="statusBody">
