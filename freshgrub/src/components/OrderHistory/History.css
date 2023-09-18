@@ -1,7 +1,7 @@
 .orderBody {
   width: 80%;
   margin: auto;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 .orderBody .noItems {
@@ -12,9 +12,12 @@
   padding: 1rem;
   font-style: normal;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 3rem;
   text-transform: capitalize;
   margin-top: 70px;
+  text-align: center;
+  color: orange;
+  align-items: center;
 }
 
 p,
@@ -30,7 +33,7 @@ h3 {
   border-radius: 2rem;
   margin: auto;
   place-items: center;
-  margin-top: 3%;
+  margin-top: 1.5%;
   margin-bottom: 1%;
   padding: 1rem;
 }
@@ -43,7 +46,7 @@ h3 {
   font-weight: 500;
   padding-bottom: 1.5rem;
   padding-left: 1rem;
-  width: 45%;
+  /* width: 45%; */
 }
 
 .datetime {
@@ -68,7 +71,7 @@ h3 {
 }
 
 .items .info {
-  width: 40%;
+  width: 35%;
   padding: 0 0.8rem;
 }
 
@@ -76,7 +79,7 @@ h3 {
   padding-bottom: 0.9rem;
 }
 .items .info small {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
 }
 
 .items .info .orderId {
@@ -85,7 +88,7 @@ h3 {
 }
 
 .items .price {
-  width: 10%;
+  width: 20%;
   justify-content: flex-start;
   align-items: normal;
   font-weight: 500;
@@ -98,38 +101,13 @@ h3 {
   display: block;
 }
 
-.items .deliver .dot1 {
-  background-color: green;
-  border: 2px solid #26a541;
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  background-color: none;
-  display: inline-block;
-  margin-right: 8px;
-}
-
-.items .deliver .dot2 {
-  background-color: gold;
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  background-color: none;
-  display: inline-block;
-  margin-right: 8px;
-}
-.items .deliver .dot3 {
-  background-color: gold;
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  background-color: none;
-  display: inline-block;
-  margin-right: 8px;
-}
-
-.items .deliver span {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: #212121;
-}
+/* Extra small devices (phones, 600px and down) */
+/* @media only screen and (max-width: 600px) {...}
+/* Small devices (portrait tablets and large phones, 600px and up) */
+/* @media only screen and (min-width: 600px) {...} */
+/* Medium devices (landscape tablets, 768px and up) */
+/* @media only screen and (min-width: 768px) {...} */
+/* Large devices (laptops/desktops, 992px and up) */
+/* @media only screen and (min-width: 992px) {...} */
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+/* @media only screen and (min-width: 1200px) {...}  */

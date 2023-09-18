@@ -47,11 +47,6 @@ const History = () => {
   const groupedItems = new Map();
 
   orderedItems.cartItems.forEach((item) => {
-    // const [year, month, date] = item.date;
-    // const [hour, minute, second] = item.time;
-
-    // const formattedDatetime = `${date}-${month}-${year} ${hour}:${minute}:${second}`;
-
     const dateArray = item.date;
     const timeArray = item.time;
 

@@ -31,51 +31,6 @@ const Status = () => {
     }
   };
 
-  // const groupedItems = new Map();
-
-  // orderedItems.cartItems.forEach((item) => {
-  //   const dateArray = item.date;
-  //   const timeArray = item.time;
-
-  //   // Convert date and time arrays to strings
-  //   const formattedDatetime = `${dateArray[0]}-${dateArray[1]
-  //     .toString()
-  //     .padStart(2, "0")}-${dateArray[2]
-  //     .toString()
-  //     .padStart(2, "0")} ${timeArray[0]
-  //     .toString()
-  //     .padStart(2, "0")}:${timeArray[1]
-  //     .toString()
-  //     .padStart(2, "0")}:${timeArray[2].toString().padStart(2, "0")}`;
-
-  //   if (!groupedItems.has(formattedDatetime)) {
-  //     groupedItems.set(formattedDatetime, []);
-  //   }
-  //   groupedItems.get(formattedDatetime).push(item);
-  // });
-
-  // const sortedGroups = Array.from(groupedItems.entries()).sort(
-  //   ([datetimeA], [datetimeB]) => {
-  //     return new Date(datetimeB) - new Date(datetimeA);
-  //   }
-  // );
-
-  // Function to format date for display
-  const formatDateForDisplay = (datetimeString) => {
-    const datetime = new Date(datetimeString);
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-      // Optional: Use 12-hour time format
-    };
-    return datetime.toLocaleDateString("en-US", options);
-  };
-
   const [modify, setModify] = useState(0);
 
   const updateTheOrders = () => {
@@ -104,7 +59,6 @@ const Status = () => {
       </div>
     );
   }
-
 
   return (
     <>

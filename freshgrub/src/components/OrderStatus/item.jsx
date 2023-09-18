@@ -65,13 +65,30 @@ const Item = ({
     orderStatus = "NotAccepted";
   }
 
-  const [status, setStatus] = useState([
-    "Accepted",
-    "Preparing",
-    "Ready",
-    "Order Taken",
-  ]);
-  const [deleteId, setDeleteId] = useState("");
+  // const [status, setStatus] = useState([
+  //   "Accepted",
+  //   "Preparing",
+  //   "Ready",
+  //   "Order Taken",
+  // ]);
+
+  // ================================================================================
+  const allStatusOptions = ["Accepted", "Preparing", "Ready", "Order Taken"];
+  const [availableOptions, setAvailableOptions] = useState(allStatusOptions);
+
+  useEffect(() => {
+    if (orderStatus === "NotAccepted") {
+      setAvailableOptions(allStatusOptions);
+    } else if (orderStatus === "Accepted") {
+      setAvailableOptions(["Preparing", "Ready", "Order Taken"]);
+    } else if (orderStatus === "Preparing") {
+      setAvailableOptions(["Ready", "Order Taken"]);
+    } else if (orderStatus === "Ready") {
+      setAvailableOptions(["Order Taken"]);
+    }
+  }, [orderStatus]);
+
+  // =========================================================================================
 
   const [modal, setModal] = useState({
     update: false,
@@ -82,7 +99,7 @@ const Item = ({
     status: "",
   });
 
-  //handle here=================================================================================
+  //========================handling here====================================================================
 
   const handleUpdate = async () => {
     console.log("formData: ", formData);
@@ -124,6 +141,7 @@ const Item = ({
         <td>{orderStatus}</td>
         <td>
           <button
+            disabled={orderStatus === "Order Taken"}
             className="statusBtn"
             onClick={() => {
               setModal((prev) => ({ ...prev, update: true }));
@@ -140,9 +158,10 @@ const Item = ({
         <DialogContent sx={{ paddingTop: "20px !important" }}>
           <Autocomplete
             id="combo-box-demo"
-            options={status}
+            // options={status}
+            options={availableOptions}
             renderOption={(props, option) => <li {...props}>{option}</li>}
-            sx={{ width: 300 }}
+            sx={{ width: 310 }}
             onChange={(event, newValue) => {
               console.log(newValue);
               if (newValue !== null) {
@@ -155,7 +174,7 @@ const Item = ({
             }}
             renderInput={(params) => (
               <TextField
-                sx={{ ...textBoxStyles, width: "350px" }}
+                sx={{ ...textBoxStyles, width: "370px" }}
                 {...params}
                 label="Status"
               />
