@@ -27,6 +27,6 @@ public class Cart {
 	 private LocalDate date;
 	 private LocalTime time;
     private Boolean isOrdered = false;
-	private  String orderStatus="";
+    private String orderStatus="";
 
 }

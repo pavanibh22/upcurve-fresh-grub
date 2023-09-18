@@ -142,14 +142,17 @@ public class MenuService {
 	public ResponseEntity<MenuResponse> deleteMenuItem(String id) {
 		Optional<Menu> menuItem = menuRepository.findById(id);
 		MenuResponse response = new MenuResponse();
-		Optional<Cart> existingCart = cartRepo.findOneByItemId(id);
-		if(existingCart.isPresent())
-		{
-			Query query = new Query();
-			query.addCriteria(Criteria.where("itemId").is(id));
-			Cart cartItem = mongoTemplate.findOne(query, Cart.class);
-			cartRepo.delete(cartItem);
+
+		Optional<List<Cart>> existingCart = cartRepo.findByItemId(id);
+		if (existingCart.isPresent()) {
+			for (Cart item : existingCart.get()) {
+				String itemId = item.getItemId();
+				Query query = new Query();
+				query.addCriteria(Criteria.where("itemId").is(itemId));
+				mongoTemplate.remove(query, Cart.class); 
+			}
 		}
+
 		if(menuItem.isPresent())
 		{
 			menuRepository.deleteById(id);

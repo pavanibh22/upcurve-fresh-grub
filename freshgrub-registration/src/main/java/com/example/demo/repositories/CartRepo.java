@@ -29,6 +29,12 @@ public interface CartRepo extends MongoRepository<Cart, String>{
 	Optional<List<Cart>> findByUserIdAndIsOrderedFalse(String userId);
 	Optional<List<Cart>> findByDateAndIsOrderedTrue(LocalDate date);
 	Optional<List<Cart>> findByDate(LocalDate date);
+	
+	//List<Cart> findByItemIdAndIsOrdered(String itemId, boolean isOrdered);
+	Optional<List<Cart>> findByItemIdAndIsOrderedTrue(String itemId);
 
 	Optional<Cart> findBy_idAndIsOrderedTrue(String id);
+	
+	Optional<List<Cart>> findByItemId(String itemId);
+	
 }
