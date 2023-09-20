@@ -1,31 +1,33 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Cart;
-import com.example.demo.entities.User;
-import com.example.demo.entities.CartProduct;
-import com.example.demo.entities.Menu;
-import com.example.demo.repositories.MenuRepository;
-import com.example.demo.repositories.CartRepo;
-import com.example.demo.repositories.UserRepo;
-import com.example.demo.responses.OrderResponse;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.LookupOperation;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.LookupOperation;
-import org.springframework.data.mongodb.core.query.Criteria;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import com.example.demo.entities.Cart;
+import com.example.demo.entities.CartProduct;
+import com.example.demo.entities.Menu;
+import com.example.demo.entities.User;
+import com.example.demo.repositories.CartRepo;
+import com.example.demo.repositories.MenuRepository;
+import com.example.demo.repositories.UserRepo;
+import com.example.demo.responses.OrderResponse;
 
-import java.util.List;
-import java.util.Optional;
+import jakarta.mail.MessagingException;
+import org.thymeleaf.context.Context;
 
-import org.springframework.data.domain.Sort;
 
 @EnableScheduling
 @Service
@@ -34,12 +36,19 @@ public class OrderService {
     private final UserRepo userRepository;
     private final MenuRepository menuRepository;
     private final CartRepo cartRepository;
+    private final EmailService emailService;
 
-    public OrderService(MongoTemplate mongoTemplate, UserRepo userRepository, MenuRepository menuRepository, CartRepo cartRepository) {
+	
+  
+
+
+    public OrderService(MongoTemplate mongoTemplate, UserRepo userRepository, MenuRepository menuRepository, CartRepo cartRepository, EmailService emailService) {
     	this.mongoTemplate = mongoTemplate;
         this.userRepository = userRepository;
         this.menuRepository = menuRepository;
         this.cartRepository = cartRepository;
+        this.emailService = emailService;
+
     }
 
     public ResponseEntity<OrderResponse> getWalletAmount(String userId) {
@@ -193,7 +202,7 @@ public class OrderService {
 
     }
     
-    public ResponseEntity<OrderResponse> updateOrderStatus(String userId, String orderId, String newStatus) {
+    public ResponseEntity<OrderResponse> updateOrderStatus(String userId, String orderId, String newStatus) throws MessagingException {
         OrderResponse orderResponse = new OrderResponse();
 
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -213,7 +222,26 @@ public class OrderService {
                 {
                     Cart userCartItems = cartItemsOptional.get();
                     userCartItems.setOrderStatus(newStatus);
+                    String itemId = userCartItems.getItemId();
+                    String itemName = menuRepository.findById(itemId).get().getMenuItemName();
                     cartRepository.save(userCartItems);
+                    if(newStatus.equalsIgnoreCase("Ready"))
+                    {
+                        String emailUserId = userCartItems.getUserId();
+                        Optional<User> emailUser= userRepository.findById(emailUserId);
+                        String email = emailUser.get().getEmail();
+                        //emailService.sendEmail(email,"Order Ready", "No more wait! Your order is ready to be picked up. Thank you for ordering from us. Have a good day!");
+                        Context context = new Context();
+                        context.setVariable("message","No more wait! Your order for "+itemName+" is ready to be picked up. Thank you for ordering from us. Have a good day!");
+                        emailService.sendEmailWithHtmlTemplate(email,"Order Ready", "email-template", context);
+                        
+                        
+                        orderResponse.setMessage("Order Status updated succesfully");
+                        orderResponse.setSuccess(true);
+                        return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
+                    
+                    }
+                    
                     orderResponse.setMessage("Order Status updated succesfully");
                     orderResponse.setSuccess(true);
                     return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
