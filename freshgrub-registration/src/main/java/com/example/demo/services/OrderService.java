@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.responses.VendorOrderResponse;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -27,6 +28,12 @@ import com.example.demo.responses.OrderResponse;
 
 import jakarta.mail.MessagingException;
 import org.thymeleaf.context.Context;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.aggregation.*;
+
+
 
 
 @EnableScheduling
@@ -201,6 +208,90 @@ public class OrderService {
         return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
 
     }
+
+    //=======================================Vendor methods====================================================
+
+    public ResponseEntity<VendorOrderResponse> getOrders(String userId, int pageNumber, int pageSize, String type) {
+
+        VendorOrderResponse orderResponse = new VendorOrderResponse();
+
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            orderResponse.setMessage("No user found");
+            orderResponse.setSuccess(false);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orderResponse);
+        }
+        else {
+            User vendor=optionalUser.get();
+            if(vendor.getRole().equalsIgnoreCase("vendor"))
+            {
+
+                //For pages we  have to use 0-based page numbers
+                Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by(Sort.Order.desc("date"), Sort.Order.desc("time")));
+
+                LookupOperation lookupOperation = LookupOperation.newLookup()
+                        .from("menu_items")
+                        .localField("itemId")
+                        .foreignField("_id")
+                        .as("item");
+
+                long totalItemCount;
+                MatchOperation matchOperation;
+                if(type.equalsIgnoreCase("Active")) {
+                     matchOperation = Aggregation.match(
+                            Criteria.where("isOrdered").is(true)
+                                    .and("orderStatus").ne("Order Taken")
+                    );
+                    totalItemCount = cartRepository.countItemsOrderedAndNotTaken();
+                }
+                else {
+                    matchOperation = Aggregation.match(
+                            Criteria.where("isOrdered").is(true)
+                                    .and("orderStatus").is("Order Taken")
+                    );
+                    totalItemCount = cartRepository.countByIsOrderedAndOrderStatus(true, "Order Taken");
+                }
+
+                Aggregation aggregation = Aggregation.newAggregation(
+
+                        lookupOperation,
+                        matchOperation,
+                        Aggregation.sort(pageable.getSort()),
+                        Aggregation.skip((long) (pageNumber-1) * pageSize),
+                        Aggregation.limit(pageSize)
+                );
+
+                // Execute the aggregation query
+                AggregationResults<CartProduct> aggregationResults = mongoTemplate.aggregate(aggregation, "cart", CartProduct.class);
+
+                // Get the aggregated CartProduct items
+                List<CartProduct> cartItems = aggregationResults.getMappedResults();
+
+                orderResponse.setCartItems(cartItems);
+                orderResponse.setPageNumber(pageNumber);
+                orderResponse.setCurrPageSize(cartItems.size());
+
+
+
+                orderResponse.setTotalElements(totalItemCount);
+
+                int totalPages = (int) Math.ceil((double) totalItemCount / pageSize);
+                orderResponse.setTotalPages(totalPages);
+
+                orderResponse.setLastPage(pageNumber >= totalPages);
+                orderResponse.setMessage("Successfully fetched items");
+                orderResponse.setSuccess(true);
+                orderResponse.setMessage("Successfully fetched items");
+                orderResponse.setSuccess(true);
+                return ResponseEntity.status(HttpStatus.OK).body(orderResponse);
+
+            }
+        }
+        orderResponse.setMessage("Unathorized access");
+        orderResponse.setSuccess(false);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(orderResponse);
+    }
     
     public ResponseEntity<OrderResponse> updateOrderStatus(String userId, String orderId, String newStatus) throws MessagingException {
         OrderResponse orderResponse = new OrderResponse();
@@ -258,6 +349,7 @@ public class OrderService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(orderResponse);
     }
 
+    /*
     public ResponseEntity<OrderResponse> getOrders(String userId) {
 
         OrderResponse orderResponse = new OrderResponse();
@@ -299,5 +391,6 @@ public class OrderService {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(orderResponse);
 
     }
+    */
     
 }

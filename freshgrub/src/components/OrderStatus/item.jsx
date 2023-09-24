@@ -58,8 +58,8 @@ const Item = ({
   userId,
   updateStatus,
 }) => {
-  console.log("item is from items.js from status " + item);
-  console.log("Userr id from item.js " + userId);
+  // console.log("item is from items.js from status " + item);
+  // console.log("Userr id from item.js " + userId);
 
   if (orderStatus === "") {
     orderStatus = "NotAccepted";
@@ -127,6 +127,13 @@ const Item = ({
     addTokenToHeaders();
   }, []);
 
+  const formatDate = `${date[2].toString().padStart(2, "0")}-${date[1]
+    .toString()
+    .padStart(2, "0")}-${date[0].toString().padStart(2, "0")}`;
+  const formatTime = `${time[0].toString().padStart(2, "0")}:${time[1]
+    .toString()
+    .padStart(2, "0")}:${time[2].toString().padStart(2, "0")}`;
+
   const { stallId, menuItemName, price, menuItemImage } = item[0];
 
   return (
@@ -134,7 +141,8 @@ const Item = ({
       <tr>
         <td>{_id}</td>
         <td>
-          {date[2]}-{date[1]}-{date[0]} at {time[0]}:{time[1]}:{time[2]}
+          {/* {date[2]}-{date[1]}-{date[0]} at {time[0]}:{time[1]}:{time[2]} */}
+          {formatDate} at {formatTime}
         </td>
         <td>{menuItemName}</td>
         <td>{qty}</td>

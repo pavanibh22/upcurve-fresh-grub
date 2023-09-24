@@ -31,6 +31,7 @@ public class EmailService {
 
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("freshgrubgetitfast@gmail.com");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(body);
@@ -44,6 +45,7 @@ public class EmailService {
 
         try 
         {
+            helper.setFrom("freshgrubgetitfast@gmail.com");
             helper.setTo(to);
             helper.setSubject(subject);
             String htmlContent = templateEngine.process(templateName, context);

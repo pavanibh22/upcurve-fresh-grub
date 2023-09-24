@@ -36,5 +36,12 @@ public interface CartRepo extends MongoRepository<Cart, String>{
 	Optional<Cart> findBy_idAndIsOrderedTrue(String id);
 	
 	Optional<List<Cart>> findByItemId(String itemId);
+
+	long countByIsOrderedAndOrderStatus(boolean isOrdered,String status);
+
+	//	@Query("{'isOrdered': true, 'orderStatus': {$ne: 'OrderTaken'}}")
+	//	long countItemsOrderedAndNotTaken();
+	@Query(value = "{'isOrdered': true, 'orderStatus': {$ne: 'Order Taken'}}", count = true)
+	long countItemsOrderedAndNotTaken();
 	
 }

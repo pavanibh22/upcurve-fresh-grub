@@ -4,37 +4,75 @@ import getAllOrders from "../../services/OrderStatus/getAllOrders";
 import Loading from "../Loading/loading";
 import Item from "./item";
 import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
+import { toast } from "react-toastify";
+// import ReactTooltip from "react-tooltip";
 
 const Status = () => {
+  // <ReactTooltip />;
   const localStorageData = sessionStorage.getItem("data");
   const token = JSON.parse(localStorageData).token;
   const decodedValue = jwtDecode(token);
-  console.log("decodedValue: ", decodedValue);
+  // console.log("decodedValue: ", decodedValue);
   const userId = decodedValue.id;
-  console.log("User id from status.js " + userId);
+  // console.log("User id from status.js " + userId);
   const [loading, setLoading] = useState(true);
 
   const [orderedItems, setOrderedItems] = useState([]);
 
+  //==================================================Pagination new ==============================================
+
+  const [tab, setTab] = useState("Active");
+
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
   const getOrderedItems = async () => {
     try {
-      const res = await getAllOrders(userId);
+      const res = await getAllOrders(userId, pageNumber, pageSize, tab);
       if (res.data?.success) {
         setOrderedItems(res.data);
-        console.log("order history data for vendor: ", res.data?.cartItems);
-        console.log(orderedItems);
+        // console.log("order history data for vendor: ", res.data?.cartItems);
+        console.log("Status.js order history data for vendor: ", res.data);
+
+        // console.log(orderedItems);
       }
     } catch (error) {
-      console.error("Error fetching ordered items:", error);
+      // console.error("Error fetching ordered items:", error);
+      toast.error("Error fetching ordered items");
     } finally {
       setLoading(false);
     }
   };
 
+  const totalPages = orderedItems.totalPages;
+
+  const handlePageChange = (newPageNumber) => {
+    setPageNumber(newPageNumber);
+  };
+
+  //===========================================Without paging==============================================
+
+  // const getOrderedItems = async () => {
+  //   try {
+  //     const res = await getAllOrders(userId);
+  //     if (res.data?.success) {
+  //       setOrderedItems(res.data);
+  //       console.log("order history data for vendor: ", res.data?.cartItems);
+  //       console.log(orderedItems);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching ordered items:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  //===================================================================================================================
+
   const [modify, setModify] = useState(0);
 
   const updateTheOrders = () => {
-    console.log("called from child");
+    // console.log("called from child");
     setModify(modify + 1);
   };
 
@@ -44,13 +82,18 @@ const Status = () => {
 
   useEffect(() => {
     getOrderedItems();
-  }, [modify]);
+    addTokenToHeaders();
+  }, [modify, pageNumber, pageSize, tab]);
 
   if (loading) {
     return <Loading />;
   }
 
-  if (!orderedItems || orderedItems.cartItems.length === 0) {
+  if (
+    !orderedItems ||
+    !orderedItems.cartItems ||
+    orderedItems.cartItems.length === 0
+  ) {
     return (
       <div class="statusBody">
         <h1 className="noItems">
@@ -60,10 +103,58 @@ const Status = () => {
     );
   }
 
+  console.log("Button Clivked is " + tab);
+
+  const renderPaginationControls = () => (
+    <div className="pagination">
+      <button
+        onClick={() => handlePageChange(pageNumber - 1)}
+        disabled={pageNumber === 1}
+      >
+        Previous
+      </button>
+      <span>
+        Page {pageNumber} of {totalPages}
+      </span>
+      <button
+        onClick={() => handlePageChange(pageNumber + 1)}
+        disabled={pageNumber === totalPages}
+      >
+        Next
+      </button>
+    </div>
+  );
+
   return (
     <>
       <div class="statusBody">
-        <p class="statusHeading">Orders</p>
+        <div className="subHeader">
+          <p class="statusHeading">Orders</p>
+
+          <div className="orderBtn">
+            <button
+              onClick={() => {
+                setTab("Active");
+                setPageNumber(1);
+              }}
+            >
+              Active orders
+            </button>
+            <button
+              onClick={() => {
+                setTab("Completed");
+                setPageNumber(1);
+              }}
+              style={{
+                marginLeft: "1.3rem",
+                backgroundColor: "Grey",
+                color: "white",
+              }}
+            >
+              &#10003; Completed orders
+            </button>
+          </div>
+        </div>
         <div class="statusContainer">
           <div class="statusItems">
             <table>
@@ -76,38 +167,29 @@ const Status = () => {
                 <th>Action</th>
               </tr>
 
-              {/* =========================this if for sorting of orders in descending order===================== */}
-              {/* {sortedGroups.map(([datetime, items]) => (
-                <React.Fragment key={datetime}>
-                  {items
-                    .sort(
-                      (a, b) =>
-                        new Date(`${b.date} ${b.time}`) -
-                        new Date(`${a.date} ${a.time}`)
-                    )
-                    .map((item) => (
-                      <Item
-                        key={item.id}
-                        {...item}
-                        userId={userId}
-                        updateStatus={updateTheOrders}
-                      />
-                    ))}
-                </React.Fragment>
-              ))} */}
+              {tab === "Active" &&
+                orderedItems.cartItems.map((item) => (
+                  <Item
+                    key={item.id}
+                    {...item}
+                    userId={userId}
+                    updateStatus={updateTheOrders}
+                  />
+                ))}
 
-              {/* If in case sorting doesnt work then we can go with the below code  */}
-              {orderedItems.cartItems.map((item) => (
-                <Item
-                  key={item.id}
-                  {...item}
-                  userId={userId}
-                  updateStatus={updateTheOrders}
-                />
-              ))}
+              {tab === "Completed" &&
+                orderedItems.cartItems.map((item) => (
+                  <Item
+                    key={item.id}
+                    {...item}
+                    userId={userId}
+                    updateStatus={updateTheOrders}
+                  />
+                ))}
             </table>
           </div>
         </div>
+        {renderPaginationControls()}
       </div>
     </>
   );

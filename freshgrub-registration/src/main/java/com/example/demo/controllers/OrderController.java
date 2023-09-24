@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.responses.VendorOrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,10 +42,20 @@ public class OrderController {
     }
     
 
+//    @GetMapping("/ordersForVendor")
+//    public ResponseEntity<OrderResponse> getOrders(@PathVariable String userId)
+//    {
+//        return orderService.getOrders(userId);
+//    }
+
     @GetMapping("/ordersForVendor")
-    public ResponseEntity<OrderResponse> getOrders(@PathVariable String userId)
-    {
-        return orderService.getOrders(userId);
+    public ResponseEntity<VendorOrderResponse> getOrders(@PathVariable String userId,
+                                                         @RequestParam(defaultValue = "1", required = false) int pageNumber,
+                                                         @RequestParam(defaultValue = "5", required = false) int pageSize,
+                                                         @RequestParam(defaultValue = "Active", required = false)String type){
+        System.out.println("PAGE NUMBER IS "+pageNumber);
+        System.out.println("PAGE SIZE IS "+pageSize);
+        return orderService.getOrders(userId, pageNumber,pageSize,type);
     }
     @PostMapping("/updateOrderStatus")
     public ResponseEntity<OrderResponse> updateOrderStatus(
@@ -57,16 +68,5 @@ public class OrderController {
         System.out.println("UpdateOrderStatus" + " " + orderId);
         return orderService.updateOrderStatus(userId, orderId, newStatus);
     }
-    
-    
-//    @PostMapping("/updateOrderStatus")
-//    public ResponseEntity<OrderResponse> updateOrderStatus(
-//            @PathVariable String userId,
-//            @RequestParam String itemId,
-//            @RequestParam String newStatus
-//    ) {
-//        System.out.println("inside controller" + " " + itemId);
-//        System.out.println("inside controller" + " " + itemId);
-//        return orderService.updateOrderStatus1(itemId, newStatus);
-//    }
+
 }
