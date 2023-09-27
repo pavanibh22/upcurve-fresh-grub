@@ -328,69 +328,79 @@ i:hover {
     margin-bottom: 3rem;
   }
 }
-
-/*
-@media only screen and (max-width: 650px) {
-
-  i {
-    font-size: 1.8rem;
-    margin-left: 0rem;
-    margin-right: 1rem;
+@media only screen and (max-width: 426px) {
+  .items-info1 .product-img1 img {
+    /* Your styles for screens with a width of 425px or less go here */
+    width: 8rem;
+    height: 8rem;
+    margin-top: 10px
+  }
+  .items-info1 .title1{
+    padding: 0.5rem;
+  }
+  .plus-minus1 button {
+    margin: 0rem;
+  }
+  .price1 h3 {
+    margin-bottom: 0px;
+  }
+  .main-cart-section1 h3 {
+    margin-right: 10px;
+  }
+  .card-total1 button {
+    margin-right: 30px;
+  }
+}
+@media only screen and (max-width: 376px) {
+  .items-info1 .product-img1 img {
+    /* Your styles for screens with a width of 425px or less go here */
+    width: 5rem;
+    height: 5rem;
+    margin-top: 30px
+  }
+  .items-info1 .title1 h2 {
+    margin-top: 25px;
+  }
+  .plus-minus1 {
+    margin-top: 25px;
+  }
+  .main-cart-section1 h3 {
+    margin-top: 25px;
+}
+.remove-item1 {
+  margin-top: 25px;
+}
+.main-cart-section1 h3 {
+  margin-right: 0px;
+}
+.card-total1 button {
+  margin-right: 50px;
+}
+  
+  
+}
+@media only screen and (max-width: 321px) {
+  .items-info1 .product-img1 img {
+    /* Your styles for screens with a width of 425px or less go here */
+    width: 5rem;
+    height: 5rem;
+    margin-top: 30px
+  }
+  .items-info1 .title1 h2 {
+    margin-top: 25px;
   }
 
-  .items-info {
-    grid-template-columns: 1fr 2fr;
-    padding: 1rem;
-    row-gap: 1rem;
-  }
-
-  .items-info .title h2 {
-    font-size: 1.6rem;
-  }
-
-  .remove-item {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-right: 0.5rem;
-  }
-
-  .remove-item button {
-    font-size: 1.8rem;
-  }
-
-  .plus-minus {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .plus-minus p {
-    font-size: 1.6rem;
-  }
-
-  .price h3 {
-    font-weight: 500;
-  }
-
-  .card-total {
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-
-  .card-total button {
-    margin-bottom: 3rem;
-  }
-
+  .main-cart-section1 h3 {
+    font-size: 20px;
+}
+.remove-item1 {
+  margin-right: -10px;
+}
+.main-cart-section1 h3 {
+  margin-right: 0px;
 }
 
+  
+  
+}
 
-/* Extra small devices (phones, 600px and down) */
-/* @media only screen and (max-width: 600px) {} */
-/* Small devices (portrait tablets and large phones, 600px and up) */
-/* @media only screen and (min-width: 600px) {} */
-/* Medium devices (landscape tablets, 768px and up) */
-/*  */
-/* Large devices (laptops/desktops, 992px and up) */
