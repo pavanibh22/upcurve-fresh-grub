@@ -135,7 +135,7 @@ function Signup() {
             onSubmit={handleSubmit}
             style={{ color: "white", fontSize: "15px" }}
           >
-            <h2 className="text-center"> Sign up</h2>
+            <h2 className="text-center" style={{marginTop:"30px"}}> Sign up</h2>
 
             <div className="mb-2">
               <label htmlFor="fname" style={{ paddingBottom: "4px" }}>
