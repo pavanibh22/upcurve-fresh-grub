@@ -43,4 +43,51 @@
     margin: 0 8px; 
     margin-bottom: 5px;
   }
-  
+  @media only screen and (max-width: 1025px){
+    .status-tracker{
+        width: 200px;
+     }
+    
+    
+  } 
+  @media only screen and (max-width: 768px){
+    .status-step  {
+      font-size: 15px;
+    }
+    .status-tracker {
+      width: 1px;
+  }
+  }
+  @media only screen and (max-width: 426px){
+    .status-step  {
+      margin: 0px;
+    padding: 0px;
+    }
+    .status-tracker {
+      justify-content: flex-end;
+      margin-left: 120px;
+      margin-top: 80px;
+  }
+  }
+  @media only screen and (max-width: 376px){
+    .container {
+      width: 320px;
+    }
+  }
+  @media only screen and (max-width: 321px){
+    .container {
+      width: 270px;
+    }
+    .status-step  {
+      font-size: 12px;
+    }
+    .status-label {
+      font-size: 13px;
+    
+  }
+  .status-tracker {
+    justify-content: flex-end;
+    margin-left: 80px;
+    margin-top: 80px;
+}
+}
