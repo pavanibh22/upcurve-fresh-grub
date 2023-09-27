@@ -119,6 +119,27 @@ const UserFoodItemsPage = () => {
 						marginTop: "30px",
 						flexWrap: "wrap",
 						flexDirection: "row",
+						"@media (min-width: 321px)": {
+							paddingLeft: "30px",
+							
+						
+						  },
+						  
+						  "@media (min-width: 376px)": {
+							paddingLeft: "50px",
+							
+						
+						  },
+						  "@media (min-width: 426px)": {
+							paddingLeft: "50px",
+							
+						
+						  },
+						  "@media (min-width: 601px) and (max-width: 1024px)": {
+							paddingLeft: "50px",
+							
+						
+						  },
 					}}
 				>
 					{foodItems?.map((foodItem) => {
