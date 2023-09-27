@@ -28,3 +28,15 @@
 .payment-dropdown option[disabled][hidden] {
   display: none;
 }
+@media only screen and (max-width: 321px){
+  .payment-dropdown {
+    margin-top: 50px;
+    width: 60%;
+    font-size: 15px;
+  }
+}
+@media (min-width: 321px) and (max-width: 426px){
+  .payment-dropdown {
+    width: 60%;
+  }
+}
