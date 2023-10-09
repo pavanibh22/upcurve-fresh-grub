@@ -303,12 +303,14 @@ i:hover {
   }
   .remove-item1 button {
     font-size: 2rem;
+   
   }
 
   .plus-minus1 {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    
   }
 
   .plus-minus1 p {
@@ -351,9 +353,8 @@ i:hover {
     margin-right: 30px;
   }
 }
-@media only screen and (max-width: 376px) {
+@media only screen and (min-width: 374px)and (max-width: 476px) {
   .items-info1 .product-img1 img {
-    /* Your styles for screens with a width of 425px or less go here */
     width: 5rem;
     height: 5rem;
     margin-top: 30px
@@ -363,15 +364,19 @@ i:hover {
   }
   .plus-minus1 {
     margin-top: 25px;
+    margin-top: 25px;
   }
   .main-cart-section1 h3 {
     margin-top: 25px;
+    margin-top: 25px;
+   
 }
 .remove-item1 {
   margin-top: 25px;
 }
 .main-cart-section1 h3 {
   margin-right: 0px;
+  
 }
 .card-total1 button {
   margin-right: 50px;
@@ -379,7 +384,7 @@ i:hover {
   
   
 }
-@media only screen and (max-width: 321px) {
+@media only screen and (min-width: 319px) and (max-width: 374px) {
   .items-info1 .product-img1 img {
     /* Your styles for screens with a width of 425px or less go here */
     width: 5rem;
@@ -388,16 +393,19 @@ i:hover {
   }
   .items-info1 .title1 h2 {
     margin-top: 25px;
+
   }
 
   .main-cart-section1 h3 {
     font-size: 20px;
+    margin-top: 20px;
 }
 .remove-item1 {
   margin-right: -10px;
 }
 .main-cart-section1 h3 {
   margin-right: 0px;
+  margin-top: 20px;
 }
 
   
