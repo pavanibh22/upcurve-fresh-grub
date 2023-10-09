@@ -50,31 +50,48 @@
     
     
   } 
-  @media only screen and (max-width: 768px){
+  @media only screen and (max-width: 1000px){
     .status-step  {
       font-size: 15px;
+      margin: 0px;
+    padding: 0px;
     }
     .status-tracker {
       width: 1px;
+      justify-content: flex-end;
+      margin-left: 120px;
+      
   }
   }
-  @media only screen and (max-width: 426px){
+  @media only screen and (min-width: 426px) and (max-width: 769px) {
     .status-step  {
       margin: 0px;
     padding: 0px;
     }
     .status-tracker {
       justify-content: flex-end;
-      margin-left: 120px;
+      margin-left: -15px;
       margin-top: 80px;
   }
   }
-  @media only screen and (max-width: 376px){
+  @media only screen and (min-width: 376px)and (max-width: 426px){
     .container {
       width: 320px;
     }
+    .status-step  {
+      font-size: 12px;
+    }
+    .status-label {
+      font-size: 13px;
+    
   }
-  @media only screen and (max-width: 321px){
+  .status-tracker {
+    justify-content: flex-end;
+    margin-left: 80px;
+    margin-top: 80px;
+}
+  }
+  @media only screen and (min-width: 319px)and (max-width: 376px){
     .container {
       width: 270px;
     }
