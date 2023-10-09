@@ -119,27 +119,34 @@ const UserFoodItemsPage = () => {
 						marginTop: "30px",
 						flexWrap: "wrap",
 						flexDirection: "row",
-						"@media (min-width: 321px)": {
-							paddingLeft: "30px",
-							
-						
-						  },
-						  
-						  "@media (min-width: 376px)": {
+						"@media (min-width: 320px) and (max-width: 370px)": {
+						   paddingLeft: "30px",
+						},
+						"@media (min-width: 371px) and (max-width: 420px)": {
 							paddingLeft: "50px",
-							
+						 },	
+						 "@media (min-width: 421px) and (max-width: 470px)": {
+							paddingLeft: "70px",
+						 },	
+						 "@media (min-width: 471px) and (max-width: 520px)": {
+							paddingLeft: "90px",
+						 },	
+						 "@media (min-width: 521px) and (max-width: 670px)": {
+							paddingLeft: "160px",
+						 },	
+						 "@media (min-width: 670px) and (max-width: 750px)": {
+							paddingLeft: "60px",
+						 },	
+						 "@media (min-width: 750px) and (max-width: 994px)": {
+							paddingLeft: "130px",
+						 },	
+						 "@media (min-width: 995px) and (max-width: 1100px)": {
+							paddingLeft: "80px",
+						 },	
+						 "@media (min-width: 1101px) and (max-width: 1270px)": {
+							paddingLeft: "140px",
+						 },	
 						
-						  },
-						  "@media (min-width: 426px)": {
-							paddingLeft: "50px",
-							
-						
-						  },
-						  "@media (min-width: 601px) and (max-width: 1024px)": {
-							paddingLeft: "50px",
-							
-						
-						  },
 					}}
 				>
 					{foodItems?.map((foodItem) => {
@@ -161,10 +168,12 @@ const UserFoodItemsPage = () => {
 				<div
 					style={{
 						textAlign: "center",
+						flexWrap: "wrap",
 						width: "100%",
 						display: "block",
 						gap: "15px",
 						marginTop: "30px",
+						
 					}}
 				>
 					<h2>No Food Items</h2>
