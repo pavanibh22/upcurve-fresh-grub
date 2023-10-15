@@ -8,6 +8,7 @@ import styles from "../../pages/body.module.css";
 import { useNavigate } from "react-router-dom";
 import CustomNavbar from "../Header/index.jsx";
 import emailjs from "emailjs-com";
+import { validEmail, validNumber, validName, validPassword, validVID } from "./regex";
 emailjs.init("nb6C9nKBfQBC0OAAi");
 
 function Signup() {
@@ -41,6 +42,32 @@ function Signup() {
   //submitting the form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(!validName.test(formData.firstName)){
+      toast.error("Please provide valid first name!");
+      return;
+    }
+
+    if(!validNumber.test(formData.mobileNumber)){
+      toast.error("Please provide valid mobile number!");
+      return;
+    }
+
+    if(!validEmail.test(formData.email)){
+      toast.error("Please provide valid email address!");
+      return;
+    }
+
+    if(formData.role==="vendor" && !validVID.test(formData.vendorId)){
+      toast.error("Please provide valid vendorID!");
+      return;
+    }
+
+    if(!validPassword.test(formData.password)){
+      toast.error("Please provide a password with atleast 1 uppercase, 1 lowercase and 1 digit with minimum of 6 characters!");
+      return;
+    }
+
     if (formData.role === "vendor" && formData.vendorId.length === 0) {
       toast.error("Please provide Vendor ID.");
       return;

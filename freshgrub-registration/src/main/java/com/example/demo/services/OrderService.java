@@ -241,16 +241,16 @@ public class OrderService {
                 if(type.equalsIgnoreCase("Active")) {
                      matchOperation = Aggregation.match(
                             Criteria.where("isOrdered").is(true)
-                                    .and("orderStatus").ne("Order Taken")
+                                    .and("orderStatus").ne("Order Delivered")
                     );
                     totalItemCount = cartRepository.countItemsOrderedAndNotTaken();
                 }
                 else {
                     matchOperation = Aggregation.match(
                             Criteria.where("isOrdered").is(true)
-                                    .and("orderStatus").is("Order Taken")
+                                    .and("orderStatus").is("Order Delivered")
                     );
-                    totalItemCount = cartRepository.countByIsOrderedAndOrderStatus(true, "Order Taken");
+                    totalItemCount = cartRepository.countByIsOrderedAndOrderStatus(true, "Order Delivered");
                 }
 
                 Aggregation aggregation = Aggregation.newAggregation(

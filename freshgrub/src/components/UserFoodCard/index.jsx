@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 
 const boxStyles = {
-  width: "270px",
+  width: "254px",
   height: "250px",
   //backgroundColor: "#808080",
   backgroundColor: "#343a40",

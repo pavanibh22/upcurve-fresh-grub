@@ -5,6 +5,7 @@ import Loading from "../Loading/loading";
 import Item from "./item";
 import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
 import { toast } from "react-toastify";
+import { LastPage } from "@mui/icons-material";
 // import ReactTooltip from "react-tooltip";
 
 const Status = () => {
@@ -19,7 +20,7 @@ const Status = () => {
 
   const [orderedItems, setOrderedItems] = useState([]);
 
-  //==================================================Pagination new ==============================================
+  //==================================================Pagination ==============================================
 
   const [tab, setTab] = useState("Active");
 
@@ -45,6 +46,7 @@ const Status = () => {
   };
 
   const totalPages = orderedItems.totalPages;
+  const lastPage = orderedItems.lastPage;
 
   const handlePageChange = (newPageNumber) => {
     setPageNumber(newPageNumber);
@@ -89,20 +91,6 @@ const Status = () => {
     return <Loading />;
   }
 
-  if (
-    !orderedItems ||
-    !orderedItems.cartItems ||
-    orderedItems.cartItems.length === 0
-  ) {
-    return (
-      <div class="statusBody">
-        <h1 className="noItems">
-          Seems like you have not received any orders :({" "}
-        </h1>
-      </div>
-    );
-  }
-
   console.log("Button Clivked is " + tab);
 
   const renderPaginationControls = () => (
@@ -118,11 +106,22 @@ const Status = () => {
       </span>
       <button
         onClick={() => handlePageChange(pageNumber + 1)}
-        disabled={pageNumber === totalPages}
+        disabled={lastPage}
       >
         Next
       </button>
     </div>
+  );
+
+  const tableHeader = () => (
+    <tr>
+      <th>OrderId</th>
+      <th>Ordered on</th>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
   );
 
   return (
@@ -137,6 +136,12 @@ const Status = () => {
                 setTab("Active");
                 setPageNumber(1);
               }}
+              style={{
+                backgroundColor: tab === "Active" ? "Orange" : "transparent",
+                color: tab === "Active" ? "white" : "black",
+                borderColor: tab === "Active" ? "" : "Black",
+                //borderBottom: tab === "Active" ? "2px solid black" : "",
+              }}
             >
               Active orders
             </button>
@@ -147,8 +152,9 @@ const Status = () => {
               }}
               style={{
                 marginLeft: "1.3rem",
-                backgroundColor: "Grey",
-                color: "white",
+                backgroundColor: tab === "Completed" ? "Orange" : "transparent",
+                color: tab === "Completed" ? "white" : "black",
+                borderColor: tab === "Completed" ? "" : "Black",
               }}
             >
               &#10003; Completed orders
@@ -157,36 +163,85 @@ const Status = () => {
         </div>
         <div class="statusContainer">
           <div class="statusItems">
-            <table>
-              <tr>
-                <th>OrderId</th>
-                <th>Ordered on</th>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
+            {tab === "Active" ? (
+              orderedItems.cartItems.length === 0 ? (
+                <h1 className="noItems">
+                  Seems like you have not received any orders :({" "}
+                </h1>
+              ) : (
+                <table>
+                  {tableHeader()}
 
-              {tab === "Active" &&
-                orderedItems.cartItems.map((item) => (
-                  <Item
-                    key={item.id}
-                    {...item}
-                    userId={userId}
-                    updateStatus={updateTheOrders}
-                  />
-                ))}
+                  {tab === "Active" &&
+                    orderedItems.cartItems.map((item) => (
+                      <Item
+                        key={item.id}
+                        {...item}
+                        userId={userId}
+                        updateStatus={updateTheOrders}
+                      />
+                    ))}
+                </table>
+              )
+            ) : orderedItems.cartItems.length === 0 ? (
+              <h1 className="noItems">
+                Seems like you have not Completed orders yet :({" "}
+              </h1>
+            ) : (
+              <table>
+                {tableHeader()}
 
-              {tab === "Completed" &&
-                orderedItems.cartItems.map((item) => (
-                  <Item
-                    key={item.id}
-                    {...item}
-                    userId={userId}
-                    updateStatus={updateTheOrders}
-                  />
-                ))}
-            </table>
+                {tab === "Completed" &&
+                  orderedItems.cartItems.map((item) => (
+                    <Item
+                      key={item.id}
+                      {...item}
+                      userId={userId}
+                      updateStatus={updateTheOrders}
+                    />
+                  ))}
+              </table>
+            )}
+
+            {/* 
+            {tab === "Active" && orderedItems.cartItems.length === 0 ? (
+              <h1 className="noItems">
+                Seems like you have not received any orders :({" "}
+              </h1>
+            ) : (
+              <table>
+                {tableHeader()}
+
+                {tab === "Active" &&
+                  orderedItems.cartItems.map((item) => (
+                    <Item
+                      key={item.id}
+                      {...item}
+                      userId={userId}
+                      updateStatus={updateTheOrders}
+                    />
+                  ))}
+              </table>
+            )}
+            {tab === "Completed" && orderedItems.cartItems.length === 0 ? (
+              <h1 className="noItems">
+                Seems like you have not Completed orders yet :({" "}
+              </h1>
+            ) : (
+              <table>
+                {tableHeader()}
+
+                {tab === "Completed" &&
+                  orderedItems.cartItems.map((item) => (
+                    <Item
+                      key={item.id}
+                      {...item}
+                      userId={userId}
+                      updateStatus={updateTheOrders}
+                    />
+                  ))}
+              </table>
+            )} */}
           </div>
         </div>
         {renderPaginationControls()}

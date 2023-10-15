@@ -11,7 +11,7 @@ const StatusTracker = ({ orderStatus }) => {
   const statuses = ["Accepted", "Preparing", "Ready"];
   const icons = [faCheckCircle, faClock, faHamburger];
   const colors = ["dimgray", "dimgray", "dimgray"]; // Set all statuses to gray initially
-  const isOrderTaken = orderStatus === "Order Taken";
+  const isOrderTaken = orderStatus === "Order Delivered";
   const isReady = orderStatus === "Ready";
 
   // Set colors for each status if not "Order Taken"

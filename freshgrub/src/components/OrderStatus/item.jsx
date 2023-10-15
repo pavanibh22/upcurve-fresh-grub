@@ -62,7 +62,7 @@ const Item = ({
   // console.log("Userr id from item.js " + userId);
 
   if (orderStatus === "") {
-    orderStatus = "NotAccepted";
+    orderStatus = "To be Accepted";
   }
 
   // const [status, setStatus] = useState([
@@ -73,18 +73,23 @@ const Item = ({
   // ]);
 
   // ================================================================================
-  const allStatusOptions = ["Accepted", "Preparing", "Ready", "Order Taken"];
+  const allStatusOptions = [
+    "Accepted",
+    "Preparing",
+    "Ready",
+    "Order Delivered",
+  ];
   const [availableOptions, setAvailableOptions] = useState(allStatusOptions);
 
   useEffect(() => {
-    if (orderStatus === "NotAccepted") {
+    if (orderStatus === "To be Accepted") {
       setAvailableOptions(allStatusOptions);
     } else if (orderStatus === "Accepted") {
-      setAvailableOptions(["Preparing", "Ready", "Order Taken"]);
+      setAvailableOptions(["Preparing", "Ready", "Order Delivered"]);
     } else if (orderStatus === "Preparing") {
-      setAvailableOptions(["Ready", "Order Taken"]);
+      setAvailableOptions(["Ready", "Order Delivered"]);
     } else if (orderStatus === "Ready") {
-      setAvailableOptions(["Order Taken"]);
+      setAvailableOptions(["Order Delivered"]);
     }
   }, [orderStatus]);
 
@@ -149,7 +154,7 @@ const Item = ({
         <td>{orderStatus}</td>
         <td>
           <button
-            disabled={orderStatus === "Order Taken"}
+            disabled={orderStatus === "Order Delivered"}
             className="statusBtn"
             onClick={() => {
               setModal((prev) => ({ ...prev, update: true }));

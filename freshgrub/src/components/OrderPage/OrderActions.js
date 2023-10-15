@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import getWalletAmount from "../../services/Order/getWalletAmount";
 import placeOrder from "../../services/Order/placeOrder";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 
 const OrderActions = ({
   selectedPaymentMethod,
@@ -13,6 +15,7 @@ const OrderActions = ({
   price,
 }) => {
   const userId = useParams().userId;
+  const navigate = useNavigate();
 
   const [walletAmount, setWalletAmount] = useState(null);
   //const [orderDateTime, setOrderDateTime] = useState(null); // State to store date and time
@@ -48,10 +51,12 @@ const OrderActions = ({
 
         // Display a success notification
         toast.success("Order placed successfully!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000, // Automatically close after 3 seconds
-          className: "custom-toast custom-toast-success ",
+          //position: toast.POSITION.TOP_CENTER,
+          autoClose: 2000, 
+          //className: "custom-toast custom-toast-success ",
         });
+
+        navigate("/user/checkout/:userId/orderHistory")
       } else {
         // Display an error notification if the order fails
         toast.error("Sorry! Insufficient Balance to place your order", {

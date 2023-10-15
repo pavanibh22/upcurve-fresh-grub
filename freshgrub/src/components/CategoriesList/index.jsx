@@ -21,6 +21,7 @@ import SubNavbar from "../SubNavbar";
 import { addTokenToHeaders } from "../../services/utils/jwtTokenHelper";
 import "./menu-pack.css";
 import { Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const categoryBoxStyles = {
   width: "260px",
@@ -158,6 +159,11 @@ const MenuPack = ({ title, items }) => {
   }, []);
 
   const onCreateHandler = async () => {
+    if(formData.picture==="")
+    {
+      toast.error("Please provide an image!", { setTimeout: 2000 });
+      return;
+    }
     console.log("formData: ", formData);
     await createCategory(formData);
     getAllCategoriesWrapper();
@@ -352,11 +358,11 @@ const MenuPack = ({ title, items }) => {
             disabled={deleteId === null || deleteId === "" ? true : false}
             onClick={onDeleteHandler}
             //style={deleteButtonStyles}
-            style={createButtonStyles}
+            style={cancelButtonStyles}
           >
             Delete
           </Button>
-          <Button onClick={deleteModalCloseCallback} style={cancelButtonStyles}>
+          <Button onClick={deleteModalCloseCallback} style={createButtonStyles}>
             Cancel
           </Button>
         </DialogActions>

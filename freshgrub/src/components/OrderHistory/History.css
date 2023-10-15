@@ -58,6 +58,7 @@ h3 {
 .container .items {
   display: flex;
   padding: 1rem;
+  width: 96%;
 }
 
 .items .image {
