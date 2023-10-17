@@ -10,7 +10,7 @@ import com.example.demo.entities.FoodStall;
 
 public interface FoodStallRepository extends MongoRepository<FoodStall, String> {
 
-	Optional<FoodStall> findOneByStallName(String stallName);
+	Optional<FoodStall> findOneByStallNameIgnoreCase(String stallName);
 	
     @Query(value = "{}", fields = "{ 'stallName' : 1 }")
     List<FoodStall> findStallNamesOnly();

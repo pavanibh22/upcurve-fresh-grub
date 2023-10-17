@@ -158,21 +158,55 @@ const MenuPack = ({ title, items }) => {
     getAllCategoriesWrapper();
   }, []);
 
+  const resetFormData = () => {
+    setFormData((prev) => ({
+      ...prev,
+      name: "",
+      description: "",
+      picture: "",
+    }));
+  };
+
   const onCreateHandler = async () => {
-    if(formData.picture==="")
-    {
+    if (formData.picture === "") {
       toast.error("Please provide an image!", { setTimeout: 2000 });
       return;
     }
     console.log("formData: ", formData);
-    await createCategory(formData);
-    getAllCategoriesWrapper();
+    // await createCategory(formData);
+    // getAllCategoriesWrapper();
+
+    try {
+      const res = await createCategory(formData);
+      console.log("hello");
+      if (res.data?.success) {
+        // console.log("hello inside success");
+        getAllCategoriesWrapper();
+      } else {
+        // console.log("hello  from failure");
+        toast.error(res.data?.message);
+      }
+    } catch (error) {
+      // console.log("error is" + error.message);
+      if (error.response.status === 400) {
+        toast.error("Food category already exists by this name");
+      } else {
+        toast.error("An error occurred while creating the category.");
+      }
+    }
+
+    resetFormData();
     setModal((prev) => ({ ...prev, add: false }));
   };
 
   const onDeleteHandler = async (id) => {
     console.log("delete Id: ", deleteId);
-    await deleteCategories(deleteId);
+    try {
+      const res = await deleteCategories(deleteId);
+      if (res.data?.success) toast.success("Succesfully deleted");
+    } catch (error) {
+      console.error("Error fetching cart items:", error);
+    }
     getAllCategoriesWrapper();
     setModal((prev) => ({ ...prev, delete: false }));
   };

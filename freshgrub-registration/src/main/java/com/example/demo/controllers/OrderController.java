@@ -40,18 +40,12 @@ public class OrderController {
     {
         return orderService.getOrderHistory(userId);
     }
-    
 
-//    @GetMapping("/ordersForVendor")
-//    public ResponseEntity<OrderResponse> getOrders(@PathVariable String userId)
-//    {
-//        return orderService.getOrders(userId);
-//    }
 
     @GetMapping("/ordersForVendor")
     public ResponseEntity<VendorOrderResponse> getOrders(@PathVariable String userId,
                                                          @RequestParam(defaultValue = "1", required = false) int pageNumber,
-                                                         @RequestParam(defaultValue = "5", required = false) int pageSize,
+                                                         @RequestParam(defaultValue = "10", required = false) int pageSize,
                                                          @RequestParam(defaultValue = "Active", required = false)String type){
         System.out.println("PAGE NUMBER IS "+pageNumber);
         System.out.println("PAGE SIZE IS "+pageSize);

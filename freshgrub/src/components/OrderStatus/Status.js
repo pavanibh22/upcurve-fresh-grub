@@ -202,46 +202,6 @@ const Status = () => {
                   ))}
               </table>
             )}
-
-            {/* 
-            {tab === "Active" && orderedItems.cartItems.length === 0 ? (
-              <h1 className="noItems">
-                Seems like you have not received any orders :({" "}
-              </h1>
-            ) : (
-              <table>
-                {tableHeader()}
-
-                {tab === "Active" &&
-                  orderedItems.cartItems.map((item) => (
-                    <Item
-                      key={item.id}
-                      {...item}
-                      userId={userId}
-                      updateStatus={updateTheOrders}
-                    />
-                  ))}
-              </table>
-            )}
-            {tab === "Completed" && orderedItems.cartItems.length === 0 ? (
-              <h1 className="noItems">
-                Seems like you have not Completed orders yet :({" "}
-              </h1>
-            ) : (
-              <table>
-                {tableHeader()}
-
-                {tab === "Completed" &&
-                  orderedItems.cartItems.map((item) => (
-                    <Item
-                      key={item.id}
-                      {...item}
-                      userId={userId}
-                      updateStatus={updateTheOrders}
-                    />
-                  ))}
-              </table>
-            )} */}
           </div>
         </div>
         {renderPaginationControls()}

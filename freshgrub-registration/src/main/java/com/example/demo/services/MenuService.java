@@ -44,7 +44,7 @@ public class MenuService {
 		{
 			response.setMessage("Food Item Already Exists");
 			response.setSuccess(false);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 		menuItem.setMenuItemName(menuItemName);
 		menuItem.setPrice(price);
@@ -109,6 +109,17 @@ public class MenuService {
 
 	public ResponseEntity<MenuResponse> editMenuItem(String id, String menuItemName, int price, String image) {
 		MenuResponse response = new MenuResponse();
+
+		//check if the menu item name is already present
+
+		Optional<Menu> existingMenuItem = menuRepository.findOneByMenuItemName(menuItemName);
+		if(existingMenuItem.isPresent())
+		{
+			response.setMessage("Item with that name already exists");
+			response.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
+
 		Optional<Menu> existingMenu= menuRepository.findById(id);
 		if(existingMenu.isEmpty())
 		{
@@ -116,8 +127,6 @@ public class MenuService {
 			response.setSuccess(false);
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
-		//check if the menu item name is already present
-//		Optional<Menu> existingMenuItem = menuRepository.findOneByMenuItemName(menuItemName);
 		else if(existingMenu.isPresent() && existingMenu.get().getId().equals(id)) {
 			Menu menu = existingMenu.get();
 			menu.setMenuItemName(menuItemName);

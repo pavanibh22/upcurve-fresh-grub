@@ -41,7 +41,7 @@ public interface CartRepo extends MongoRepository<Cart, String>{
 
 	//	@Query("{'isOrdered': true, 'orderStatus': {$ne: 'OrderTaken'}}")
 	//	long countItemsOrderedAndNotTaken();
-	@Query(value = "{'isOrdered': true, 'orderStatus': {$ne: 'Order Taken'}}", count = true)
+	@Query(value = "{'isOrdered': true, 'orderStatus': {$ne: 'Order Delivered'}}", count = true)
 	long countItemsOrderedAndNotTaken();
 	
 }

@@ -128,8 +128,8 @@ td {
 .pagination button {
   padding: 5px 10px;
   margin: 0 2rem;
-  background-color: orange;
-  color: #fff;
+  background-color: #61b764;
+  color: black;
   border: none;
   border-radius: 1rem;
   cursor: pointer;
@@ -153,6 +153,6 @@ td {
 }
 
 .pagination button.active {
-  background-color: #ff5722;
+  background-color: #61b764;
 }
 /* ===================================================================================================================== */

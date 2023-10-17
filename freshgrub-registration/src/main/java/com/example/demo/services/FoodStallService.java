@@ -42,14 +42,14 @@ public class FoodStallService {
 	public ResponseEntity<FoodStallResponse> createFoodStall(String name, String description,String image) {
 
 		FoodStallResponse response = new FoodStallResponse();
-		Optional<FoodStall> existingFoodStall = foodStallRepo.findOneByStallName(name);
+		Optional<FoodStall> existingFoodStall = foodStallRepo.findOneByStallNameIgnoreCase(name);
 		FoodStall foodStall = new FoodStall();
 
 		if(existingFoodStall.isPresent())
 		{
 			response.setMessage("Food Stall Already Exists by this name");
 			response.setSuccess(false);
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 		foodStall.setStallName(name);;
 		if(image!=null && !image.isEmpty()) {
@@ -105,7 +105,7 @@ public class FoodStallService {
 		if(existingFoodStall.isPresent())
 		{
 			foodStall.setId(id);
-			Optional<FoodStall> existingFoodStallByName = foodStallRepo.findOneByStallName(name);
+			Optional<FoodStall> existingFoodStallByName = foodStallRepo.findOneByStallNameIgnoreCase(name);
 			if(existingFoodStallByName.isPresent() && !existingFoodStallByName.get().getId().equals(id))
 			{
 				response.setMessage("Food Stall Already Exists by this name");
