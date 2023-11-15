@@ -272,11 +272,14 @@ const VendorFoodItemsPage = () => {
         editFoodFormDetails.id,
         editFoodFormDetails
       );
+      if (res.data?.success) {
+        toast.success("Succesfully edited");
+      }
     } catch (error) {
       if (error.response.status === 400) {
         toast.error("Food item with that name already exists");
       } else {
-        toast.error("An error occurred while creating the category.");
+        toast.error("An error occurred while editing the category.");
       }
     }
     await getAllFoodItemsWrapper();

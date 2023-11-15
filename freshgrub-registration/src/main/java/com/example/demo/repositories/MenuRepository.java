@@ -12,6 +12,8 @@ import com.example.demo.entities.Menu;
 public interface MenuRepository extends MongoRepository<Menu, String>{
 	
 	Optional<Menu> findOneByMenuItemName(String menuItemName);
+
+	Optional<Menu> findOneByMenuItemNameIgnoreCase(String menuItemName);
 	
 	 @Query("{'stallId': ?0}")
 	 List<Menu> findMenuItemsByStallId(String stallId);

@@ -37,19 +37,20 @@ public class MenuService {
 	public ResponseEntity<MenuResponse> addMenuItem(String stallId, String menuItemName, int price, String image) 
 	{
 		MenuResponse response = new MenuResponse();
-		Optional<Menu> existingMenu= menuRepository.findOneByMenuItemName(menuItemName);
-		Menu menuItem = new Menu();
-		menuItem.setStallId(stallId);
+		Optional<Menu> existingMenu= menuRepository.findOneByMenuItemNameIgnoreCase(menuItemName);
 		if(existingMenu.isPresent()) 
 		{
 			response.setMessage("Food Item Already Exists");
 			response.setSuccess(false);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
+
+		Menu menuItem = new Menu();
+		menuItem.setStallId(stallId);
 		menuItem.setMenuItemName(menuItemName);
 		menuItem.setPrice(price);
-		if(image!=null && !image.isEmpty()) {
-
+		if(image!=null && !image.isEmpty())
+		{
 			try {
 				menuItem.setMenuItemImage(image);
 			} catch (Exception e) {
@@ -59,12 +60,12 @@ public class MenuService {
 			menuItem.setMenuItemImage(null);
 		}
 		
-		System.out.println("menuItem: " + menuItem.getMenuItemImage());
+		System.out.println("Item being added: " + menuItem.getMenuItemName());
 
 		mongoTemplate.insert(menuItem);
 		response.setMenuItems(Collections.singletonList(menuItem));
 		response.setMessage("Successfully inserted");
-
+		response.setSuccess(true);
 		return ResponseEntity.ok(response);
 	}
 
@@ -112,8 +113,8 @@ public class MenuService {
 
 		//check if the menu item name is already present
 
-		Optional<Menu> existingMenuItem = menuRepository.findOneByMenuItemName(menuItemName);
-		if(existingMenuItem.isPresent())
+		Optional<Menu> existingMenuItem = menuRepository.findOneByMenuItemNameIgnoreCase(menuItemName);
+		if(existingMenuItem.isPresent() && !existingMenuItem.get().getId().equals(id))
 		{
 			response.setMessage("Item with that name already exists");
 			response.setSuccess(false);
